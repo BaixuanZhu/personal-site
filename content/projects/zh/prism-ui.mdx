@@ -1,0 +1,62 @@
+---
+title: Prism 企业级组件库
+description: 服务于 8 条业务线的 React 组件库，60+ 组件与完整无障碍支持。
+tags:
+  - React
+  - Radix UI
+  - Tailwind CSS
+  - Storybook
+  - Design Tokens
+image: /images/projects/prism-ui.svg
+date: "2025-11-20"
+github: https://github.com/alexchen/prism-ui
+featured: true
+metrics:
+  - label: 组件数量
+    value: "60+"
+  - label: 接入业务线
+    value: "8 条"
+  - label: 构建时间
+    value: "↓ 65%"
+---
+
+## 项目概述
+
+Prism 是一套面向中后台场景的 React 组件库，从设计规范（Design Tokens）到组件实现全链路打通，让不同业务线的产品在视觉与交互上保持一致。
+
+## 架构设计
+
+### Design Tokens 驱动
+
+所有视觉属性（颜色、圆角、间距、字号）收敛为一份 token 源文件，编译为 CSS Variables 与 Tailwind 主题两份产物。设计师改一处，全线生效：
+
+```json
+{
+  "color": {
+    "primary": { "value": "oklch(0.55 0.2 260)" },
+    "radius": { "value": "0.625rem" }
+  }
+}
+```
+
+### 无头组件 + 样式层分离
+
+交互逻辑基于 Radix UI 的无头（headless）能力，样式层用 Tailwind 实现，业务方既可以开箱即用，也可以只取逻辑自己写样式。
+
+## 质量保障
+
+- **60+ 组件**全部覆盖键盘导航与 ARIA 属性，通过 axe 无障碍扫描
+- 每个组件附带可视化回归测试，样式漂移在 CI 阶段被拦截
+- Storybook 文档即测试，示例代码可直接复制到业务工程
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| 接入业务线 | 8 条 |
+| 组件复用率 | 73% |
+| 构建时间 | 从 14min 降至 5min（↓ 65%） |
+
+## 反思
+
+组件库的难点是克制——每个「顺手加的小功能」都会成为长期维护成本。我们建立了 RFC 机制，新组件必须先回答「至少两个业务线需要它」才立项。

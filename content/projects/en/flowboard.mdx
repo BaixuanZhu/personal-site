@@ -1,0 +1,70 @@
+---
+title: FlowBoard — Real-Time Collaborative Whiteboard
+description: A CRDT-powered multiplayer whiteboard with millisecond-level sync and offline editing.
+tags:
+  - Next.js
+  - TypeScript
+  - WebSocket
+  - CRDT
+  - Redis
+image: /images/projects/flowboard.svg
+date: "2026-05-12"
+github: https://github.com/alexchen/flowboard
+demo: https://flowboard.example.com
+featured: true
+metrics:
+  - label: First paint
+    value: "↓ 40%"
+  - label: Peak concurrency
+    value: "10k+ editors"
+  - label: Sync latency
+    value: "< 50ms"
+---
+
+## Overview
+
+FlowBoard is a real-time collaborative whiteboard built for remote teams. Team members can co-create flowcharts, sticky notes, and prototype sketches on an infinite canvas — every operation syncs in milliseconds, and edits made offline merge automatically once the connection returns.
+
+I built the entire project from scratch, covering the frontend rendering engine, the real-time sync protocol, and the server-side cluster deployment. It is now in daily use at three startups.
+
+## Core Technical Challenges
+
+### 1. Conflict-free multi-user editing
+
+The collaboration core is built on **CRDTs (Conflict-free Replicated Data Types)**. Each canvas element carries a logical clock, guaranteeing that any edit order eventually converges to the same state:
+
+- Element-level merge granularity — two people dragging the same shape never overwrite each other
+- Incremental sync transfers only delta operations, averaging 320 bytes per message
+- Operation logs persist to IndexedDB, so edits made offline for 8 hours still merge losslessly
+
+### 2. High-performance canvas rendering
+
+I wrote a custom Canvas rendering pipeline with layered optimizations for large scenes:
+
+| Optimization | Effect |
+| --- | --- |
+| Offscreen cache for static elements | Repaint cost down 70% |
+| Viewport culling + quad-tree indexing | 60fps interaction with 10k+ elements |
+| Batched requestAnimationFrame commits | High-frequency dragging never blocks events |
+
+### 3. Elastic server architecture
+
+```typescript
+// Room state is broadcast across nodes via Redis Pub/Sub;
+// each WebSocket node only holds the rooms it owns
+await redis.publish(`room:${roomId}`, encode(ops));
+```
+
+The gateway layer routes connections by room hash. When a node fails, clients reconnect automatically and restore from a snapshot — completely invisible to the user.
+
+## Results
+
+- Sustained **10k+ concurrent editors** under load testing, with P99 sync latency below 50ms
+- First paint improved by **40%** over the initial version through code splitting and resource prefetching
+- 1.2k GitHub stars after open-sourcing, with PRs from 4 external contributors
+
+## Reflections
+
+> The hard part of real-time collaboration isn't the protocol itself — it's exposing the "eventually consistent" abstraction correctly to the UI layer. Making sure users never see a merge happen is where most of the polish time went.
+
+Next step: adopt WebTransport to further reduce sync latency on weak networks.
