@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#052e26"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#a3e635"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity="0.05"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <rect width="1200" height="750" fill="url(#grid)"/>
+  <g transform="rotate(-3 580 320)">
+    <rect x="300" y="150" width="560" height="340" rx="20" fill="#020617" fill-opacity="0.72" stroke="url(#accent)" stroke-width="2"/>
+    <circle cx="340" cy="186" r="8" fill="#f87171" opacity="0.85"/>
+    <circle cx="366" cy="186" r="8" fill="#fbbf24" opacity="0.85"/>
+    <circle cx="392" cy="186" r="8" fill="#34d399" opacity="0.85"/>
+    <text x="330" y="250" font-family="'JetBrains Mono', Consolas, monospace" font-size="26" fill="#e2e8f0">&gt; jvm install 21</text>
+    <text x="330" y="292" font-family="'JetBrains Mono', Consolas, monospace" font-size="22" fill="#64748b">downloading temurin 21.0.12+8 … sha256 ok</text>
+    <text x="330" y="340" font-family="'JetBrains Mono', Consolas, monospace" font-size="26" fill="#e2e8f0">&gt; jvm use 21</text>
+    <text x="330" y="382" font-family="'JetBrains Mono', Consolas, monospace" font-size="22" fill="#34d399">✓ java 21.0.12+8 · effective in this terminal</text>
+    <rect x="330" y="418" width="500" height="10" rx="5" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="330" y="418" width="360" height="10" rx="5" fill="url(#accent)" opacity="0.8"/>
+  </g>
+  <text x="600" y="640" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="44" font-weight="700" fill="#ffffff">jvm</text>
+  <text x="600" y="688" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="24" fill="#94a3b8">Java Version Manager for Windows · Go</text>
+</svg>

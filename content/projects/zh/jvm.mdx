@@ -1,0 +1,81 @@
+---
+title: jvm — Windows Java 版本管理器
+description: Go 编写的 Windows JDK 版本管理器：junction 秒级切换、免管理员权限，支持五大发行版，当前终端即时生效。
+tags:
+  - Go
+  - CLI
+  - Windows
+  - NSIS
+  - 开发者体验
+image: /images/projects/jvm.svg
+date: "2026-08-06"
+github: https://github.com/BaixuanZhu/jvm
+demo: https://baixuanzhu.github.io/jvm/
+featured: true
+metrics:
+  - label: 支持发行版
+    value: "5 个"
+  - label: 迭代版本
+    value: "11 个"
+  - label: 安装方式
+    value: "3 种"
+---
+
+## 项目概述
+
+Windows 上多版本 JDK 共存是个老大难：手动改环境变量容易出错、symlink 需要提权、切完版本还得重开终端。现有工具（nvm-windows / jabba）要么年久失修，要么体验割裂。
+
+jvm 用一个 Go 单二进制解决全部问题：
+
+```powershell
+jvm install 21    # 安装 Temurin JDK 21（默认发行版）
+jvm use 21        # 切换 —— 当前终端立即生效
+```
+
+支持 **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica** 五大发行版，提供安装包、便携版、一键脚本三种分发方式，全程免管理员权限。
+
+## 工作原理
+
+```
+~/.jvm/
+  versions/
+    21.0.12+8/        ← 解压后的 JDK
+    17.0.20+8/
+  current/            ← junction，指向当前选中的版本
+```
+
+- PATH 永远指向 `~/.jvm/current/bin`，JAVA_HOME 永远指向 `~/.jvm/current` —— 只配置一次
+- 切换版本 = 重建 `current` 这个 junction，毫秒级完成
+- 因为 PATH 没变，**任何新终端自动用新版本**
+
+选择 junction 而非 symlink 的原因很简单：**junction 不需要管理员权限**。
+
+## 当前终端即时生效
+
+传统方案的痛点是切换后要重开终端。jvm 首次运行会自动把 shell 集成函数写入 PowerShell `$PROFILE`（5.x 与 7+ 都写）和 `~/.bashrc`（幂等，缺失才补）。集成函数在调用真正的 `jvm.exe` 后，若是 `use` 命令就在**当前会话**刷新 `JAVA_HOME` 与 `PATH` —— 不用重开窗口。
+
+## 项目级版本（.jvmrc）
+
+- `jvm pin corretto@21` 把版本写入项目根目录的 `.jvmrc`
+- `jvm use` 不带参数时逐级向上查找最近的 `.jvmrc`（monorepo 友好）
+- `cd` 进含 `.jvmrc` 的目录**自动切换**版本，离开时自动恢复手动选择 —— 双层缓存保证目录未变时零开销，不会每次回车都拉起进程
+
+## 工程细节
+
+- **下载可靠性**：SHA256 校验，损坏即报错；Temurin 优先走清华镜像，失败自动回退官方 CDN
+- **自诊断**：`jvm doctor` 检查 PATH/junction/JAVA_HOME/shell 集成，`--fix` 自动修复
+- **分发**：NSIS 安装包（x64 / ARM64，注册到「程序和功能」）+ 便携 zip + PowerShell 一键脚本
+- **自更新**：`jvm upgrade` 走 GitHub Release
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| 支持发行版 | 5 个 |
+| 发布版本 | 11 个 Release（十天完成 v0.5 → v0.11） |
+| 代码提交 | 76 commits |
+| 支持架构 | x64 / ARM64 |
+
+## 反思
+
+开发者工具的核心指标是**配置成本**。PATH 注入、shell 集成、镜像加速、自诊断这些「周边设施」的代码量远超版本切换本身 —— 但恰恰是它们决定了一个工具是被用起来，还是被加进收藏夹吃灰。先让用户零思考地装上，再谈功能。

@@ -50,8 +50,8 @@ lib/
   projects.ts              # 按语言读取 content/projects/{lang}/*.mdx
 content/
   projects/
-    zh/                    # 3 个中文项目 MDX
-    en/                    # 3 个英文项目 MDX
+    zh/                    # 4 个中文项目 MDX（jvm/agent-skills/devtools/claude-code-hooks）
+    en/                    # 4 个英文项目 MDX（与 zh 同 slug）
 public/                    # 头像、项目预览图、resume.pdf
 ```
 
@@ -63,11 +63,14 @@ public/                    # 头像、项目预览图、resume.pdf
 - **文案**：UI 文案全部在 `lib/i18n/dictionaries/`，`zh.ts` 是结构基准（`Dictionary` 类型），`en.ts` 必须保持相同键结构。
 - **内容**：项目正文按语言放在 `content/projects/{zh|en}/<slug>.mdx`，同 slug 双语互为 hreflang 备选。
 
-## 替换为真实内容（3 步）
+## 内容维护指南
 
-1. **个人信息**：改 `lib/config.ts`（姓名/邮箱/GitHub/LinkedIn/简历路径）+ 两份字典中的自我介绍文案。
-2. **项目内容**：编辑 `content/projects/zh/` 与 `content/projects/en/` 下的 MDX（frontmatter 含 title/description/tags/image/date/github/demo/featured/metrics 量化成果），两语言保持相同 slug。
-3. **静态资源**：替换 `public/avatar.svg`、`public/images/projects/*.svg`、`public/resume.pdf`。
+站点已填充真实个人信息与 4 个开源项目。日常更新入口：
+
+1. **个人信息**：`lib/config.ts`（姓名/邮箱/GitHub/简历路径）+ `lib/i18n/dictionaries/{zh,en}.ts`（自我介绍、技能矩阵、关于页文案）。注意：`lib/config.ts` 的 `url` 仍是占位域名，部署后改为真实域名（用于 OG 绝对链接）。
+2. **项目内容**：编辑 `content/projects/{zh,en}/<slug>.mdx`（frontmatter 含 title/description/tags/image/date/github/demo/featured/metrics 量化成果），两语言保持相同 slug。
+3. **静态资源**：`public/avatar.svg`、`public/images/projects/*.svg`（当前为程序生成的占位图，可换成真实截图）、`public/resume.pdf`（仍为占位文件，待放入真实简历）。
+4. **frontmatter 注意**：description 含英文冒号时必须用引号包裹（YAML 语法要求）。
 
 ## 主题定制
 

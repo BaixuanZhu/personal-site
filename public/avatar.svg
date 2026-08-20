@@ -12,5 +12,5 @@
   <rect width="512" height="512" rx="96" fill="url(#bg)"/>
   <circle cx="256" cy="256" r="180" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.35"/>
   <circle cx="256" cy="256" r="140" fill="url(#accent)" opacity="0.12"/>
-  <text x="256" y="286" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="128" font-weight="700" fill="url(#accent)" letter-spacing="4">AC</text>
+  <text x="256" y="302" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="132" font-weight="700" fill="url(#accent)">轩</text>
 </svg>

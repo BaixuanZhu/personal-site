@@ -1,19 +1,17 @@
 /**
  * 站点全局配置 —— 与语言无关的身份信息、社交链接与导航结构。
  * 可翻译文案见 lib/i18n/dictionaries/（zh.ts / en.ts），
- * 替换为真实信息时两处都需要检查。
+ * 修改身份信息时两处都需要检查。
  */
 export const siteConfig = {
   /** 展示姓名（英文，全语言共用） */
-  name: "Alex Chen",
+  name: "Galaxy",
   /** 站点部署地址（用于生成 OG 绝对链接，部署后替换为真实域名） */
   url: "https://example.com",
   /** 联系邮箱 */
-  email: "hello@alexchen.dev",
+  email: "wy2359117018@163.com",
   /** GitHub 主页 */
-  github: "https://github.com/alexchen",
-  /** LinkedIn 主页 */
-  linkedin: "https://www.linkedin.com/in/alexchen",
+  github: "https://github.com/BaixuanZhu",
   /** 简历 PDF（存放于 public/ 目录） */
   resume: "/resume.pdf",
   /** 头像（存放于 public/ 目录） */

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Download, Mail } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { GithubIcon, LinkedinIcon } from "@/components/shared/brand-icons";
+import { GithubIcon } from "@/components/shared/brand-icons";
 import { siteConfig } from "@/lib/config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -97,15 +97,6 @@ export function Hero({ locale, copy }: HeroProps) {
               className="transition-colors hover:text-foreground"
             >
               <GithubIcon className="size-5" />
-            </a>
-            <a
-              href={siteConfig.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="transition-colors hover:text-foreground"
-            >
-              <LinkedinIcon className="size-5" />
             </a>
             <a
               href={`mailto:${siteConfig.email}`}

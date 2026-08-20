@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GithubIcon, LinkedinIcon } from "@/components/shared/brand-icons";
+import { GithubIcon } from "@/components/shared/brand-icons";
 import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -27,15 +27,6 @@ export function Footer({ labels }: FooterProps) {
             className="transition-colors hover:text-foreground"
           >
             <GithubIcon className="size-4.5" />
-          </Link>
-          <Link
-            href={siteConfig.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-            className="transition-colors hover:text-foreground"
-          >
-            <LinkedinIcon className="size-4.5" />
           </Link>
           <a
             href={`mailto:${siteConfig.email}`}

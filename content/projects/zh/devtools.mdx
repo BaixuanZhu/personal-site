@@ -1,0 +1,67 @@
+---
+title: DevTools 开发者工具箱
+description: 40 个常用开发者工具，全部在浏览器本地运算 —— 零登录、零上传，单页 JS 不到 50KB。
+tags:
+  - Astro
+  - Vue 3
+  - TypeScript
+  - Tailwind CSS
+  - Web Workers
+image: /images/projects/devtools.svg
+date: "2026-06-08"
+github: https://github.com/BaixuanZhu/DevTools
+demo: https://tools.baixuanz.cn
+featured: true
+metrics:
+  - label: 工具数量
+    value: "40 个"
+  - label: 单页体积
+    value: "<50KB"
+  - label: Lighthouse
+    value: "≥90"
+---
+
+## 项目概述
+
+开发者每天要用十几次小工具：Base64、时间戳、JSON 格式化、JWT 解码……在线工具要么塞满广告，要么要求登录，更让人不安的是 —— JWT、加密密钥这类敏感数据得原样交给别人的服务器。
+
+DevTools 把 40 个常用工具搬进浏览器，**全部本地运算**：没有后端、没有数据上传、断网也能用。已上线 [tools.baixuanz.cn](https://tools.baixuanz.cn)。
+
+## 设计原则
+
+- **即开即用** —— 打开即是工具本身，主输入框自动聚焦，从「我需要一个工具」到拿到结果不超过 5 秒
+- **纯本地运算** —— 无后端、无数据上传，隐私敏感内容不出浏览器
+- **轻量** —— 单工具页 JS 不到 50KB（gzip），按需水合，Lighthouse Performance ≥ 90
+- **中文友好** —— 界面、错误提示与 SEO 均针对中文开发者优化，内置 SM2/SM4 国密算法
+
+## 架构设计
+
+### Astro 岛屿架构
+
+静态外壳（布局、说明、SEO 文案）由 Astro 6 SSG 直出，**零 JS**；工具的交互部分用 Vue 3 岛屿按需水合；全局壳层的轻交互（搜索、折叠）交给 Alpine.js。三者各司其职，避免「整个站点陪一个工具加载框架」。
+
+### 工具注册表驱动
+
+40 个工具按 `/category/tool-name` 二级路由组织，路由、分类、SEO 元信息全部由 `src/data/tools.ts` 注册表驱动 —— 新增一个工具 = 注册表加一行 + 一个目录，不碰任何框架代码。
+
+### 重计算进 Web Worker
+
+哈希、对称加密、二维码识别这类阻塞主线程的运算全部放进 Web Worker，输入再长 UI 也不卡。
+
+## 质量与部署
+
+- Vitest 单元测试 + `astro check` 类型检查把关
+- 纯静态产物，EdgeOne Pages（主站）与 GitHub Pages 双部署，可托管到任意静态托管商
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| 工具数量 | 40 个 / 12 个分类 |
+| 单工具页体积 | < 50KB（gzip） |
+| Lighthouse Performance | ≥ 90 |
+| 代码提交 | 600+ commits |
+
+## 反思
+
+岛屿架构最需要的是纪律：每个工具都是独立小岛，复制、错误提示、键盘导航这些通用能力必须沉到壳层复用，而不是各写各的 —— 否则体积预算立刻失控。**性能预算和代码预算一样，要先定纪律再写代码。**

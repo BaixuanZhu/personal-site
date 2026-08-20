@@ -1,0 +1,52 @@
+---
+title: Agent Skills — 中文 Java 生态技能套装
+description: 面向中文 Java/Spring 团队的 10 个 AI 编码技能：编码规范、质量门禁、单元测试、框架开发与敏捷流程，适配 41+ AI 编码工具。
+tags:
+  - AI Agent
+  - Claude Code
+  - Prompt Engineering
+  - Java
+  - Spring Boot
+image: /images/projects/agent-skills.svg
+date: "2026-08-02"
+github: https://github.com/BaixuanZhu/skills
+featured: true
+metrics:
+  - label: 技能数量
+    value: "10 个"
+  - label: 适配 Agent
+    value: "41+"
+  - label: 分发渠道
+    value: "2 种"
+---
+
+## 项目概述
+
+AI 编码助手在中文 Java 团队有些水土不服：训练语料偏英文生态，不知道《阿里巴巴 Java 开发手册》的条款，不熟悉 Sa-Token / MyBatis-Plus 的惯用法，写出的代码「能跑但不地道」。
+
+这个项目把工程规范做成 **AI 可安装、可执行的知识**：10 个 Agent 技能覆盖编码规范、质量门禁、单元测试、主流框架开发与敏捷流程，支持 Claude Code 插件和 `npx skills` 两种安装方式（后者适配 Cursor / Codex / Zed 等 41+ AI 编码工具）。
+
+## 分层设计
+
+技能按三层组织，按需安装，每个技能都是独立插件：
+
+- **通用底座**：`repo-init`（生成跨工具的 AGENTS.md 项目简报）、`java-coding-guide-pro`（编码规范与避坑）、`java-coding-quality`（质量与安全门禁）、`java-unit-test`（单元测试规范对齐）
+- **框架增强**：`sa-token-dev`（认证鉴权）、`mybatis-plus-dev`（ORM 增强）
+- **敏捷流程**：`using-agile` 入口 → `agile-strategic`（愿景 + C4 架构 + ADR）→ `agile-backlog`（待办管理）→ `agile-sprint`（Sprint 规划）
+
+## 规范的知识化
+
+以 `java-coding-guide-pro` 为例：JDK 8~25 的版本差异、阿里手册条款、SonarQube 规则，被组织成「**何时触发 → 查什么 → 怎么改**」的结构。规范不再是躺在 Wiki 里没人读的 PDF，而是 AI 写代码时自动加载的上下文。
+
+## 工程化维护
+
+- `skills/` 是唯一内容源；`plugins/` 是为 Claude Code / ZCode 插件规范准备的镜像，由 pre-commit hook（`scripts/sync-plugins.mjs`）自动同步，GitHub Actions 兜底校验 —— **改技能只改一处**
+- 双通道分发：Claude Code 插件（托管只读、随插件更新）与 `npx skills`（复制可编辑副本到项目，灵活但需自己跟进更新）
+
+## 评测驱动
+
+每个技能的**达尔文评估产物** —— 测试 prompt、产出快照、判分记录 —— 全部公开在 `eval/` 目录，按技能分子目录，任何人可以查看与复现。技能的质量不靠「感觉不错」，靠可回归的评测。
+
+## 反思
+
+写技能最难的不是堆规则，而是决定「**AI 在什么时机需要什么上下文**」。触发描述写得含糊，再好的内容也不会被加载；内容写得冗长，又会挤占宝贵的上下文窗口。技能设计本质上是信息架构问题，而不是 prompt 模板问题。

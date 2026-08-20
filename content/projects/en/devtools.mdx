@@ -1,0 +1,67 @@
+---
+title: DevTools — A Developer Toolbox in Your Browser
+description: 40 everyday developer tools, computed entirely in the browser — no login, no data upload, under 50KB of JS per tool page.
+tags:
+  - Astro
+  - Vue 3
+  - TypeScript
+  - Tailwind CSS
+  - Web Workers
+image: /images/projects/devtools.svg
+date: "2026-06-08"
+github: https://github.com/BaixuanZhu/DevTools
+demo: https://tools.baixuanz.cn
+featured: true
+metrics:
+  - label: Tools
+    value: "40"
+  - label: Payload per tool
+    value: "<50KB"
+  - label: Lighthouse
+    value: "≥90"
+---
+
+## Overview
+
+Developers reach for small utilities a dozen times a day: Base64, timestamps, JSON formatting, JWT decoding… Online tools show ads, demand logins, and worst of all — sensitive payloads like JWTs and encryption keys get sent to someone else's server.
+
+DevTools moves 40 everyday tools into the browser, **computed entirely locally**: no backend, no uploads, works offline. Live at [tools.baixuanz.cn](https://tools.baixuanz.cn).
+
+## Design Principles
+
+- **Instant** — the page *is* the tool, with the primary input autofocused; from "I need a tool" to a result in under 5 seconds
+- **Local-only** — no backend, no uploads, works offline; private data never leaves the browser
+- **Lightweight** — under 50KB gzipped JS per tool page, hydration on demand, Lighthouse Performance ≥ 90
+- **Chinese-first** — UI, error messages, and SEO tuned for Chinese developers, including SM2/SM4 national cryptography algorithms
+
+## Architecture
+
+### Astro islands
+
+The static shell (layout, docs, SEO copy) is rendered by Astro 6 SSG with **zero JS**; each tool's interactivity lives in a Vue 3 island hydrated on demand; light global-shell interactions (search, collapsing) run on Alpine.js. Three layers, each doing what it's best at — the whole site never pays for one tool's framework.
+
+### A registry-driven tool system
+
+40 tools are organized as `/category/tool-name` routes. Routing, categories, and SEO metadata all come from a single registry (`src/data/tools.ts`) — adding a tool means one registry line plus one directory, with zero framework code touched.
+
+### Heavy compute in Web Workers
+
+Hashing, symmetric encryption, QR reading — anything that would block the main thread runs in a Web Worker, so the UI never stutters regardless of input size.
+
+## Quality & Deployment
+
+- Vitest unit tests plus `astro check` type diagnostics gate every change
+- A pure static build deployed to both EdgeOne Pages (primary) and GitHub Pages — portable to any static host
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Tools | 40 across 12 categories |
+| JS per tool page | < 50KB (gzip) |
+| Lighthouse Performance | ≥ 90 |
+| Commits | 600+ |
+
+## Reflection
+
+Islands architecture demands discipline: every tool is its own island, and shared behaviors — copy, error hints, keyboard navigation — must be pushed down into the shell instead of being re-written per tool, or the size budget collapses instantly. **Set a performance budget the way you set a code budget: before writing code.**

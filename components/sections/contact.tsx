@@ -1,7 +1,7 @@
 import { Download, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { GithubIcon, LinkedinIcon } from "@/components/shared/brand-icons";
+import { GithubIcon } from "@/components/shared/brand-icons";
 import { FadeIn } from "@/components/shared/fade-in";
 import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -55,15 +55,6 @@ export function Contact({ copy }: ContactProps) {
               className="transition-colors hover:text-foreground"
             >
               <GithubIcon className="size-5" />
-            </a>
-            <a
-              href={siteConfig.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="transition-colors hover:text-foreground"
-            >
-              <LinkedinIcon className="size-5" />
             </a>
             <span className="text-sm">{siteConfig.email}</span>
           </div>

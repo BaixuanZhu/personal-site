@@ -1,0 +1,52 @@
+---
+title: Agent Skills — A Suite for the Chinese Java Ecosystem
+description: "Ten AI coding skills for Chinese Java/Spring teams: coding standards, quality gates, unit testing, framework development, and agile workflows — compatible with 41+ AI coding agents."
+tags:
+  - AI Agent
+  - Claude Code
+  - Prompt Engineering
+  - Java
+  - Spring Boot
+image: /images/projects/agent-skills.svg
+date: "2026-08-02"
+github: https://github.com/BaixuanZhu/skills
+featured: true
+metrics:
+  - label: Skills
+    value: "10"
+  - label: Agents supported
+    value: "41+"
+  - label: Distribution channels
+    value: "2"
+---
+
+## Overview
+
+AI coding assistants underperform on Chinese Java teams: training corpora skew English, they don't know the Alibaba Java coding handbook, and they've never seen the idioms of Sa-Token or MyBatis-Plus — the code they produce "runs, but isn't how we write it here."
+
+This project turns engineering standards into **knowledge that AI agents can install and execute**: ten Agent Skills covering coding standards, quality gates, unit testing, mainstream framework development, and agile workflows — installable as Claude Code plugins or via `npx skills` (which works with Cursor, Codex, Zed, and 41+ other agents).
+
+## Layered Design
+
+Skills are organized in three layers, installed on demand — each skill is a standalone plugin:
+
+- **Base layer**: `repo-init` (generates a cross-tool AGENTS.md project brief), `java-coding-guide-pro` (standards & pitfalls), `java-coding-quality` (quality and security gates), `java-unit-test` (unit-test alignment)
+- **Framework boost**: `sa-token-dev` (authentication & authorization), `mybatis-plus-dev` (ORM enhancements)
+- **Agile flow**: `using-agile` entry → `agile-strategic` (vision + C4 + ADR) → `agile-backlog` → `agile-sprint`
+
+## Turning Standards into Knowledge
+
+Take `java-coding-guide-pro`: version differences across JDK 8–25, Alibaba handbook clauses, and SonarQube rules are structured as "**when to trigger → what to look up → how to fix**". The standard is no longer a PDF rotting in the wiki — it's context the AI loads automatically while writing code.
+
+## Engineering the Maintenance
+
+- `skills/` is the single content source; `plugins/` is a mirror for the Claude Code / ZCode plugin spec, synced automatically by a pre-commit hook (`scripts/sync-plugins.mjs`) with a GitHub Actions safety net — **edit a skill in exactly one place**
+- Two distribution channels: Claude Code plugins (managed, read-only, updates with the plugin) and `npx skills` (editable copies in your project, flexible but you track updates)
+
+## Evaluation-Driven
+
+Every skill ships its **Darwin-style evaluation artifacts** — test prompts, output snapshots, scoring records — publicly under `eval/`, organized per skill, inspectable and reproducible by anyone. Skill quality isn't "feels nice"; it's a regression-testable artifact.
+
+## Reflection
+
+The hardest part of writing skills isn't stacking rules — it's deciding "**what context does the AI need, and when**". A vague trigger description means great content never loads; verbose content burns a precious context window. Skill design is an information-architecture problem, not a prompt-template problem.

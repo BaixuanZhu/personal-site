@@ -7,13 +7,13 @@ import type { Dictionary } from "./zh";
 export const en: Dictionary = {
   htmlLang: "en",
   metadata: {
-    role: "Full-Stack Developer",
+    role: "Java Backend Engineer · AI Tooling",
     description:
-      "Portfolio of Alex Chen — full-stack developer focused on high-availability web applications, featuring selected open-source projects and technical skills.",
+      "Portfolio of Baixuan Zhu (Galaxy) — a Java backend engineer building open-source developer tools and AI agent skills: DevTools, jvm, Agent Skills and more.",
     ogLocale: "en_US",
   },
   brand: {
-    nativeName: null,
+    nativeName: "朱柏轩",
   },
   nav: {
     projects: "Projects",
@@ -31,60 +31,60 @@ export const en: Dictionary = {
   },
   hero: {
     available: "Open to opportunities",
-    tagline: "Building reliable, high-performance web experiences",
+    tagline: "Building reliable Java backends and delightful dev tools",
     intro:
-      "I'm Alex Chen, a full-stack developer focused on high-availability web applications and polished user experiences.",
+      "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 40-tool browser toolbox), jvm (a Windows JDK version manager written in Go), and an Agent Skills suite for Chinese Java teams.",
     ctaProjects: "View featured projects",
     ctaResume: "Download resume",
-    avatarAlt: "Portrait of Alex Chen",
+    avatarAlt: "Portrait of Baixuan Zhu",
   },
   featured: {
     eyebrow: "Featured Projects",
     title: "Proven depth, shipped results",
     description:
-      "Every project starts from a real problem. These three best represent my engineering abilities.",
+      "Every project starts from a real pain point and keeps shipping. Open a card for the full architecture and implementation breakdown.",
   },
   skills: {
     eyebrow: "Tech Stack",
     title: "Technical Skills",
     description:
-      "A scenario-driven skill matrix — from the interface to the server, and through the delivery pipeline.",
+      "A scenario-driven skill matrix — backend at the core, flanked by frontend and AI tooling.",
     categories: [
-      {
-        id: "frontend",
-        title: "Frontend",
-        hint: "Engineering rigor meets UX",
-        skills: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Motion", "Vite"],
-      },
       {
         id: "backend",
         title: "Backend",
-        hint: "High concurrency & stability",
-        skills: ["Node.js", "Fastify", "PostgreSQL", "Redis", "WebSocket", "GraphQL"],
+        hint: "Core Java ecosystem stack",
+        skills: ["Java", "Spring Boot", "Sa-Token", "MyBatis-Plus", "MySQL", "Redis", "Maven"],
       },
       {
-        id: "devops",
-        title: "DevOps & Tooling",
-        hint: "Automation & observability",
-        skills: ["Docker", "GitHub Actions", "Linux", "Vitest", "OpenTelemetry", "Git"],
+        id: "frontend",
+        title: "Frontend",
+        hint: "Full-stack support & tool sites",
+        skills: ["Vue 3", "Astro", "React", "Next.js", "TypeScript", "Tailwind CSS"],
+      },
+      {
+        id: "ai",
+        title: "AI & Tooling",
+        hint: "Weaving AI into the workflow",
+        skills: ["Claude Code Plugins", "Agent Skills Design", "Prompt Engineering", "Go", "Python", "GitHub Actions"],
       },
     ],
   },
   aboutPreview: {
     eyebrow: "About Me",
-    title: "Beyond the code",
+    title: "Turning pain points into tools",
     paragraphs: [
-      "Six years of full-stack experience, driven by breaking complex problems into elegant modules. I believe good engineering makes the right thing easier to do — whether that's a component library that doubles team velocity or shaving API latency down to milliseconds.",
-      "Outside work I maintain two open-source projects and enjoy sharing engineering practices with the community. I'm also a coffee enthusiast — weekends are usually split between pour-over brews and mechanical keyboards.",
+      "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — which is why I keep building tools that turn repetitive work into a single command.",
+      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, so AI assistants behave professionally on real Java projects. Everything is open source on GitHub.",
     ],
     more: "Learn more",
-    avatarAlt: "Portrait of Alex Chen",
+    avatarAlt: "Portrait of Baixuan Zhu",
   },
   contact: {
     eyebrow: "Get in Touch",
     title: "Let's build something great together.",
     description:
-      "If my experience fits your team, don't hesitate to reach out — I usually reply within 24 hours.",
+      "If your team needs someone who knows Java backends and can also build AI-era tooling, drop me an email — I usually reply within 24 hours.",
     resume: "Download resume (PDF)",
     email: "Send an email",
   },
@@ -98,32 +98,32 @@ export const en: Dictionary = {
   },
   about: {
     metadataTitle: "About Me",
-    location: "Shanghai · Open to remote",
+    location: "Open to remote",
     paragraphs: [
-      "Hi! I'm a product-minded full-stack engineer. Rather than settling for \"it works\", I chase \"it works beautifully and reliably\" — I'm fascinated by experiences where the technology becomes invisible: a collaborative canvas that responds in milliseconds, offline editing that never loses data, canary releases that take a single line of config.",
-      "I believe an engineer's value shows beyond the code: writing clear documentation, running honest retrospectives, and giving teammates dependable estimates matter just as much as elegant abstractions.",
+      "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — the Spring Boot, Sa-Token and MyBatis-Plus stack that Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
+      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 40 everyday tools into the browser, and Agent Skills make AI coding assistants follow engineering standards.",
     ],
     journey: {
       eyebrow: "Journey",
-      title: "Experience",
+      title: "Open-Source Timeline",
       items: [
         {
-          period: "2023 — Present",
-          role: "Senior Full-Stack Engineer · SaaS unicorn",
+          period: "2026.05",
+          role: "Claude Code GUI Hooks",
           description:
-            "Own the architecture evolution of the core collaboration module. Led a rebuild of the real-time sync layer for 5× QPS capacity and drove adoption of a shared component library across 8 product lines.",
+            "The first open-source tool born from my own pain: replacing terminal permission prompts with native dialogs — zero dependencies, cross-platform, later shipped as a plugin.",
         },
         {
-          period: "2020 — 2023",
-          role: "Full-Stack Engineer · E-commerce platform",
+          period: "2026.06",
+          role: "DevTools went live",
           description:
-            "Key contributor to the monolith-to-microservices migration; designed and shipped the API gateway and canary release system. Delivered three major sale events with zero incidents.",
+            "A browser-based developer toolbox launched at tools.baixuanz.cn — 40 tools across 12 categories, all computed locally, under 50KB of JS per page.",
         },
         {
-          period: "2019 — 2020",
-          role: "Frontend Engineer · Startup",
+          period: "2026.08",
+          role: "jvm · Agent Skills",
           description:
-            "Owned the merchant dashboard from 0 to 1 and shipped it in three months — habits formed: small team, fast delivery, high quality.",
+            "Shipped 11 releases of jvm in ten days (a Go-based Windows JDK manager), plus a 10-skill Agent suite for the Chinese Java ecosystem compatible with 41+ AI coding agents.",
         },
       ],
     },
@@ -132,24 +132,24 @@ export const en: Dictionary = {
       title: "The Way I Work",
       items: [
         {
-          title: "Ask why first",
+          title: "Zero-config first",
           description:
-            "Align on the real problem and how success is measured before writing code — avoid elegantly solving a problem that doesn't exist.",
+            "Great tools work out of the box: jvm sets up PATH and shell integration on first run — no manual steps, no docs to read.",
         },
         {
-          title: "Simplicity first",
+          title: "Local & private first",
           description:
-            "Never introduce complexity when a simple solution works — complexity is the most expensive debt.",
+            "Data that can stay in the browser should: all 40 DevTools run locally and work offline.",
         },
         {
-          title: "Data over opinion",
+          title: "Evaluation-driven",
           description:
-            "Every performance or UX decision is backed by numbers, and tracked after release to verify the outcome.",
+            "Agent skills aren't judged by feel: every skill ships public, reproducible Darwin-style eval artifacts.",
         },
         {
-          title: "Docs as code",
+          title: "Standards as assets",
           description:
-            "Key designs always come with documentation and retrospectives, so team experience compounds.",
+            "Coding standards and test practices only pay off when they're executable — so I package them as agent skills instead of documents.",
         },
       ],
     },
@@ -157,7 +157,7 @@ export const en: Dictionary = {
       eyebrow: "Off the Clock",
       title: "Beyond the Keyboard",
       description:
-        "On weekends you'll most likely find me brewing pour-over coffee, hiking, or reading engineering books. I'm also active in open source — feel free to look around my GitHub.",
+        "Away from the keyboard I'm probably still tweaking my workflow — writing plugins for AI assistants, tuning skill packs, or arming my toolbox. Open source is my best business card; feel free to look around my GitHub.",
       ctaContact: "Get in touch",
       ctaProjects: "View projects",
     },

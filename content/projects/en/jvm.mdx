@@ -1,0 +1,81 @@
+---
+title: jvm — Java Version Manager for Windows
+description: "A JDK version manager for Windows written in Go: millisecond junction switching, no admin rights, five distributions, effective in the current terminal instantly."
+tags:
+  - Go
+  - CLI
+  - Windows
+  - NSIS
+  - Developer Experience
+image: /images/projects/jvm.svg
+date: "2026-08-06"
+github: https://github.com/BaixuanZhu/jvm
+demo: https://baixuanzhu.github.io/jvm/
+featured: true
+metrics:
+  - label: Distributions
+    value: "5"
+  - label: Releases
+    value: "11"
+  - label: Install methods
+    value: "3"
+---
+
+## Overview
+
+Running multiple JDK versions side by side on Windows is an old pain: hand-editing environment variables is error-prone, symlinks need elevation, and after switching you still have to reopen the terminal. Existing tools (nvm-windows / jabba) are either unmaintained or rough around the edges.
+
+jvm solves all of it with a single Go binary:
+
+```powershell
+jvm install 21    # install Temurin JDK 21 (default distro)
+jvm use 21        # switch — effective in the current terminal, instantly
+```
+
+It supports **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica**, ships as an installer, a portable zip, and a one-line setup script — all without admin rights.
+
+## How It Works
+
+```
+~/.jvm/
+  versions/
+    21.0.12+8/        ← extracted JDKs
+    17.0.20+8/
+  current/            ← junction pointing at the selected version
+```
+
+- PATH always points to `~/.jvm/current/bin`, JAVA_HOME to `~/.jvm/current` — configured exactly once
+- Switching = rebuilding the `current` junction, done in milliseconds
+- Since PATH never changes, **every new terminal picks up the new version automatically**
+
+Why a junction instead of a symlink? **Junctions don't require administrator privileges.**
+
+## Instant Effect in the Current Terminal
+
+The classic annoyance is reopening the terminal after a switch. On first run, jvm writes a shell integration function into PowerShell `$PROFILE` (both 5.x and 7+) and `~/.bashrc` — idempotently, only when missing. After the real `jvm.exe` runs a `use` command, the function refreshes `JAVA_HOME` and `PATH` **in the current session**. No window reopening, ever.
+
+## Per-Project Versions (.jvmrc)
+
+- `jvm pin corretto@21` writes the version into a `.jvmrc` at the project root
+- A bare `jvm use` walks up the directory tree to find the nearest `.jvmrc` (monorepo-friendly)
+- `cd` into a directory with a `.jvmrc` **switches automatically**, and restores your manual choice when you leave — a two-level cache keeps this at zero cost when the directory hasn't changed
+
+## Engineering Details
+
+- **Download reliability**: SHA256 verification with loud failures; Temurin prefers the Tsinghua mirror with automatic fallback to the official CDN
+- **Self-diagnostics**: `jvm doctor` checks PATH / junction / JAVA_HOME / shell integration; `--fix` repairs what it can
+- **Distribution**: NSIS installers (x64 / ARM64, registered in "Programs and Features"), a portable zip, and a PowerShell one-liner
+- **Self-update**: `jvm upgrade` pulls from GitHub Releases
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Distributions | 5 |
+| Releases | 11 (v0.5 → v0.11 in ten days) |
+| Commits | 76 |
+| Architectures | x64 / ARM64 |
+
+## Reflection
+
+The core metric for a developer tool is its **configuration cost**. PATH injection, shell integration, mirror acceleration, and self-diagnostics took far more code than version switching itself — and they're exactly what decides whether a tool gets used or just bookmarked. Make installation thoughtless first; features come second.

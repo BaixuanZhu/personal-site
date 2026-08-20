@@ -1,0 +1,53 @@
+---
+title: Claude Code GUI Hooks
+description: Replace Claude Code's terminal permission prompts with native GUI dialogs — Python + tkinter, zero dependencies, cross-platform, one-line plugin install.
+tags:
+  - Python
+  - tkinter
+  - Claude Code
+  - Hooks
+  - Automation
+image: /images/projects/claude-code-hooks.svg
+date: "2026-05-30"
+github: https://github.com/BaixuanZhu/claude-code-hooks
+featured: true
+metrics:
+  - label: Hooks
+    value: "4"
+  - label: Dependencies
+    value: "0"
+  - label: Platforms
+    value: "3"
+---
+
+## Overview
+
+The biggest flow-breaker when driving Claude Code: switch back to the terminal, find the y/n prompt, hit enter, switch back. This project replaces permission confirmations, question prompts, and completion notices with **native GUI dialogs** — popping up on the screen you're actually looking at. Glance, decide, keep working.
+
+Built on Python 3.10+ with the standard-library tkinter — **zero third-party dependencies**, working across Windows, macOS, and Linux.
+
+## Event Mapping
+
+| Hook event | Interaction |
+| --- | --- |
+| `PermissionRequest` | Allow / Deny dialog with suggestion buttons and number-key shortcuts |
+| `AskUserQuestion` | Native option dialog: single or multi select, plus free-text "Other" |
+| `Stop` | Task-complete notification, auto-closes in 8s |
+| `ExitPlanMode` | Topmost "plan ready" notice, auto-closes in 25s |
+
+## Engineering Details
+
+- **Protocol parsing**: consumes the hook JSON Claude Code pipes in via stdin and renders session/tool context into the dialog
+- **No console flash**: launches via `pythonw` on Windows (`python3` fallback elsewhere), so dialogs never drag a black terminal window along
+- **Native look**: ttk themes follow the platform (vista / winnative / clam)
+- **Keyboard-first**: Enter to allow, Escape to deny, number keys for suggestions, Ctrl+Enter to confirm text areas — the mouse stays untouched
+
+## Distribution
+
+- **Plugin marketplace (recommended)**: `claude plugin marketplace add BaixuanZhu/claude-code-hooks`, then a one-line install; auto-updates with the plugin and uninstalls cleanly
+- **PowerShell one-liner**: downloads all 4 hooks and merges them into `settings.json` idempotently — safe to re-run
+- **AI-assisted install**: the repo ships a `SKILL.md`; hand the URL to Claude Code and it installs itself
+
+## Reflection
+
+A small tool done right is "zero dependencies" — the standard library carries the entire GUI, so any machine with Python can run it as-is. This project also confirmed something for me: **hooks are the sanctioned way to customize Claude Code deeply** — more stable than patching source or wrapping the CLI, because the official protocol guarantees upgrade compatibility.

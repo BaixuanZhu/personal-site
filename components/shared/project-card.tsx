@@ -37,7 +37,7 @@ export function ProjectCard({ project, locale, priority = false }: ProjectCardPr
             alt={project.title}
             fill
             priority={priority}
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </div>

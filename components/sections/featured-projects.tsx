@@ -29,7 +29,7 @@ export function FeaturedProjects({ locale, projects, heading }: FeaturedProjects
           />
         </FadeIn>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {projects.map((project, index) => (
             <FadeIn key={project.slug} delay={index * 0.1} className="h-full">
               <ProjectCard project={project} locale={locale} priority={index === 0} />

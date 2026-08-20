@@ -1,0 +1,53 @@
+---
+title: Claude Code GUI Hooks
+description: 用原生系统对话框替换 Claude Code 的终端权限提示 —— Python + tkinter 零依赖，跨平台，插件市场一键安装。
+tags:
+  - Python
+  - tkinter
+  - Claude Code
+  - Hooks
+  - 自动化
+image: /images/projects/claude-code-hooks.svg
+date: "2026-05-30"
+github: https://github.com/BaixuanZhu/claude-code-hooks
+featured: true
+metrics:
+  - label: Hook 数量
+    value: "4 个"
+  - label: 外部依赖
+    value: "0"
+  - label: 支持平台
+    value: "3 个"
+---
+
+## 项目概述
+
+用 Claude Code 干活时最打断心流的事：切回终端，找那行 y/n 提示，按回车，再切回来。这个项目把权限确认、问题选择、完成通知全部换成**系统原生 GUI 对话框** —— 弹在你正在看的屏幕上，一眼决策，继续干活。
+
+Python 3.10+ 标准库 tkinter 实现，**零第三方依赖**，Windows / macOS / Linux 全支持。
+
+## 事件映射
+
+| Hook 事件 | 交互形式 |
+| --- | --- |
+| `PermissionRequest` | 允许 / 拒绝对话框，带建议按钮，数字键快捷选择 |
+| `AskUserQuestion` | 原生选项对话框：单选 / 多选 + 「其他」自由输入 |
+| `Stop` | 任务完成通知，8 秒自动关闭 |
+| `ExitPlanMode` | 计划就绪置顶提醒，25 秒自动关闭 |
+
+## 工程细节
+
+- **协议解析**：解析 Claude Code 经 stdin 传入的 hook JSON，提取会话与工具信息渲染到对话框
+- **无控制台闪现**：Windows 用 `pythonw` 启动（macOS / Linux 回退 `python3`），弹窗不带黑色终端窗口
+- **原生观感**：ttk 主题跟随平台（vista / winnative / clam）
+- **键盘优先**：Enter 允许、Esc 拒绝、数字键选建议、Ctrl+Enter 确认文本区 —— 全程不碰鼠标
+
+## 分发
+
+- **插件市场（推荐）**：`claude plugin marketplace add BaixuanZhu/claude-code-hooks` 后一键安装，随插件自动更新，卸载无残留
+- **PowerShell 一键脚本**：下载 4 个 hook 并幂等合并进 `settings.json`，重复执行安全
+- **AI 辅助安装**：仓库自带 `SKILL.md`，把 URL 丢给 Claude Code，它自己就能装好自己
+
+## 反思
+
+小工具做到极致就是「零依赖」—— 标准库 tkinter 撑起全部 GUI，任何有 Python 的机器拿来就能跑。另外这个项目让我确认了一件事：**hooks 是 Claude Code 深度定制的正解**，比改源码、套壳转发都稳 —— 官方协议保证了升级兼容性。

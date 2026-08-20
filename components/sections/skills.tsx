@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Code2, Container, Server } from "lucide-react";
+import { Bot, Code2, Server } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { FadeIn } from "@/components/shared/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -7,9 +7,9 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 /** 技能分类 id → 图标组件映射（文案与技能清单来自语言字典） */
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  frontend: Code2,
   backend: Server,
-  devops: Container,
+  frontend: Code2,
+  ai: Bot,
 };
 
 interface SkillsProps {
