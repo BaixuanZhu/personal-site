@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { FadeIn } from "@/components/shared/fade-in";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 interface ContactProps {
@@ -31,7 +31,7 @@ export function Contact({ copy }: ContactProps) {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button size="lg" asChild>
-              <a href={siteConfig.resume} download>
+              <a href={withBasePath(siteConfig.resume)} download>
                 <Download data-icon="inline-start" />
                 {copy.resume}
               </a>

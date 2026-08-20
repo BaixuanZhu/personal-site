@@ -96,6 +96,7 @@ export async function generateMetadata({
       template: `%s | ${siteConfig.name}`,
     },
     description: dict.metadata.description,
+    // 相对路径会由 Next 自动拼接 basePath（静态导出时）
     alternates: {
       languages: { zh: "/zh", en: "/en" },
     },

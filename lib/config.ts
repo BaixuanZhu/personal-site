@@ -6,8 +6,8 @@
 export const siteConfig = {
   /** 展示姓名（英文，全语言共用） */
   name: "Galaxy",
-  /** 站点部署地址（用于生成 OG 绝对链接，部署后替换为真实域名） */
-  url: "https://example.com",
+  /** 站点部署地址（用于生成 OG 绝对链接；CI 静态导出时注入 NEXT_PUBLIC_SITE_URL） */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
   /** 联系邮箱 */
   email: "wy2359117018@163.com",
   /** GitHub 主页 */
@@ -17,6 +17,24 @@ export const siteConfig = {
   /** 头像（存放于 public/ 目录） */
   avatar: "/avatar.svg",
 } as const;
+
+/**
+ * 静态导出时的部署子路径（如 GitHub Pages 的 /personal-site）。
+ * 开发与 Node 服务器部署时为空字符串。
+ * next/link 会自动拼接前缀；unoptimized 的 next/image 与原生 <a> 需通过
+ * withBasePath 手动拼接（静态导出模式下 next/image 不自动加前缀）。
+ */
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/**
+ * 为站内绝对路径拼接部署子路径。
+ *
+ * @param path 以 / 开头的站内路径（如 /resume.pdf、/avatar.svg）
+ * @returns 带子路径前缀的路径（非导出构建原样返回）
+ */
+export function withBasePath(path: string): string {
+  return `${basePath}${path}`;
+}
 
 /** 顶部导航链接项（文案通过 key 从字典 nav 字段获取） */
 export interface NavItem {

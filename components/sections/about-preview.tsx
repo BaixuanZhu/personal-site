@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/shared/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -26,7 +26,7 @@ export function AboutPreview({ locale, copy }: AboutPreviewProps) {
           <FadeIn>
             <div className="relative mx-auto size-52 sm:size-64">
               <Image
-                src={siteConfig.avatar}
+                src={withBasePath(siteConfig.avatar)}
                 alt={copy.avatarAlt}
                 fill
                 sizes="(min-width: 768px) 16rem, 13rem"

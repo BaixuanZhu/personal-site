@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { withBasePath } from "@/lib/config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Project } from "@/lib/projects";
 
@@ -33,7 +34,7 @@ export function ProjectCard({ project, locale, priority = false }: ProjectCardPr
       <Card className="h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:ring-primary/30">
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
-            src={project.image}
+            src={withBasePath(project.image)}
             alt={project.title}
             fill
             priority={priority}

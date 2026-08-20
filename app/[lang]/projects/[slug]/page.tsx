@@ -11,6 +11,7 @@ import { GithubIcon } from "@/components/shared/brand-icons";
 import { defaultLocale, formatDate, isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
+import { withBasePath } from "@/lib/config";
 import { mdxComponents } from "@/lib/mdx-components";
 
 type ProjectPageProps = PageProps<"/[lang]/projects/[slug]">;
@@ -99,7 +100,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-xl border border-border/60">
           <Image
-            src={project.image}
+            src={withBasePath(project.image)}
             alt={project.title}
             fill
             priority
@@ -147,6 +148,7 @@ export async function generateMetadata({
     description: project.description,
     alternates: {
       languages: {
+        // 相对路径会由 Next 自动拼接 basePath（静态导出时）
         zh: `/zh/projects/${slug}`,
         en: `/en/projects/${slug}`,
       },

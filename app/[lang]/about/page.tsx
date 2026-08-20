@@ -6,7 +6,7 @@ import { ArrowRight, Briefcase, Coffee, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/shared/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -31,7 +31,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           <div className="grid items-center gap-10 md:grid-cols-[auto_1fr]">
             <div className="relative mx-auto size-40 sm:size-48">
               <Image
-                src={siteConfig.avatar}
+                src={withBasePath(siteConfig.avatar)}
                 alt={dict.aboutPreview.avatarAlt}
                 fill
                 priority

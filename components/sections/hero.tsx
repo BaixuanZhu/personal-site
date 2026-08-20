@@ -6,7 +6,7 @@ import { ArrowRight, Download, Mail } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { GithubIcon } from "@/components/shared/brand-icons";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -77,7 +77,7 @@ export function Hero({ locale, copy }: HeroProps) {
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href={siteConfig.resume} download>
+              <a href={withBasePath(siteConfig.resume)} download>
                 <Download data-icon="inline-start" />
                 {copy.ctaResume}
               </a>
@@ -116,7 +116,7 @@ export function Hero({ locale, copy }: HeroProps) {
         >
           <div className="rounded-full bg-gradient-to-br from-indigo-400/60 via-sky-400/40 to-emerald-400/60 p-1.5">
             <Avatar className="size-36 border-2 border-background sm:size-44">
-              <AvatarImage src={siteConfig.avatar} alt={copy.avatarAlt} />
+              <AvatarImage src={withBasePath(siteConfig.avatar)} alt={copy.avatarAlt} />
               <AvatarFallback>
                 {siteConfig.name
                   .split(" ")

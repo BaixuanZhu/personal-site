@@ -1,0 +1,95 @@
+name: Deploy to GitHub Pages
+
+# 推送到 main 或手动触发时，静态导出站点并发布到 GitHub Pages。
+# 首次使用前需在仓库 Settings → Pages 将 Source 设为 GitHub Actions
+# （或由 gh api repos/{repo}/pages -f build_type=workflow 完成）。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Pages 部署所需的官方权限（contents 读 + pages 写 + OIDC）
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只保留一次部署，排队中的旧部署取消
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+env:
+  # 项目站点部署在仓库子路径 /personal-site 下。
+  # 换自定义域名或迁移到 <user>.github.io 仓库时：BASE_PATH 置空、SITE_URL 改为新域名，
+  # 并在 out/ 中放入 CNAME 文件。
+  BASE_PATH: /personal-site
+  SITE_URL: https://baixuanzhu.github.io/personal-site
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4 # 读取 package.json 的 packageManager 字段
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build static export
+        env:
+          NEXT_OUTPUT: export # next.config.ts 据此启用 output: "export"（proxy 在该模式下被忽略）
+          NEXT_PUBLIC_BASE_PATH: ${{ env.BASE_PATH }}
+          NEXT_PUBLIC_SITE_URL: ${{ env.SITE_URL }}
+        run: pnpm build
+
+      # proxy.ts 的语言协商在纯静态托管上不可用；
+      # 用一个根跳转页替代：读 NEXT_LANG Cookie，无偏好默认中文（与 proxy 逻辑一致）
+      - name: Add root redirect for language negotiation
+        run: |
+          cat > out/index.html <<HTML
+          <!doctype html>
+          <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8" />
+              <title>Galaxy · 朱柏轩</title>
+              <script>
+                var m = document.cookie.match(/(?:^|;\s*)NEXT_LANG=(zh|en)\b/);
+                var base = "${BASE_PATH}";
+                window.location.replace(m ? base + "/" + m[1] + "/" : base + "/zh/");
+              </script>
+              <noscript><meta http-equiv="refresh" content="0;url=${BASE_PATH}/zh/" /></noscript>
+            </head>
+            <body></body>
+          </html>
+          HTML
+
+      # Pages 默认经 Jekyll 处理产物，会忽略 _next 等下划线目录
+      - name: Disable Jekyll processing
+        run: touch out/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
