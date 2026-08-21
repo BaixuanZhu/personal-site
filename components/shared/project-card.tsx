@@ -38,6 +38,8 @@ export function ProjectCard({ project, locale, priority = false }: ProjectCardPr
             alt={project.title}
             fill
             priority={priority}
+            // 本地小体积 SVG，懒加载会在滚动进入视口时晚到反而成为 LCP，直接急加载
+            loading="eager"
             sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
