@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useId, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 
 /** 雷达图单维度数据 */
 export interface RadarAxis {
@@ -8,6 +9,8 @@ export interface RadarAxis {
   label: string;
   /** 自评熟练度（0-100） */
   value: number;
+  /** 悬浮/聚焦时的维度说明（气泡第二行） */
+  description: string;
 }
 
 interface RadarChartProps {
@@ -66,10 +69,16 @@ function dyFor(index: number): number {
 
 /**
  * 六边形能力雷达图：纯 SVG 自绘，不引入图表库。
- * 颜色全部走主题变量（border / muted-foreground / primary），
- * 明暗主题自动适配；进入视口时数据多边形以缩放动效展开。
+ * 视觉走克制专业风 —— 放射渐变填充 + 柔光 + 虚线网格；
+ * 支持悬浮/键盘聚焦维度顶点弹出说明气泡；进入视口时
+ * 数据多边形以弹簧动画展开。系统开启"减少动态效果"时全部直出。
  */
 export function RadarChart({ axes, label }: RadarChartProps) {
+  const gradientId = useId();
+  const glowId = useId();
+  const [active, setActive] = useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
+
   const toPolygon = (radius: number) =>
     axes
       .map((_, i) => {
@@ -86,98 +95,209 @@ export function RadarChart({ axes, label }: RadarChartProps) {
     .map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`)
     .join(" ");
 
+  const activeAxis = active !== null ? axes[active] : null;
+  // 气泡锚点：从激活顶点向圆心方向内移 26px，保证气泡始终落在画布内部
+  const activeAnchor =
+    active !== null
+      ? (() => {
+          const v = axisPoint(active, (axes[active].value / 100) * RADIUS);
+          const dx = CENTER_X - v.x;
+          const dy = CENTER_Y - v.y;
+          const len = Math.hypot(dx, dy) || 1;
+          return {
+            x: v.x + (dx / len) * 26,
+            y: v.y + (dy / len) * 26,
+          };
+        })()
+      : null;
+
   return (
     <>
-      <svg
-        viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
-        role="img"
-        aria-label={label}
-        className="h-auto w-full max-w-[340px]"
-      >
-        {/* 网格环与轴线 */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
+      <div className="relative w-full max-w-[340px]">
+        <svg
+          viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
+          role="img"
+          aria-label={label}
+          className="h-auto w-full"
         >
-          {GRID_LEVELS.map((level) => (
-            <polygon
-              key={level}
-              points={toPolygon(RADIUS * level)}
-              fill="none"
-              strokeWidth={1}
-              className={level === 1 ? "stroke-border" : "stroke-border/50"}
-            />
-          ))}
-          {axes.map((axis, i) => {
-            const p = axisPoint(i, RADIUS);
-            return (
-              <line
-                key={axis.label}
-                x1={CENTER_X}
-                y1={CENTER_Y}
-                x2={p.x}
-                y2={p.y}
-                strokeWidth={1}
-                className="stroke-border/40"
-              />
-            );
-          })}
-        </motion.g>
+          <defs>
+            {/* 数据区放射渐变：中心浓、边缘淡，产生体积感 */}
+            <radialGradient
+              id={gradientId}
+              gradientUnits="userSpaceOnUse"
+              cx={CENTER_X}
+              cy={CENTER_Y}
+              r={RADIUS}
+            >
+              <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.06" />
+            </radialGradient>
+            {/* 柔光滤镜：垫在数据多边形下方的一层品牌色光晕 */}
+            <filter id={glowId} x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="5" />
+            </filter>
+          </defs>
 
-        {/* 数据多边形：缩放展开 */}
-        <motion.g
-          initial={{ opacity: 0, scale: 0.6 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-          style={{ transformBox: "fill-box", transformOrigin: "center" }}
-        >
-          <polygon
-            points={dataPolygon}
-            strokeWidth={2}
-            strokeLinejoin="round"
-            className="fill-primary/15 stroke-primary"
-          />
-          {dataPoints.map((p) => (
-            <circle
+          {/* 网格环与轴线：内环虚线、外环实线 */}
+          <motion.g
+            initial={reduceMotion ? false : { opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+          >
+            {GRID_LEVELS.map((level) => (
+              <polygon
+                key={level}
+                points={toPolygon(RADIUS * level)}
+                fill="none"
+                strokeWidth={1}
+                strokeDasharray={level === 1 ? undefined : "3 4"}
+                className={level === 1 ? "stroke-border" : "stroke-border/50"}
+              />
+            ))}
+            {axes.map((axis, i) => {
+              const p = axisPoint(i, RADIUS);
+              return (
+                <line
+                  key={axis.label}
+                  x1={CENTER_X}
+                  y1={CENTER_Y}
+                  x2={p.x}
+                  y2={p.y}
+                  strokeWidth={1}
+                  className={`transition-colors duration-150 ${
+                    active === i ? "stroke-primary/50" : "stroke-border/40"
+                  }`}
+                />
+              );
+            })}
+          </motion.g>
+
+          {/* 数据多边形：柔光垫底 + 渐变主体，弹簧展开 */}
+          <motion.g
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 120, damping: 14, delay: 0.15 }
+            }
+            style={{ transformBox: "fill-box", transformOrigin: "center" }}
+          >
+            <polygon
+              points={dataPolygon}
+              fill="var(--primary)"
+              opacity={0.15}
+              filter={`url(#${glowId})`}
+            />
+            <polygon
+              points={dataPolygon}
+              strokeWidth={2}
+              strokeLinejoin="round"
+              className="stroke-primary"
+              style={{ fill: `url(#${gradientId})` }}
+            />
+          </motion.g>
+
+          {/* 顶点圆点：错落弹入；激活时放大 */}
+          {dataPoints.map((p, i) => (
+            <motion.circle
               key={p.key}
               cx={p.x}
               cy={p.y}
-              r={3.5}
+              r={active === i ? 5.5 : 3.5}
               strokeWidth={2}
-              className="fill-primary stroke-background"
+              className="fill-primary stroke-background transition-all duration-150"
+              initial={reduceMotion ? false : { opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : {
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 18,
+                      delay: 0.35 + i * 0.07,
+                    }
+              }
+              style={{ transformBox: "fill-box", transformOrigin: "center" }}
             />
           ))}
-        </motion.g>
 
-        {/* 轴标签（名称 + 分值） */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-        >
-          {axes.map((axis, i) => {
-            const p = axisPoint(i, LABEL_RADIUS);
-            return (
-              <text
-                key={axis.label}
-                x={p.x}
-                y={p.y + dyFor(i)}
-                textAnchor={anchorFor(i)}
-                className="fill-muted-foreground text-[11px]"
-              >
-                {axis.label}{" "}
-                <tspan className="fill-primary font-semibold">
-                  {axis.value}
-                </tspan>
-              </text>
-            );
-          })}
-        </motion.g>
-      </svg>
+          {/* 轴标签（名称 + 分值），激活维度整行强调 */}
+          <motion.g
+            initial={reduceMotion ? false : { opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+          >
+            {axes.map((axis, i) => {
+              const p = axisPoint(i, LABEL_RADIUS);
+              return (
+                <text
+                  key={axis.label}
+                  x={p.x}
+                  y={p.y + dyFor(i)}
+                  textAnchor={anchorFor(i)}
+                  className={`text-[11px] transition-all duration-150 ${
+                    active === i
+                      ? "fill-foreground font-semibold"
+                      : "fill-muted-foreground"
+                  }`}
+                >
+                  {axis.label}{" "}
+                  <tspan className="fill-primary font-semibold">
+                    {axis.value}
+                  </tspan>
+                </text>
+              );
+            })}
+          </motion.g>
+
+          {/* 透明命中区：悬浮/键盘聚焦/点击（触屏）激活对应维度 */}
+          {dataPoints.map((p, i) => (
+            <circle
+              key={`hit-${p.key}`}
+              cx={p.x}
+              cy={p.y}
+              r={14}
+              fill="transparent"
+              tabIndex={0}
+              role="graphics-symbol"
+              aria-label={`${axes[i].label}：${axes[i].value} 分，${axes[i].description}`}
+              onMouseEnter={() => setActive(i)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(i)}
+              onBlur={() => setActive(null)}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </svg>
+
+        {/* 维度说明气泡（HTML overlay，百分比定位随 viewBox 缩放） */}
+        {activeAxis && activeAnchor ? (
+          <motion.div
+            key={activeAxis.label}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.15 }}
+            className="pointer-events-none absolute z-10 w-max max-w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-popover px-3 py-2 text-left shadow-md"
+            style={{
+              left: `${(activeAnchor.x / VIEW_WIDTH) * 100}%`,
+              top: `${(activeAnchor.y / VIEW_HEIGHT) * 100}%`,
+            }}
+          >
+            <p className="text-xs font-semibold text-foreground">
+              {activeAxis.label} · {activeAxis.value}/100
+            </p>
+            <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+              {activeAxis.description}
+            </p>
+          </motion.div>
+        ) : null}
+      </div>
       {/* 屏幕阅读器数据源（视觉隐藏） */}
       <ul className="sr-only">
         {axes.map((axis) => (

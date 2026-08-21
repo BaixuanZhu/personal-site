@@ -52,12 +52,12 @@ export const en: Dictionary = {
       title: "Ability Radar",
       hint: "Self-assessed proficiency, out of 100",
       axes: [
-        { label: "Backend", value: 90 },
-        { label: "AI Tooling", value: 82 },
-        { label: "Databases", value: 80 },
-        { label: "CI/CD", value: 75 },
-        { label: "Open Source", value: 72 },
-        { label: "Frontend", value: 65 },
+        { label: "Backend", value: 90, description: "Core Spring stack, shipped in production" },
+        { label: "AI Tooling", value: 82, description: "10 agent skills plus Claude Code plugins" },
+        { label: "Databases", value: 80, description: "MySQL tuning and Redis caching design" },
+        { label: "CI/CD", value: 75, description: "GitHub Actions pipelines with quality gates" },
+        { label: "Open Source", value: 72, description: "4 active repos, continuous releases" },
+        { label: "Frontend", value: 65, description: "Full-stack support for tool sites" },
       ],
     },
     categories: [

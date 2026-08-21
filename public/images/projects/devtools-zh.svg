@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="DevTools project preview">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="DevTools 项目预览图">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0c2f4e"/>
@@ -50,9 +50,9 @@
       <circle cx="610" cy="443" r="12" fill="#0f172a" opacity="0.5"/>
     </g>
   </g>
-  <text x="600" y="596" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#38bdf8" opacity="0.9">OPEN SOURCE · WEB APP</text>
-  <text x="600" y="650" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="46" font-weight="700" fill="#ffffff">DevTools</text>
-  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="24" fill="#94a3b8">40 tools · all local · no upload</text>
+  <text x="600" y="596" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#38bdf8" opacity="0.9">开源 · 在线工具箱</text>
+  <text x="600" y="650" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" font-weight="700" fill="#ffffff">DevTools</text>
+  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="24" fill="#94a3b8">40 个工具 · 全部本地运算 · 零上传</text>
   <style>
     .hot { animation: breathe 4.5s ease-in-out infinite; }
     @keyframes breathe {

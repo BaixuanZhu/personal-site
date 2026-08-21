@@ -59,12 +59,12 @@ export const zh = {
       title: "能力雷达",
       hint: "自评熟练度，满分 100",
       axes: [
-        { label: "后端开发", value: 90 },
-        { label: "AI 工程化", value: 82 },
-        { label: "数据库", value: 80 },
-        { label: "CI/CD 工程化", value: 75 },
-        { label: "开源协作", value: 72 },
-        { label: "前端开发", value: 65 },
+        { label: "后端开发", value: 90, description: "Spring 生态主力栈，多个生产项目落地" },
+        { label: "AI 工程化", value: 82, description: "10 个 Agent 技能 + Claude Code 插件开发" },
+        { label: "数据库", value: 80, description: "MySQL 索引/事务调优，Redis 缓存设计" },
+        { label: "CI/CD 工程化", value: 75, description: "GitHub Actions 流水线与质量门禁自动化" },
+        { label: "开源协作", value: 72, description: "4 个活跃开源仓库，持续迭代响应 issue" },
+        { label: "前端开发", value: 65, description: "全栈补位：Vue 3 / Astro / React 工具站" },
       ],
     },
     /** 技能分类，id 用于映射图标组件 */
