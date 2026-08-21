@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useAllowMotion } from "@/components/shared/use-allow-motion";
 
 /** 雷达图单维度数据 */
 export interface RadarAxis {
@@ -29,6 +30,8 @@ const RADIUS = 100;
 const LABEL_RADIUS = 118;
 /** 网格环层级（相对满值半径的比例） */
 const GRID_LEVELS = [0.25, 0.5, 0.75, 1];
+/** 进入视口判定的公共参数（只触发一次） */
+const VIEWPORT_ONCE = { once: true, margin: "-60px" } as const;
 
 /**
  * 计算第 index 个轴上给定半径处的坐标（首轴指向正上方，顺时针均分）。
@@ -70,14 +73,15 @@ function dyFor(index: number): number {
 /**
  * 六边形能力雷达图：纯 SVG 自绘，不引入图表库。
  * 视觉走克制专业风 —— 放射渐变填充 + 柔光 + 虚线网格；
- * 支持悬浮/键盘聚焦维度顶点弹出说明气泡；进入视口时
- * 数据多边形以弹簧动画展开。系统开启"减少动态效果"时全部直出。
+ * 支持悬浮/键盘聚焦/点击维度顶点弹出说明气泡。
+ * 动画仅在挂载后且系统未开启"减少动态效果"时启用（useAllowMotion），
+ * SSR 与 hydration 首帧输出纯静态图形以保证两边渲染一致。
  */
 export function RadarChart({ axes, label }: RadarChartProps) {
   const gradientId = useId();
   const glowId = useId();
   const [active, setActive] = useState<number | null>(null);
-  const reduceMotion = useReducedMotion();
+  const allowMotion = useAllowMotion();
 
   const toPolygon = (radius: number) =>
     axes
@@ -111,6 +115,77 @@ export function RadarChart({ axes, label }: RadarChartProps) {
         })()
       : null;
 
+  const gridContent = (
+    <>
+      {GRID_LEVELS.map((level) => (
+        <polygon
+          key={level}
+          points={toPolygon(RADIUS * level)}
+          fill="none"
+          strokeWidth={1}
+          strokeDasharray={level === 1 ? undefined : "3 4"}
+          className={level === 1 ? "stroke-border" : "stroke-border/50"}
+        />
+      ))}
+      {axes.map((axis, i) => {
+        const p = axisPoint(i, RADIUS);
+        return (
+          <line
+            key={axis.label}
+            x1={CENTER_X}
+            y1={CENTER_Y}
+            x2={p.x}
+            y2={p.y}
+            strokeWidth={1}
+            className={`transition-colors duration-150 ${
+              active === i ? "stroke-primary/50" : "stroke-border/40"
+            }`}
+          />
+        );
+      })}
+    </>
+  );
+
+  const dataContent = (
+    <>
+      {/* 柔光垫底：品牌色模糊光晕 */}
+      <polygon
+        points={dataPolygon}
+        fill="var(--primary)"
+        opacity={0.15}
+        filter={`url(#${glowId})`}
+      />
+      {/* 主体：放射渐变填充 */}
+      <polygon
+        points={dataPolygon}
+        strokeWidth={2}
+        strokeLinejoin="round"
+        className="stroke-primary"
+        style={{ fill: `url(#${gradientId})` }}
+      />
+    </>
+  );
+
+  const labelsContent = axes.map((axis, i) => {
+    const p = axisPoint(i, LABEL_RADIUS);
+    return (
+      <text
+        key={axis.label}
+        x={p.x}
+        y={p.y + dyFor(i)}
+        textAnchor={anchorFor(i)}
+        className={`text-[11px] transition-all duration-150 ${
+          active === i
+            ? "fill-foreground font-semibold"
+            : "fill-muted-foreground"
+        }`}
+      >
+        {axis.label}{" "}
+        <tspan className="fill-primary font-semibold">{axis.value}</tspan>
+      </text>
+    );
+  });
+
   return (
     <>
       <div className="relative w-full max-w-[340px]">
@@ -139,122 +214,80 @@ export function RadarChart({ axes, label }: RadarChartProps) {
           </defs>
 
           {/* 网格环与轴线：内环虚线、外环实线 */}
-          <motion.g
-            initial={reduceMotion ? false : { opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-          >
-            {GRID_LEVELS.map((level) => (
-              <polygon
-                key={level}
-                points={toPolygon(RADIUS * level)}
-                fill="none"
-                strokeWidth={1}
-                strokeDasharray={level === 1 ? undefined : "3 4"}
-                className={level === 1 ? "stroke-border" : "stroke-border/50"}
-              />
-            ))}
-            {axes.map((axis, i) => {
-              const p = axisPoint(i, RADIUS);
-              return (
-                <line
-                  key={axis.label}
-                  x1={CENTER_X}
-                  y1={CENTER_Y}
-                  x2={p.x}
-                  y2={p.y}
-                  strokeWidth={1}
-                  className={`transition-colors duration-150 ${
-                    active === i ? "stroke-primary/50" : "stroke-border/40"
-                  }`}
-                />
-              );
-            })}
-          </motion.g>
+          {allowMotion ? (
+            <motion.g
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={VIEWPORT_ONCE}
+              transition={{ duration: 0.5 }}
+            >
+              {gridContent}
+            </motion.g>
+          ) : (
+            <g>{gridContent}</g>
+          )}
 
           {/* 数据多边形：柔光垫底 + 渐变主体，弹簧展开 */}
-          <motion.g
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { type: "spring", stiffness: 120, damping: 14, delay: 0.15 }
-            }
-            style={{ transformBox: "fill-box", transformOrigin: "center" }}
-          >
-            <polygon
-              points={dataPolygon}
-              fill="var(--primary)"
-              opacity={0.15}
-              filter={`url(#${glowId})`}
-            />
-            <polygon
-              points={dataPolygon}
-              strokeWidth={2}
-              strokeLinejoin="round"
-              className="stroke-primary"
-              style={{ fill: `url(#${gradientId})` }}
-            />
-          </motion.g>
+          {allowMotion ? (
+            <motion.g
+              initial={{ opacity: 0, scale: 0.6 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={VIEWPORT_ONCE}
+              transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.15 }}
+              style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            >
+              {dataContent}
+            </motion.g>
+          ) : (
+            <g>{dataContent}</g>
+          )}
 
           {/* 顶点圆点：错落弹入；激活时放大 */}
-          {dataPoints.map((p, i) => (
-            <motion.circle
-              key={p.key}
-              cx={p.x}
-              cy={p.y}
-              r={active === i ? 5.5 : 3.5}
-              strokeWidth={2}
-              className="fill-primary stroke-background transition-all duration-150"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : {
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 18,
-                      delay: 0.35 + i * 0.07,
-                    }
-              }
-              style={{ transformBox: "fill-box", transformOrigin: "center" }}
-            />
-          ))}
+          {dataPoints.map((p, i) =>
+            allowMotion ? (
+              <motion.circle
+                key={p.key}
+                cx={p.x}
+                cy={p.y}
+                r={active === i ? 5.5 : 3.5}
+                strokeWidth={2}
+                className="fill-primary stroke-background transition-all duration-150"
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={VIEWPORT_ONCE}
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 18,
+                  delay: 0.35 + i * 0.07,
+                }}
+                style={{ transformBox: "fill-box", transformOrigin: "center" }}
+              />
+            ) : (
+              <circle
+                key={p.key}
+                cx={p.x}
+                cy={p.y}
+                r={active === i ? 5.5 : 3.5}
+                strokeWidth={2}
+                className="fill-primary stroke-background transition-all duration-150"
+              />
+            ),
+          )}
 
           {/* 轴标签（名称 + 分值），激活维度整行强调 */}
-          <motion.g
-            initial={reduceMotion ? false : { opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-          >
-            {axes.map((axis, i) => {
-              const p = axisPoint(i, LABEL_RADIUS);
-              return (
-                <text
-                  key={axis.label}
-                  x={p.x}
-                  y={p.y + dyFor(i)}
-                  textAnchor={anchorFor(i)}
-                  className={`text-[11px] transition-all duration-150 ${
-                    active === i
-                      ? "fill-foreground font-semibold"
-                      : "fill-muted-foreground"
-                  }`}
-                >
-                  {axis.label}{" "}
-                  <tspan className="fill-primary font-semibold">
-                    {axis.value}
-                  </tspan>
-                </text>
-              );
-            })}
-          </motion.g>
+          {allowMotion ? (
+            <motion.g
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={VIEWPORT_ONCE}
+              transition={{ duration: 0.5, delay: 0.35 }}
+            >
+              {labelsContent}
+            </motion.g>
+          ) : (
+            <g>{labelsContent}</g>
+          )}
 
           {/* 透明命中区：悬浮/键盘聚焦/点击（触屏）激活对应维度 */}
           {dataPoints.map((p, i) => (
@@ -278,24 +311,42 @@ export function RadarChart({ axes, label }: RadarChartProps) {
 
         {/* 维度说明气泡（HTML overlay，百分比定位随 viewBox 缩放） */}
         {activeAxis && activeAnchor ? (
-          <motion.div
-            key={activeAxis.label}
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.15 }}
-            className="pointer-events-none absolute z-10 w-max max-w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-popover px-3 py-2 text-left shadow-md"
-            style={{
-              left: `${(activeAnchor.x / VIEW_WIDTH) * 100}%`,
-              top: `${(activeAnchor.y / VIEW_HEIGHT) * 100}%`,
-            }}
-          >
-            <p className="text-xs font-semibold text-foreground">
-              {activeAxis.label} · {activeAxis.value}/100
-            </p>
-            <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
-              {activeAxis.description}
-            </p>
-          </motion.div>
+          allowMotion ? (
+            <motion.div
+              key={activeAxis.label}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.15 }}
+              className="pointer-events-none absolute z-10 w-max max-w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-popover px-3 py-2 text-left shadow-md"
+              style={{
+                left: `${(activeAnchor.x / VIEW_WIDTH) * 100}%`,
+                top: `${(activeAnchor.y / VIEW_HEIGHT) * 100}%`,
+              }}
+            >
+              <p className="text-xs font-semibold text-foreground">
+                {activeAxis.label} · {activeAxis.value}/100
+              </p>
+              <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+                {activeAxis.description}
+              </p>
+            </motion.div>
+          ) : (
+            <div
+              key={activeAxis.label}
+              className="pointer-events-none absolute z-10 w-max max-w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-popover px-3 py-2 text-left shadow-md"
+              style={{
+                left: `${(activeAnchor.x / VIEW_WIDTH) * 100}%`,
+                top: `${(activeAnchor.y / VIEW_HEIGHT) * 100}%`,
+              }}
+            >
+              <p className="text-xs font-semibold text-foreground">
+                {activeAxis.label} · {activeAxis.value}/100
+              </p>
+              <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+                {activeAxis.description}
+              </p>
+            </div>
+          )
         ) : null}
       </div>
       {/* 屏幕阅读器数据源（视觉隐藏） */}

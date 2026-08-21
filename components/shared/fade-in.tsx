@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
+import { useAllowMotion } from "@/components/shared/use-allow-motion";
 
 interface FadeInProps {
   children: ReactNode;
@@ -14,8 +15,16 @@ interface FadeInProps {
 /**
  * 滚动进入视口时淡入上浮的动画容器。
  * 基于 motion 的 whileInView 实现，只播放一次；供服务端区块组件复用。
+ * SSR / hydration 首帧与"减少动态效果"设备上退化为纯静态 div，
+ * 见 useAllowMotion 的说明。
  */
 export function FadeIn({ children, delay = 0, className }: FadeInProps) {
+  const allowMotion = useAllowMotion();
+
+  if (!allowMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
