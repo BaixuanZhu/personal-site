@@ -41,8 +41,7 @@ export const zh = {
     /** 自我介绍段落 */
     intro:
       "我是朱柏轩（Galaxy），Java 后端工程师，深耕 Spring 生态与开发者体验。我维护着多个开源项目：浏览器端工具箱 DevTools、Windows JDK 版本管理器 jvm，以及面向中文 Java 生态的 Agent Skills 套件。",
-    ctaProjects: "查看精选项目",
-    ctaResume: "下载简历",
+    ctaBoss: "BOSS直聘 · 与我联系",
     avatarAlt: "朱柏轩的头像",
   },
   featured: {
@@ -55,6 +54,19 @@ export const zh = {
     eyebrow: "Tech Stack",
     title: "技术技能",
     description: "按场景组织的技能矩阵 —— 后端为主力，前端与 AI 工具链为两翼。",
+    /** 六边形雷达图：自评熟练度（0-100），数值可随成长随时调整 */
+    radar: {
+      title: "能力雷达",
+      hint: "自评熟练度，满分 100",
+      axes: [
+        { label: "后端开发", value: 90 },
+        { label: "AI 工程化", value: 82 },
+        { label: "数据库", value: 80 },
+        { label: "CI/CD 工程化", value: 75 },
+        { label: "开源协作", value: 72 },
+        { label: "前端开发", value: 65 },
+      ],
+    },
     /** 技能分类，id 用于映射图标组件 */
     categories: [
       {
@@ -92,7 +104,7 @@ export const zh = {
     title: "聊聊合作机会",
     description:
       "如果你的团队需要一个既懂 Java 后端、又能搭建 AI 工程化工具链的人，欢迎邮件联系 —— 通常 24 小时内回复。",
-    resume: "下载简历 PDF",
+    boss: "在 BOSS直聘查看完整简历",
     email: "发送邮件",
   },
   footer: {

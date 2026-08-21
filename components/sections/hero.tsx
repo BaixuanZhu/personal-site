@@ -1,13 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
-import Link from "next/link";
-import { ArrowRight, Download, Mail } from "lucide-react";
+import { Mail, MessageCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { siteConfig, withBasePath } from "@/lib/config";
-import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 /** 入场动效公共参数：淡入 + 轻微上浮，按序错落 */
@@ -17,17 +15,15 @@ const riseItem = {
 };
 
 interface HeroProps {
-  /** 当前语言（决定站内链接前缀） */
-  locale: Locale;
   /** 本地化文案 */
   copy: Dictionary["hero"];
 }
 
 /**
  * 首页英雄区：核心价值主张、头像与行动入口。
- * 文案来自语言字典，社交与简历链接来自 lib/config.ts。
+ * 文案来自语言字典，社交与 BOSS直聘链接来自 lib/config.ts。
  */
-export function Hero({ locale, copy }: HeroProps) {
+export function Hero({ copy }: HeroProps) {
   return (
     <section className="relative overflow-hidden">
       {/* 背景装饰：径向光晕 */}
@@ -71,15 +67,9 @@ export function Hero({ locale, copy }: HeroProps) {
             className="flex flex-wrap items-center gap-3"
           >
             <Button size="lg" asChild>
-              <Link href={`/${locale}#projects`}>
-                {copy.ctaProjects}
-                <ArrowRight data-icon="inline-end" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href={withBasePath(siteConfig.resume)} download>
-                <Download data-icon="inline-start" />
-                {copy.ctaResume}
+              <a href={siteConfig.boss} target="_blank" rel="noreferrer">
+                <MessageCircle data-icon="inline-start" />
+                {copy.ctaBoss}
               </a>
             </Button>
           </motion.div>

@@ -12,8 +12,8 @@ export const siteConfig = {
   email: "wy2359117018@163.com",
   /** GitHub 主页 */
   github: "https://github.com/BaixuanZhu",
-  /** 简历 PDF（存放于 public/ 目录） */
-  resume: "/resume.pdf",
+  /** BOSS直聘个人名片（简历入口统一引流到此链接，新窗口打开） */
+  boss: "https://m.zhipin.com/mpa/html/resume-detail?sid=self&securityId=UQamfojgWOSN1-B14puoGep94oTBCdG6WXSnURWs0RU1g-JiKslK-iAeDe_UC9GugBZrzrIspnLp5hrOCh87lBmeCprTL9681LbBDuZeSh67RYHqGhyYBA7rCrLOyee5qhzSKAC5RE06u27ix4dfYOjI-Gf5ZsGz2voOZzE~",
   /** 头像（存放于 public/ 目录） */
   avatar: "/avatar.svg",
 } as const;

@@ -34,8 +34,7 @@ export const en: Dictionary = {
     tagline: "Building reliable Java backends and delightful dev tools",
     intro:
       "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 40-tool browser toolbox), jvm (a Windows JDK version manager written in Go), and an Agent Skills suite for Chinese Java teams.",
-    ctaProjects: "View featured projects",
-    ctaResume: "Download resume",
+    ctaBoss: "Hire me on BOSS Zhipin",
     avatarAlt: "Portrait of Baixuan Zhu",
   },
   featured: {
@@ -49,6 +48,18 @@ export const en: Dictionary = {
     title: "Technical Skills",
     description:
       "A scenario-driven skill matrix — backend at the core, flanked by frontend and AI tooling.",
+    radar: {
+      title: "Ability Radar",
+      hint: "Self-assessed proficiency, out of 100",
+      axes: [
+        { label: "Backend", value: 90 },
+        { label: "AI Tooling", value: 82 },
+        { label: "Databases", value: 80 },
+        { label: "CI/CD", value: 75 },
+        { label: "Open Source", value: 72 },
+        { label: "Frontend", value: 65 },
+      ],
+    },
     categories: [
       {
         id: "backend",
@@ -85,7 +96,7 @@ export const en: Dictionary = {
     title: "Let's build something great together.",
     description:
       "If your team needs someone who knows Java backends and can also build AI-era tooling, drop me an email — I usually reply within 24 hours.",
-    resume: "Download resume (PDF)",
+    boss: "Full resume on BOSS Zhipin",
     email: "Send an email",
   },
   footer: {

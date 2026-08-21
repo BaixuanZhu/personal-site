@@ -21,7 +21,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
 
   return (
     <main className="flex-1">
-      <Hero locale={lang} copy={dict.hero} />
+      <Hero copy={dict.hero} />
       <FeaturedProjects
         locale={lang}
         projects={projects}

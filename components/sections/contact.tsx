@@ -1,9 +1,9 @@
-import { Download, Mail } from "lucide-react";
+import { Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { FadeIn } from "@/components/shared/fade-in";
-import { siteConfig, withBasePath } from "@/lib/config";
+import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 interface ContactProps {
@@ -12,7 +12,7 @@ interface ContactProps {
 }
 
 /**
- * 首页「联系与行动」区块：简历下载与社交入口，促成下一步沟通。
+ * 首页「联系与行动」区块：BOSS直聘名片引流与社交入口，促成下一步沟通。
  */
 export function Contact({ copy }: ContactProps) {
   return (
@@ -31,9 +31,9 @@ export function Contact({ copy }: ContactProps) {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button size="lg" asChild>
-              <a href={withBasePath(siteConfig.resume)} download>
-                <Download data-icon="inline-start" />
-                {copy.resume}
+              <a href={siteConfig.boss} target="_blank" rel="noreferrer">
+                <MessageCircle data-icon="inline-start" />
+                {copy.boss}
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>

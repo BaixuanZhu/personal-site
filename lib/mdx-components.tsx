@@ -37,4 +37,20 @@ export const mdxComponents: MDXComponents = {
       </code>
     );
   },
+  /** Markdown 表格：外框 + 表头底色 + 窄屏横向滚动，接管 prose 默认（prose 为零优先级，此处工具类必胜） */
+  table: ({ children }) => (
+    <div className="my-6 overflow-x-auto rounded-xl border border-border/60">
+      <table className="w-full border-collapse text-sm">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+  tbody: ({ children }) => <tbody>{children}</tbody>,
+  th: ({ children }) => (
+    <th className="px-4 py-3 text-left font-medium whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="border-t border-border/60 px-4 py-3 align-top">{children}</td>
+  ),
 };

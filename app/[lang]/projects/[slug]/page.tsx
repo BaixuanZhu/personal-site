@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
+import remarkGfm from "remark-gfm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -112,7 +113,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <Separator className="my-10" />
 
         <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-headings:tracking-tight prose-a:text-primary">
-          <MDXRemote source={project.content} components={mdxComponents} />
+          {/* remark-gfm：启用表格/删除线/任务列表等 GFM 语法，缺失时表格会被渲染成纯文本 */}
+          <MDXRemote
+            source={project.content}
+            components={mdxComponents}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          />
         </div>
       </article>
     </main>
