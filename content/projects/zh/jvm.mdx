@@ -1,6 +1,6 @@
 ---
 title: jvm — Windows Java 版本管理器
-description: Go 编写的 Windows JDK 版本管理器：junction 秒级切换、免管理员权限，支持五大发行版，当前终端即时生效。
+description: Go 编写的 Windows JDK 版本管理器：junction 秒级切换、免管理员权限，支持六大发行版，当前终端即时生效。
 tags:
   - Go
   - CLI
@@ -14,9 +14,9 @@ demo: https://baixuanzhu.github.io/jvm/
 featured: true
 metrics:
   - label: 支持发行版
-    value: "5 个"
-  - label: 迭代版本
-    value: "11 个"
+    value: "6 个"
+  - label: 发布 Release
+    value: "21 个"
   - label: 安装方式
     value: "3 种"
 ---
@@ -32,7 +32,7 @@ jvm install 21    # 安装 Temurin JDK 21（默认发行版）
 jvm use 21        # 切换 —— 当前终端立即生效
 ```
 
-支持 **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica** 五大发行版，提供安装包、便携版、一键脚本三种分发方式，全程免管理员权限。
+支持 **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica / Oracle GraalVM** 六大发行版（另有 temurin-ea 预览变体），提供安装包、便携版、一键脚本三种分发方式，全程免管理员权限。
 
 ## 工作原理
 
@@ -71,9 +71,9 @@ jvm use 21        # 切换 —— 当前终端立即生效
 
 | 维度 | 数据 |
 | --- | --- |
-| 支持发行版 | 5 个 |
-| 发布版本 | 11 个 Release（十天完成 v0.5 → v0.11） |
-| 代码提交 | 76 commits |
+| 支持发行版 | 6 个（另含 temurin-ea 预览变体） |
+| 发布版本 | 21 个 Release（最新 v0.14.0） |
+| 代码提交 | 97 commits |
 | 支持架构 | x64 / ARM64 |
 
 ## 反思

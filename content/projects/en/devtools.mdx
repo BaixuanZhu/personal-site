@@ -1,6 +1,6 @@
 ---
 title: DevTools — A Developer Toolbox in Your Browser
-description: 40 everyday developer tools, computed entirely in the browser — no login, no data upload, under 50KB of JS per tool page.
+description: 55 everyday developer tools, computed entirely in the browser — no login, no data upload, under 50KB of JS per tool page.
 tags:
   - Astro
   - Vue 3
@@ -14,7 +14,7 @@ demo: https://tools.baixuanz.cn
 featured: true
 metrics:
   - label: Tools
-    value: "40"
+    value: "55"
   - label: Payload per tool
     value: "<50KB"
   - label: Lighthouse
@@ -25,7 +25,7 @@ metrics:
 
 Developers reach for small utilities a dozen times a day: Base64, timestamps, JSON formatting, JWT decoding… Online tools show ads, demand logins, and worst of all — sensitive payloads like JWTs and encryption keys get sent to someone else's server.
 
-DevTools moves 40 everyday tools into the browser, **computed entirely locally**: no backend, no uploads, works offline. Live at [tools.baixuanz.cn](https://tools.baixuanz.cn).
+DevTools moves 55 everyday tools into the browser, **computed entirely locally**: no backend, no uploads, works offline. Live at [tools.baixuanz.cn](https://tools.baixuanz.cn).
 
 ## Design Principles
 
@@ -42,7 +42,7 @@ The static shell (layout, docs, SEO copy) is rendered by Astro 6 SSG with **zero
 
 ### A registry-driven tool system
 
-40 tools are organized as `/category/tool-name` routes. Routing, categories, and SEO metadata all come from a single registry (`src/data/tools.ts`) — adding a tool means one registry line plus one directory, with zero framework code touched.
+54 tools are organized as `/category/tool-name` routes, plus the Markdown editor as a standalone full-screen workbench. Routing, categories, and SEO metadata all come from a single registry (`src/data/tools.ts`) — adding a tool means one registry line plus one directory, with zero framework code touched.
 
 ### Heavy compute in Web Workers
 
@@ -57,7 +57,7 @@ Hashing, symmetric encryption, QR reading — anything that would block the main
 
 | Dimension | Data |
 | --- | --- |
-| Tools | 40 across 12 categories |
+| Tools | 55 across 7 categories |
 | JS per tool page | < 50KB (gzip) |
 | Lighthouse Performance | ≥ 90 |
 | Commits | 600+ |

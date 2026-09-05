@@ -33,7 +33,7 @@ export const en: Dictionary = {
     available: "Open to opportunities",
     tagline: "Building reliable Java backends and delightful dev tools",
     intro:
-      "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 40-tool browser toolbox), jvm (a Windows JDK version manager written in Go), and an Agent Skills suite for Chinese Java teams.",
+      "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 55-tool browser toolbox), jvm (a Windows JDK version manager written in Go), and an Agent Skills suite for Chinese Java teams.",
     ctaEmail: "Email me",
   },
   featured: {
@@ -52,7 +52,7 @@ export const en: Dictionary = {
       hint: "Self-assessed proficiency, out of 100",
       axes: [
         { label: "Backend", value: 90, description: "Core Spring stack, shipped in production" },
-        { label: "AI Tooling", value: 82, description: "10 agent skills plus Claude Code plugins" },
+        { label: "AI Tooling", value: 82, description: "14 agent skills plus Claude Code plugins" },
         { label: "Databases", value: 80, description: "MySQL tuning and Redis caching design" },
         { label: "CI/CD", value: 75, description: "GitHub Actions pipelines with quality gates" },
         { label: "Open Source", value: 72, description: "4 active repos, continuous releases" },
@@ -85,7 +85,7 @@ export const en: Dictionary = {
     title: "Turning pain points into tools",
     paragraphs: [
       "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — which is why I keep building tools that turn repetitive work into a single command.",
-      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, so AI assistants behave professionally on real Java projects. Everything is open source on GitHub.",
+      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 14 installable agent skills, so AI assistants behave professionally on real Java projects. Everything is open source on GitHub.",
     ],
     more: "Learn more",
   },
@@ -116,7 +116,7 @@ export const en: Dictionary = {
     location: "Open to remote",
     paragraphs: [
       "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — the Spring Boot, Sa-Token and MyBatis-Plus stack that Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
-      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 40 everyday tools into the browser, and Agent Skills make AI coding assistants follow engineering standards.",
+      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 55 everyday tools into the browser, and Agent Skills make AI coding assistants follow engineering standards.",
     ],
     journey: {
       eyebrow: "Journey",
@@ -132,13 +132,13 @@ export const en: Dictionary = {
           period: "2026.06",
           role: "DevTools went live",
           description:
-            "A browser-based developer toolbox launched at tools.baixuanz.cn — 40 tools across 12 categories, all computed locally, under 50KB of JS per page.",
+            "A browser-based developer toolbox launched at tools.baixuanz.cn — 55 tools across 7 categories, all computed locally, under 50KB of JS per page.",
         },
         {
           period: "2026.08",
           role: "jvm · Agent Skills",
           description:
-            "Shipped 11 releases of jvm in ten days (a Go-based Windows JDK manager), plus a 10-skill Agent suite for the Chinese Java ecosystem compatible with 41+ AI coding agents.",
+            "Shipped 10 releases of jvm in ten days (a Go-based Windows JDK manager), plus a 10-skill Agent suite for the Chinese Java ecosystem compatible with 41+ AI coding agents.",
         },
       ],
     },
@@ -154,7 +154,7 @@ export const en: Dictionary = {
         {
           title: "Local & private first",
           description:
-            "Data that can stay in the browser should: all 40 DevTools run locally and work offline.",
+            "Data that can stay in the browser should: all 55 DevTools run locally and work offline.",
         },
         {
           title: "Evaluation-driven",

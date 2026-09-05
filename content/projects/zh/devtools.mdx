@@ -1,6 +1,6 @@
 ---
 title: DevTools 开发者工具箱
-description: 40 个常用开发者工具，全部在浏览器本地运算 —— 零登录、零上传，单页 JS 不到 50KB。
+description: 55 个常用开发者工具，全部在浏览器本地运算 —— 零登录、零上传，单页 JS 不到 50KB。
 tags:
   - Astro
   - Vue 3
@@ -14,7 +14,7 @@ demo: https://tools.baixuanz.cn
 featured: true
 metrics:
   - label: 工具数量
-    value: "40 个"
+    value: "55 个"
   - label: 单页体积
     value: "<50KB"
   - label: Lighthouse
@@ -25,7 +25,7 @@ metrics:
 
 开发者每天要用十几次小工具：Base64、时间戳、JSON 格式化、JWT 解码……在线工具要么塞满广告，要么要求登录，更让人不安的是 —— JWT、加密密钥这类敏感数据得原样交给别人的服务器。
 
-DevTools 把 40 个常用工具搬进浏览器，**全部本地运算**：没有后端、没有数据上传、断网也能用。已上线 [tools.baixuanz.cn](https://tools.baixuanz.cn)。
+DevTools 把 55 个常用工具搬进浏览器，**全部本地运算**：没有后端、没有数据上传、断网也能用。已上线 [tools.baixuanz.cn](https://tools.baixuanz.cn)。
 
 ## 设计原则
 
@@ -42,7 +42,7 @@ DevTools 把 40 个常用工具搬进浏览器，**全部本地运算**：没有
 
 ### 工具注册表驱动
 
-40 个工具按 `/category/tool-name` 二级路由组织，路由、分类、SEO 元信息全部由 `src/data/tools.ts` 注册表驱动 —— 新增一个工具 = 注册表加一行 + 一个目录，不碰任何框架代码。
+54 个工具按 `/category/tool-name` 二级路由组织（Markdown 编辑器为独立全屏工作台），路由、分类、SEO 元信息全部由 `src/data/tools.ts` 注册表驱动 —— 新增一个工具 = 注册表加一行 + 一个目录，不碰任何框架代码。
 
 ### 重计算进 Web Worker
 
@@ -57,7 +57,7 @@ DevTools 把 40 个常用工具搬进浏览器，**全部本地运算**：没有
 
 | 维度 | 数据 |
 | --- | --- |
-| 工具数量 | 40 个 / 12 个分类 |
+| 工具数量 | 55 个 / 7 个分类 |
 | 单工具页体积 | < 50KB（gzip） |
 | Lighthouse Performance | ≥ 90 |
 | 代码提交 | 600+ commits |

@@ -1,6 +1,6 @@
 ---
 title: Agent Skills — 中文 Java 生态技能套装
-description: 面向中文 Java/Spring 团队的 10 个 AI 编码技能：编码规范、质量门禁、单元测试、框架开发与敏捷流程，适配 41+ AI 编码工具。
+description: 面向中文 Java/Spring 团队的 14 个 AI 编码技能：编码规范、质量门禁、测试、框架开发与敏捷流程，适配 41+ AI 编码工具。
 tags:
   - AI Agent
   - Claude Code
@@ -13,7 +13,7 @@ github: https://github.com/BaixuanZhu/skills
 featured: true
 metrics:
   - label: 技能数量
-    value: "10 个"
+    value: "14 个"
   - label: 适配 Agent
     value: "41+"
   - label: 分发渠道
@@ -24,14 +24,14 @@ metrics:
 
 AI 编码助手在中文 Java 团队有些水土不服：训练语料偏英文生态，不知道《阿里巴巴 Java 开发手册》的条款，不熟悉 Sa-Token / MyBatis-Plus 的惯用法，写出的代码「能跑但不地道」。
 
-这个项目把工程规范做成 **AI 可安装、可执行的知识**：10 个 Agent 技能覆盖编码规范、质量门禁、单元测试、主流框架开发与敏捷流程，支持 Claude Code 插件和 `npx skills` 两种安装方式（后者适配 Cursor / Codex / Zed 等 41+ AI 编码工具）。
+这个项目把工程规范做成 **AI 可安装、可执行的知识**：14 个 Agent 技能覆盖编码规范、质量门禁、测试、主流框架开发与敏捷流程，支持 Claude Code 插件和 `npx skills` 两种安装方式（后者适配 Cursor / Codex / Zed 等 41+ AI 编码工具）。
 
 ## 分层设计
 
 技能按三层组织，按需安装，每个技能都是独立插件：
 
-- **通用底座**：`repo-init`（生成跨工具的 AGENTS.md 项目简报）、`java-coding-guide-pro`（编码规范与避坑）、`java-coding-quality`（质量与安全门禁）、`java-unit-test`（单元测试规范对齐）
-- **框架增强**：`sa-token-dev`（认证鉴权）、`mybatis-plus-dev`（ORM 增强）
+- **通用底座**：`repo-init`（生成跨工具的 AGENTS.md 项目简报）、`java-coding-guide-pro`（编码规范与避坑）、`java-coding-quality`（质量与安全门禁）、`java-unit-test`（单元测试规范对齐）、`java-integration-test`（集成测试 / API 级验证）
+- **框架增强**：`sa-token-dev`（认证鉴权）、`mybatis-plus-dev`（ORM 增强）、`redis-dev`（Redis 缓存设计）、`spring-boot-dev`（Spring Boot 开发）、`spring-boot-init`（项目脚手架）
 - **敏捷流程**：`using-agile` 入口 → `agile-strategic`（愿景 + C4 架构 + ADR）→ `agile-backlog`（待办管理）→ `agile-sprint`（Sprint 规划）
 
 ## 规范的知识化

@@ -1,6 +1,6 @@
 ---
 title: jvm — Java Version Manager for Windows
-description: "A JDK version manager for Windows written in Go: millisecond junction switching, no admin rights, five distributions, effective in the current terminal instantly."
+description: "A JDK version manager for Windows written in Go: millisecond junction switching, no admin rights, six distributions, effective in the current terminal instantly."
 tags:
   - Go
   - CLI
@@ -14,9 +14,9 @@ demo: https://baixuanzhu.github.io/jvm/
 featured: true
 metrics:
   - label: Distributions
-    value: "5"
+    value: "6"
   - label: Releases
-    value: "11"
+    value: "21"
   - label: Install methods
     value: "3"
 ---
@@ -32,7 +32,7 @@ jvm install 21    # install Temurin JDK 21 (default distro)
 jvm use 21        # switch — effective in the current terminal, instantly
 ```
 
-It supports **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica**, ships as an installer, a portable zip, and a one-line setup script — all without admin rights.
+It supports **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica / Oracle GraalVM** (plus a `temurin-ea` preview variant), ships as an installer, a portable zip, and a one-line setup script — all without admin rights.
 
 ## How It Works
 
@@ -71,9 +71,9 @@ The classic annoyance is reopening the terminal after a switch. On first run, jv
 
 | Dimension | Data |
 | --- | --- |
-| Distributions | 5 |
-| Releases | 11 (v0.5 → v0.11 in ten days) |
-| Commits | 76 |
+| Distributions | 6 (plus a `temurin-ea` preview variant) |
+| Releases | 21 (latest v0.14.0) |
+| Commits | 97 |
 | Architectures | x64 / ARM64 |
 
 ## Reflection

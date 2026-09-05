@@ -1,6 +1,6 @@
 ---
 title: Agent Skills — A Suite for the Chinese Java Ecosystem
-description: "Ten AI coding skills for Chinese Java/Spring teams: coding standards, quality gates, unit testing, framework development, and agile workflows — compatible with 41+ AI coding agents."
+description: "Fourteen AI coding skills for Chinese Java/Spring teams: coding standards, quality gates, testing, framework development, and agile workflows — compatible with 41+ AI coding agents."
 tags:
   - AI Agent
   - Claude Code
@@ -13,7 +13,7 @@ github: https://github.com/BaixuanZhu/skills
 featured: true
 metrics:
   - label: Skills
-    value: "10"
+    value: "14"
   - label: Agents supported
     value: "41+"
   - label: Distribution channels
@@ -24,14 +24,14 @@ metrics:
 
 AI coding assistants underperform on Chinese Java teams: training corpora skew English, they don't know the Alibaba Java coding handbook, and they've never seen the idioms of Sa-Token or MyBatis-Plus — the code they produce "runs, but isn't how we write it here."
 
-This project turns engineering standards into **knowledge that AI agents can install and execute**: ten Agent Skills covering coding standards, quality gates, unit testing, mainstream framework development, and agile workflows — installable as Claude Code plugins or via `npx skills` (which works with Cursor, Codex, Zed, and 41+ other agents).
+This project turns engineering standards into **knowledge that AI agents can install and execute**: fourteen Agent Skills covering coding standards, quality gates, testing, mainstream framework development, and agile workflows — installable as Claude Code plugins or via `npx skills` (which works with Cursor, Codex, Zed, and 41+ other agents).
 
 ## Layered Design
 
 Skills are organized in three layers, installed on demand — each skill is a standalone plugin:
 
-- **Base layer**: `repo-init` (generates a cross-tool AGENTS.md project brief), `java-coding-guide-pro` (standards & pitfalls), `java-coding-quality` (quality and security gates), `java-unit-test` (unit-test alignment)
-- **Framework boost**: `sa-token-dev` (authentication & authorization), `mybatis-plus-dev` (ORM enhancements)
+- **Base layer**: `repo-init` (generates a cross-tool AGENTS.md project brief), `java-coding-guide-pro` (standards & pitfalls), `java-coding-quality` (quality and security gates), `java-unit-test` (unit-test alignment), `java-integration-test` (integration tests / API-level verification)
+- **Framework boost**: `sa-token-dev` (authentication & authorization), `mybatis-plus-dev` (ORM enhancements), `redis-dev` (Redis caching design), `spring-boot-dev` (Spring Boot development), `spring-boot-init` (project scaffolding)
 - **Agile flow**: `using-agile` entry → `agile-strategic` (vision + C4 + ADR) → `agile-backlog` → `agile-sprint`
 
 ## Turning Standards into Knowledge

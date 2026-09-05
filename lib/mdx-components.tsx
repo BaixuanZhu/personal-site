@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement, type ReactElement } from "react";
 import type { MDXComponents } from "mdx/types";
 
 /**
@@ -20,7 +21,11 @@ export const mdxComponents: MDXComponents = {
   },
   /** 行内代码补一个轻量圆角底色，代码块由 prose 样式接管 */
   code: ({ className, children, ...props }) => {
-    const isBlock = typeof className === "string" && className.includes("language-");
+    // 无语言标注的围栏块（``` 不带语言）没有 language-* 类，
+    // 靠 pre 组件打的 data-mdx-block 标记识别为块级，避免误加行内底色
+    const isBlock =
+      (typeof className === "string" && className.includes("language-")) ||
+      (props as { "data-mdx-block"?: string })["data-mdx-block"] === "true";
     if (isBlock) {
       return (
         <code className={className} {...props}>
@@ -37,6 +42,16 @@ export const mdxComponents: MDXComponents = {
       </code>
     );
   },
+  /** 围栏代码块容器：给子 code 打块级标记（无语言标注的块没有 language-* 类可依） */
+  pre: ({ children, ...props }) => (
+    <pre {...props}>
+      {isValidElement(children)
+        ? cloneElement(children as ReactElement<{ "data-mdx-block"?: string }>, {
+            "data-mdx-block": "true",
+          })
+        : children}
+    </pre>
+  ),
   /** Markdown 表格：外框 + 表头底色 + 窄屏横向滚动，接管 prose 默认（prose 为零优先级，此处工具类必胜） */
   table: ({ children }) => (
     <div className="my-6 overflow-x-auto rounded-xl border border-border/60">

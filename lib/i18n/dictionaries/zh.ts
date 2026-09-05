@@ -59,7 +59,7 @@ export const zh = {
       hint: "自评熟练度，满分 100",
       axes: [
         { label: "后端开发", value: 90, description: "Spring 生态主力栈，多个生产项目落地" },
-        { label: "AI 工程化", value: 82, description: "10 个 Agent 技能 + Claude Code 插件开发" },
+        { label: "AI 工程化", value: 82, description: "14 个 Agent 技能 + Claude Code 插件开发" },
         { label: "数据库", value: 80, description: "MySQL 索引/事务调优，Redis 缓存设计" },
         { label: "CI/CD 工程化", value: 75, description: "GitHub Actions 流水线与质量门禁自动化" },
         { label: "开源协作", value: 72, description: "4 个活跃开源仓库，持续迭代响应 issue" },
@@ -93,7 +93,7 @@ export const zh = {
     title: "把痛点做成工具",
     paragraphs: [
       "Java 后端工程师，主力技术栈是 Spring Boot + Sa-Token + MyBatis-Plus。比起「能跑就行」，我更在意规范与可维护性 —— 也因此总在给团队造工具：把重复劳动变成一条命令。",
-      "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，让 AI 在真实 Java 项目里表现得更专业。所有项目都在 GitHub 开源。",
+      "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 14 个可安装的 Agent 技能，让 AI 在真实 Java 项目里表现得更专业。所有项目都在 GitHub 开源。",
     ],
     more: "了解更多",
   },
@@ -124,7 +124,7 @@ export const zh = {
     location: "支持远程协作",
     paragraphs: [
       "你好！我是朱柏轩（Galaxy）。我的主线是 Java 后端开发 —— Spring Boot、Sa-Token、MyBatis-Plus 这一整套中文互联网团队最常用的技术栈。我关注的不只是把功能写出来，而是让代码经得起半年后的自己回来看。",
-      "另一条线是开发者工具与 AI 工程化。团队里最值钱的往往是那些「看不见的工程知识」：为什么这样设计、哪些坑不能踩。我把它们做成工具和 Agent 技能 —— jvm 解决 Windows 上的 JDK 版本管理，DevTools 把 40 个常用工具搬进浏览器，Agent Skills 让 AI 编码助手遵守工程规范。",
+      "另一条线是开发者工具与 AI 工程化。团队里最值钱的往往是那些「看不见的工程知识」：为什么这样设计、哪些坑不能踩。我把它们做成工具和 Agent 技能 —— jvm 解决 Windows 上的 JDK 版本管理，DevTools 把 55 个常用工具搬进浏览器，Agent Skills 让 AI 编码助手遵守工程规范。",
     ],
     journey: {
       eyebrow: "Journey",
@@ -140,13 +140,13 @@ export const zh = {
           period: "2026.06",
           role: "DevTools 上线",
           description:
-            "浏览器端开发者工具箱上线 tools.baixuanz.cn —— 40 个工具、12 个分类，全部本地运算，单页 JS 不到 50KB。",
+            "浏览器端开发者工具箱上线 tools.baixuanz.cn —— 55 个工具、7 个分类，全部本地运算，单页 JS 不到 50KB。",
         },
         {
           period: "2026.08",
           role: "jvm · Agent Skills",
           description:
-            "十天迭代 11 个版本发布 jvm（Go 编写的 Windows JDK 管理器）；同期发布 10 个中文 Java 生态 Agent 技能，适配 41+ AI 编码工具。",
+            "十天连发 10 个版本发布 jvm（Go 编写的 Windows JDK 管理器）；同期发布 10 个中文 Java 生态 Agent 技能，适配 41+ AI 编码工具。",
         },
       ],
     },
@@ -162,7 +162,7 @@ export const zh = {
         {
           title: "本地与隐私优先",
           description:
-            "能留在浏览器里的数据就不该上传：DevTools 的 40 个工具全部本地运算、断网可用。",
+            "能留在浏览器里的数据就不该上传：DevTools 的 55 个工具全部本地运算、断网可用。",
         },
         {
           title: "评测驱动",

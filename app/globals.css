@@ -142,6 +142,12 @@
     --tw-prose-quote-borders: var(--border);
     --tw-prose-code: var(--foreground);
   }
+  /* 代码块去掉 typography 插件默认的深色底：浅色页面里突兀的暗色盒子改为
+     透明背景 + 正文色文本（变量声明在 pre 上，直接覆盖 .prose 上的继承值） */
+  .prose pre {
+    --tw-prose-pre-bg: transparent;
+    --tw-prose-pre-code: var(--foreground);
+  }
 }
 
 /* 英雄区顶部径向光晕装饰 */
