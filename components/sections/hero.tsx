@@ -2,13 +2,12 @@
 
 import { motion } from "motion/react";
 import type { Transition } from "motion/react";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import type { ReactNode } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { useAllowMotion } from "@/components/shared/use-allow-motion";
-import { siteConfig, withBasePath } from "@/lib/config";
+import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 /** 入场动效公共参数：淡入 + 轻微上浮，按序错落 */
@@ -54,8 +53,8 @@ interface HeroProps {
 }
 
 /**
- * 首页英雄区：核心价值主张、头像与行动入口。
- * 文案来自语言字典，社交与 BOSS直聘链接来自 lib/config.ts；
+ * 首页英雄区：核心价值主张与行动入口。
+ * 文案来自语言字典，邮件与社交链接来自 lib/config.ts；
  * 入场动画仅在挂载后且系统未开启"减少动态效果"时启用（useAllowMotion）。
  */
 export function Hero({ copy }: HeroProps) {
@@ -79,9 +78,9 @@ export function Hero({ copy }: HeroProps) {
 
       <Rise as="div" animated={allowMotion} transition={fade} className="flex flex-wrap items-center gap-3">
         <Button size="lg" asChild>
-          <a href={siteConfig.boss} target="_blank" rel="noreferrer">
-            <MessageCircle data-icon="inline-start" />
-            {copy.ctaBoss}
+          <a href={`mailto:${siteConfig.email}`}>
+            <Mail data-icon="inline-start" />
+            {copy.ctaEmail}
           </a>
         </Button>
       </Rise>
@@ -107,26 +106,12 @@ export function Hero({ copy }: HeroProps) {
     </>
   );
 
-  const avatarBlock = (
-    <div className="rounded-full bg-gradient-to-br from-indigo-400/60 via-sky-400/40 to-emerald-400/60 p-1.5">
-      <Avatar className="size-36 border-2 border-background sm:size-44">
-        <AvatarImage src={withBasePath(siteConfig.avatar)} alt={copy.avatarAlt} />
-        <AvatarFallback>
-          {siteConfig.name
-            .split(" ")
-            .map((part) => part[0])
-            .join("")}
-        </AvatarFallback>
-      </Avatar>
-    </div>
-  );
-
   return (
     <section className="relative overflow-hidden">
       {/* 背景装饰：径向光晕 */}
       <div aria-hidden="true" className="hero-glow pointer-events-none absolute inset-0 -z-10" />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 sm:py-32 md:grid-cols-[1fr_auto]">
+      <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
         {allowMotion ? (
           <motion.div
             variants={{ show: { transition: { staggerChildren: 0.12 } } }}
@@ -138,19 +123,6 @@ export function Hero({ copy }: HeroProps) {
           </motion.div>
         ) : (
           <div className="flex flex-col items-start gap-6">{heroContent}</div>
-        )}
-
-        {allowMotion ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-            className="justify-self-center"
-          >
-            {avatarBlock}
-          </motion.div>
-        ) : (
-          <div className="justify-self-center">{avatarBlock}</div>
         )}
       </div>
     </section>

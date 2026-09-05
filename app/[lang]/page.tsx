@@ -26,6 +26,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         locale={lang}
         projects={projects}
         heading={dict.featured}
+        repoMeta={dict.repoMeta}
       />
       <Skills copy={dict.skills} />
       <AboutPreview locale={lang} copy={dict.aboutPreview} />

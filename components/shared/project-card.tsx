@@ -11,21 +11,25 @@ import {
 } from "@/components/ui/card";
 import { withBasePath } from "@/lib/config";
 import type { Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Project } from "@/lib/projects";
+import { RepoMeta } from "@/components/shared/repo-meta";
 
 interface ProjectCardProps {
   /** 要展示的项目数据 */
   project: Project;
   /** 当前语言（决定详情页链接前缀） */
   locale: Locale;
+  /** 仓库实时元信息文案 */
+  repoMeta: Dictionary["repoMeta"];
   /** 优先加载首屏卡片图片 */
   priority?: boolean;
 }
 
 /**
- * 精选项目卡片：预览图、技术标签、量化成果与详情页入口。
+ * 精选项目卡片：预览图、技术标签、量化成果、仓库实时元信息与详情页入口。
  */
-export function ProjectCard({ project, locale, priority = false }: ProjectCardProps) {
+export function ProjectCard({ project, locale, repoMeta, priority = false }: ProjectCardProps) {
   return (
     <Link
       href={`/${locale}/projects/${project.slug}`}
@@ -78,6 +82,10 @@ export function ProjectCard({ project, locale, priority = false }: ProjectCardPr
               </Badge>
             ))}
           </div>
+
+          {project.github ? (
+            <RepoMeta githubUrl={project.github} locale={locale} copy={repoMeta} />
+          ) : null}
         </CardContent>
       </Card>
     </Link>

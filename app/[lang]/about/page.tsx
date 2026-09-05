@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -6,7 +5,7 @@ import { ArrowRight, Briefcase, Coffee, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/shared/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { siteConfig, withBasePath } from "@/lib/config";
+import { siteConfig } from "@/lib/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -28,42 +27,30 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* 个人介绍 */}
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
         <FadeIn>
-          <div className="grid items-center gap-10 md:grid-cols-[auto_1fr]">
-            <div className="relative mx-auto size-40 sm:size-48">
-              <Image
-                src={withBasePath(siteConfig.avatar)}
-                alt={dict.aboutPreview.avatarAlt}
-                fill
-                priority
-                sizes="(min-width: 768px) 12rem, 10rem"
-                className="rounded-2xl border border-border/60 object-cover"
-              />
-            </div>
-            <div>
-              <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-                {siteConfig.name}
-                {dict.brand.nativeName ? (
-                  <span className="font-normal text-muted-foreground">
-                    {" "}
-                    {dict.brand.nativeName}
-                  </span>
-                ) : null}
-              </h1>
-              <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <Briefcase className="size-4" />
-                  {dict.metadata.role}
+          <div>
+            <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              {siteConfig.name}
+              {dict.brand.nativeName ? (
+                <span className="font-normal text-muted-foreground">
+                  {" "}
+                  {dict.brand.nativeName}
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <MapPin className="size-4" />
-                  {about.location}
-                </span>
-              </p>
-              <div className="mt-5 space-y-4 leading-relaxed text-muted-foreground">
-                {about.paragraphs.map((paragraph) => (
-                  <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-                ))}
-              </div>
+              ) : null}
+            </h1>
+            <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <Briefcase className="size-4" />
+                {dict.metadata.role}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="size-4" />
+                {about.location}
+              </span>
+            </p>
+            <div className="mt-5 space-y-4 leading-relaxed text-muted-foreground">
+              {about.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </FadeIn>

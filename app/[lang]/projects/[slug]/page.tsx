@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
+import { RepoMeta } from "@/components/shared/repo-meta";
 import { defaultLocale, formatDate, isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
@@ -45,6 +46,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <header className="mt-8 flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <time dateTime={project.date}>{formatDate(lang, project.date)}</time>
+            {project.github ? (
+              <>
+                <span aria-hidden="true">·</span>
+                <RepoMeta githubUrl={project.github} locale={lang} copy={dict.repoMeta} />
+              </>
+            ) : null}
             <span aria-hidden="true">·</span>
             <div className="flex flex-wrap gap-1.5">
               {project.tags.map((tag) => (

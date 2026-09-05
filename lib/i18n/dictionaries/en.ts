@@ -34,8 +34,7 @@ export const en: Dictionary = {
     tagline: "Building reliable Java backends and delightful dev tools",
     intro:
       "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 40-tool browser toolbox), jvm (a Windows JDK version manager written in Go), and an Agent Skills suite for Chinese Java teams.",
-    ctaBoss: "Hire me on BOSS Zhipin",
-    avatarAlt: "Portrait of Baixuan Zhu",
+    ctaEmail: "Email me",
   },
   featured: {
     eyebrow: "Featured Projects",
@@ -89,15 +88,20 @@ export const en: Dictionary = {
       "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, so AI assistants behave professionally on real Java projects. Everything is open source on GitHub.",
     ],
     more: "Learn more",
-    avatarAlt: "Portrait of Baixuan Zhu",
   },
   contact: {
     eyebrow: "Get in Touch",
     title: "Let's build something great together.",
     description:
       "If your team needs someone who knows Java backends and can also build AI-era tooling, drop me an email — I usually reply within 24 hours.",
-    boss: "Full resume on BOSS Zhipin",
     email: "Send an email",
+  },
+  /** Live repo metadata shown on project cards (fetched client-side from the GitHub API) */
+  repoMeta: {
+    /** Prefix before the last-updated date */
+    updatedLabel: "Updated",
+    /** Suffix after the commit count */
+    commitsSuffix: "commits",
   },
   footer: {
     rights: "All rights reserved",

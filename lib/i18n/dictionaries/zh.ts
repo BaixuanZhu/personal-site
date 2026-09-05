@@ -41,8 +41,7 @@ export const zh = {
     /** 自我介绍段落 */
     intro:
       "我是朱柏轩（Galaxy），Java 后端工程师，深耕 Spring 生态与开发者体验。我维护着多个开源项目：浏览器端工具箱 DevTools、Windows JDK 版本管理器 jvm，以及面向中文 Java 生态的 Agent Skills 套件。",
-    ctaBoss: "BOSS直聘 · 与我联系",
-    avatarAlt: "朱柏轩的头像",
+    ctaEmail: "邮件联系我",
   },
   featured: {
     eyebrow: "Featured Projects",
@@ -97,15 +96,20 @@ export const zh = {
       "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，让 AI 在真实 Java 项目里表现得更专业。所有项目都在 GitHub 开源。",
     ],
     more: "了解更多",
-    avatarAlt: "朱柏轩的头像",
   },
   contact: {
     eyebrow: "Get in Touch",
     title: "聊聊合作机会",
     description:
       "如果你的团队需要一个既懂 Java 后端、又能搭建 AI 工程化工具链的人，欢迎邮件联系 —— 通常 24 小时内回复。",
-    boss: "在 BOSS直聘查看完整简历",
     email: "发送邮件",
+  },
+  /** 项目仓库实时元信息（浏览器端从 GitHub API 拉取） */
+  repoMeta: {
+    /** 最近更新文案前缀 */
+    updatedLabel: "更新于",
+    /** 提交次数文案后缀 */
+    commitsSuffix: "次提交",
   },
   footer: {
     rights: "保留所有权利",

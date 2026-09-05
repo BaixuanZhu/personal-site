@@ -12,10 +12,6 @@ export const siteConfig = {
   email: "wy2359117018@163.com",
   /** GitHub 主页 */
   github: "https://github.com/BaixuanZhu",
-  /** BOSS直聘个人名片（简历入口统一引流到此链接，新窗口打开） */
-  boss: "https://m.zhipin.com/mpa/html/resume-detail?sid=self&securityId=UQamfojgWOSN1-B14puoGep94oTBCdG6WXSnURWs0RU1g-JiKslK-iAeDe_UC9GugBZrzrIspnLp5hrOCh87lBmeCprTL9681LbBDuZeSh67RYHqGhyYBA7rCrLOyee5qhzSKAC5RE06u27ix4dfYOjI-Gf5ZsGz2voOZzE~",
-  /** 头像（存放于 public/ 目录） */
-  avatar: "/avatar.svg",
 } as const;
 
 /**
@@ -29,7 +25,7 @@ export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 /**
  * 为站内绝对路径拼接部署子路径。
  *
- * @param path 以 / 开头的站内路径（如 /resume.pdf、/avatar.svg）
+ * @param path 以 / 开头的站内路径（如 /images/projects/jvm-zh.svg）
  * @returns 带子路径前缀的路径（非导出构建原样返回）
  */
 export function withBasePath(path: string): string {

@@ -1,4 +1,4 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
@@ -12,7 +12,7 @@ interface ContactProps {
 }
 
 /**
- * 首页「联系与行动」区块：BOSS直聘名片引流与社交入口，促成下一步沟通。
+ * 首页「联系与行动」区块：邮件直达与 GitHub 入口，促成下一步沟通。
  */
 export function Contact({ copy }: ContactProps) {
   return (
@@ -31,12 +31,6 @@ export function Contact({ copy }: ContactProps) {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button size="lg" asChild>
-              <a href={siteConfig.boss} target="_blank" rel="noreferrer">
-                <MessageCircle data-icon="inline-start" />
-                {copy.boss}
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
               <a href={`mailto:${siteConfig.email}`}>
                 <Mail data-icon="inline-start" />
                 {copy.email}
