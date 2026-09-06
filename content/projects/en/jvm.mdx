@@ -32,7 +32,17 @@ jvm install 21    # install Temurin JDK 21 (default distro)
 jvm use 21        # switch — effective in the current terminal, instantly
 ```
 
-It supports **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica / Oracle GraalVM** (plus a `temurin-ea` preview variant), ships as an installer, a portable zip, and a one-line setup script — all without admin rights.
+It supports the six distributions below — omit the distro prefix in `jvm install` to default to Temurin — and ships as an installer, a portable zip, and a one-line setup script, all without admin rights.
+
+| Distribution | Identifier | Notes |
+| --- | --- | --- |
+| Eclipse Temurin | `temurin` | Default; downloads prefer the Tsinghua mirror with automatic fallback to the official CDN |
+| Amazon Corretto | `corretto` | |
+| Microsoft OpenJDK | `microsoft` | |
+| Azul Zulu | `zulu` | |
+| BellSoft Liberica | `liberica` | |
+| Oracle GraalVM | `graalvm` | Follows Oracle's CPU LTS release line |
+| Temurin EA (preview) | `temurin-ea` | Early-access builds ahead of GA |
 
 ## How It Works
 

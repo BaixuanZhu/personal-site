@@ -32,7 +32,17 @@ jvm install 21    # 安装 Temurin JDK 21（默认发行版）
 jvm use 21        # 切换 —— 当前终端立即生效
 ```
 
-支持 **Temurin / Corretto / Microsoft / Azul Zulu / BellSoft Liberica / Oracle GraalVM** 六大发行版（另有 temurin-ea 预览变体），提供安装包、便携版、一键脚本三种分发方式，全程免管理员权限。
+支持以下六大发行版，`jvm install` 省略发行版前缀时默认 Temurin；提供安装包、便携版、一键脚本三种分发方式，全程免管理员权限。
+
+| 发行版 | 安装标识 | 说明 |
+| --- | --- | --- |
+| Eclipse Temurin | `temurin` | 默认发行版；下载优先走清华镜像，失败自动回退官方 CDN |
+| Amazon Corretto | `corretto` | |
+| Microsoft OpenJDK | `microsoft` | |
+| Azul Zulu | `zulu` | |
+| BellSoft Liberica | `liberica` | |
+| Oracle GraalVM | `graalvm` | 跟随 Oracle 的 CPU LTS 发布线 |
+| Temurin EA（预览） | `temurin-ea` | 跟踪尚未 GA 的早期访问版本 |
 
 ## 工作原理
 
