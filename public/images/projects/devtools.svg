@@ -52,7 +52,7 @@
   </g>
   <text x="600" y="596" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#38bdf8" opacity="0.9">OPEN SOURCE · WEB APP</text>
   <text x="600" y="650" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="46" font-weight="700" fill="#ffffff">DevTools</text>
-  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="24" fill="#94a3b8">40 tools · all local · no upload</text>
+  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'Segoe UI', 'PingFang SC', sans-serif" font-size="24" fill="#94a3b8">all local · no upload</text>
   <style>
     .hot { animation: breathe 4.5s ease-in-out infinite; }
     @keyframes breathe {

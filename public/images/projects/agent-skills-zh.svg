@@ -41,13 +41,13 @@
     <text class="il il2" x="320" y="330" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#a78bfa">✓ java-coding-guide-pro</text>
     <text class="il il3" x="320" y="366" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#a78bfa">✓ java-coding-quality</text>
     <text class="il il4" x="320" y="402" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#a78bfa">✓ sa-token-dev</text>
-    <text class="il il5" x="320" y="438" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#64748b">+ 6 more skills …</text>
-    <text x="320" y="478" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#f472b6">10 skills installed · 41+ agents supported</text>
+    <text class="il il5" x="320" y="438" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#64748b">+ more skills …</text>
+    <text x="320" y="478" font-family="'JetBrains Mono', Consolas, monospace" font-size="20" fill="#f472b6">all skills installed · 41+ agents supported</text>
     <rect x="320" y="492" width="560" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
   </g>
   <text x="600" y="596" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#a78bfa" opacity="0.9">开源 · AI Agent 技能</text>
   <text x="600" y="650" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" font-weight="700" fill="#ffffff">Agent Skills</text>
-  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="24" fill="#94a3b8">10 个技能 · 中文 Java 生态 · 适配 41+ Agent</text>
+  <text x="600" y="694" text-anchor="middle" font-family="Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="24" fill="#94a3b8">中文 Java 生态 · 适配 41+ Agent</text>
   <style>
     .il { animation: install 5.6s ease-in-out infinite; }
     .il2 { animation-delay: 0.55s; }
