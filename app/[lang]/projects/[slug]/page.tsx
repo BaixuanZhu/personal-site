@@ -5,12 +5,13 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
 import remarkGfm from "remark-gfm";
+import rehypeShiki from "@shikijs/rehype";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
 import { RepoMeta } from "@/components/shared/repo-meta";
-import { defaultLocale, formatDate, isLocale } from "@/lib/i18n/config";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 import { withBasePath } from "@/lib/config";
@@ -45,14 +46,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <header className="mt-8 flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-            <time dateTime={project.date}>{formatDate(lang, project.date)}</time>
             {project.github ? (
-              <>
-                <span aria-hidden="true">·</span>
-                <RepoMeta githubUrl={project.github} locale={lang} copy={dict.repoMeta} />
-              </>
+              <RepoMeta githubUrl={project.github} locale={lang} copy={dict.repoMeta} />
             ) : null}
-            <span aria-hidden="true">·</span>
+            {project.github ? <span aria-hidden="true">·</span> : null}
             <div className="flex flex-wrap gap-1.5">
               {project.tags.map((tag) => (
                 <Badge key={tag} variant="secondary">
@@ -120,11 +117,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <Separator className="my-10" />
 
         <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-headings:tracking-tight prose-a:text-primary">
-          {/* remark-gfm：启用表格/删除线/任务列表等 GFM 语法，缺失时表格会被渲染成纯文本 */}
+          {/* remark-gfm：启用表格/删除线/任务列表等 GFM 语法，缺失时表格会被渲染成纯文本；
+              rehype-shiki 构建期高亮代码块（vitesse-black 纯黑底彩字），零运行时 JS；
+              addLanguageClass 把 language-* 加回 code 元素，供 pre 组件提取语言显示标签 */}
           <MDXRemote
             source={project.content}
             components={mdxComponents}
-            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  [rehypeShiki, { theme: "vitesse-black", addLanguageClass: true }],
+                ],
+              },
+            }}
           />
         </div>
       </article>

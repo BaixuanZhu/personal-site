@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { GitCommitHorizontal, History } from "lucide-react";
 import { formatDate, type Locale } from "@/lib/i18n/config";
+import { getRepoStatsSnapshot } from "@/lib/repo-stats";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 /** 仓库实时元信息（来自 GitHub REST API） */
@@ -119,12 +120,16 @@ interface RepoMetaProps {
 }
 
 /**
- * 项目仓库实时元信息：最近更新日期与提交总数。
- * 浏览器端从 GitHub API 拉取（匿名限额内靠 sessionStorage 缓存 + 请求去重兜底）；
- * 加载中渲染等高占位避免布局跳动，拉取失败时整体隐藏、不影响页面其余内容。
+ * 项目仓库元信息：最近更新日期与提交总数。
+ * 服务端渲染时取发版前生成的静态快照（lib/repo-stats.json，`pnpm repo-stats` 刷新）
+ * 作为默认值，静态 HTML 即含完整数据、无占位闪烁；挂载后浏览器端仍从 GitHub API
+ * 静默刷新（匿名限额内靠 sessionStorage 缓存 + 请求去重兜底）。
+ * 无快照且拉取失败时整体隐藏，不影响页面其余内容。
  */
 export function RepoMeta({ githubUrl, locale, copy }: RepoMetaProps) {
-  const [info, setInfo] = useState<RepoInfo | null>(null);
+  const [info, setInfo] = useState<RepoInfo | null>(
+    () => getRepoStatsSnapshot(githubUrl) ?? null
+  );
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -137,14 +142,15 @@ export function RepoMeta({ githubUrl, locale, copy }: RepoMetaProps) {
         const repo = new URL(githubUrl).pathname.replace(/^\/|\/$/g, "");
         return readCache(repo) ?? getOrFetchRepoInfo(repo);
       } catch {
-        return null; // 地址非法或请求失败，走隐藏降级
+        return null; // 地址非法或请求失败，走降级
       }
     };
 
     load().then((result) => {
       if (cancelled) return;
       if (result) setInfo(result);
-      else setFailed(true);
+      // 已有快照时拉取失败不隐藏，继续展示默认值
+      else if (!getRepoStatsSnapshot(githubUrl)) setFailed(true);
     });
 
     return () => {

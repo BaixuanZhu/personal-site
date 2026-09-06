@@ -1,5 +1,8 @@
 overrides:
   shadcn>zod: ^3.25.28
+  # @shikijs/rehype 自带 unified 11.0.5，与 MDX 栈（next-mdx-remote-client 等）的
+  # 11.0.0 形成双实例，导致 rehypePlugins 类型不兼容；收敛到同一版本
+  "@shikijs/rehype>unified": 11.0.0
 
 allowBuilds:
   sharp: false
