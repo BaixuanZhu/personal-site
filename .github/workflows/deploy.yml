@@ -56,23 +56,7 @@ jobs:
       # proxy.ts 的语言协商在纯静态托管上不可用；
       # 用一个根跳转页替代：读 NEXT_LANG Cookie，无偏好默认中文（与 proxy 逻辑一致）
       - name: Add root redirect for language negotiation
-        run: |
-          cat > out/index.html <<HTML
-          <!doctype html>
-          <html lang="zh-CN">
-            <head>
-              <meta charset="utf-8" />
-              <title>Galaxy · 朱柏轩</title>
-              <script>
-                var m = document.cookie.match(/(?:^|;\s*)NEXT_LANG=(zh|en)\b/);
-                var base = "${BASE_PATH}";
-                window.location.replace(m ? base + "/" + m[1] + "/" : base + "/zh/");
-              </script>
-              <noscript><meta http-equiv="refresh" content="0;url=${BASE_PATH}/zh/" /></noscript>
-            </head>
-            <body></body>
-          </html>
-          HTML
+        run: node scripts/gen-root-redirect.mjs # BASE_PATH 由工作区级 env 注入
 
       # Pages 默认经 Jekyll 处理产物，会忽略 _next 等下划线目录
       - name: Disable Jekyll processing
