@@ -62,7 +62,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <JsonLd data={projectJsonLd} />
       <article className="mx-auto max-w-3xl px-6 py-16 sm:py-24">
         <Link
-          href={`/${lang}#projects`}
+          href={`/${lang}/projects`}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="size-4" />

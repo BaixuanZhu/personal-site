@@ -1,7 +1,7 @@
 /**
  * OG 社交分享图生成：`pnpm og`（本地执行，产物需一并提交）。
  *
- * 为根跳转页、首页、关于页与全部项目页生成 1200×630 PNG 到 public/og/。
+ * 为根跳转页、首页、关于页、项目索引页与全部项目页生成 1200×630 PNG 到 public/og/。
  * 模板是纯内联 CSS 的静态 HTML，写入系统临时目录后用无头 Chrome/Edge 截图，
  * 结束后清理临时文件，因此重复执行结果稳定、无运行时依赖。
  *
@@ -428,6 +428,30 @@ const STATIC_PAGES = {
     path: "/en/about/",
     role: "ABOUT · 关于",
   },
+  "projects-zh": {
+    file: "projects-zh.png",
+    lang: "zh-CN",
+    eyebrow: "项目 · PROJECTS",
+    title: "全部开源项目",
+    description:
+      "从 Java 版本管理器到面向 AI Agent 的文件操作与 MCP 服务，每个项目都源于真实工作流中的痛点。",
+    tags: ["DevTools", "jvm", "FileX", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
+    localeLabel: "中文",
+    path: "/zh/projects/",
+    role: "OPEN SOURCE · 开源项目",
+  },
+  "projects-en": {
+    file: "projects-en.png",
+    lang: "en",
+    eyebrow: "PROJECTS · 项目",
+    title: "All Open-Source Projects",
+    description:
+      "From Java version management to file operations and MCP services for AI agents — every project starts from a real pain point.",
+    tags: ["DevTools", "jvm", "FileX", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
+    localeLabel: "EN",
+    path: "/en/projects/",
+    role: "OPEN SOURCE · 开源项目",
+  },
 };
 
 /**
@@ -464,7 +488,11 @@ function readProjects(locale) {
 function buildTargets() {
   const targets = [STATIC_PAGES.root];
   for (const locale of ["zh", "en"]) {
-    targets.push(STATIC_PAGES[`home-${locale}`], STATIC_PAGES[`about-${locale}`]);
+    targets.push(
+      STATIC_PAGES[`home-${locale}`],
+      STATIC_PAGES[`about-${locale}`],
+      STATIC_PAGES[`projects-${locale}`],
+    );
 
     const projects = readProjects(locale);
     if (projects.size === 0) {

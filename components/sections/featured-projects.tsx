@@ -1,6 +1,9 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/shared/fade-in";
 import { ProjectCard } from "@/components/shared/project-card";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { Button } from "@/components/ui/button";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Project } from "@/lib/projects";
@@ -42,6 +45,15 @@ export function FeaturedProjects({ locale, projects, heading, repoMeta }: Featur
               />
             </FadeIn>
           ))}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <Button variant="outline" asChild>
+            <Link href={`/${locale}/projects`}>
+              {heading.viewAll}
+              <ArrowRight data-icon="inline-end" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

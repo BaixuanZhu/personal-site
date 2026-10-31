@@ -22,7 +22,7 @@ function alternates(path: string) {
 }
 
 /**
- * 站点地图：首页、关于页与全部项目详情页，每种语言各一条。
+ * 站点地图：首页、关于页、项目索引页与全部项目详情页，每种语言各一条。
  * 项目 lastModified 取 frontmatter 的发布日期。
  */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -34,6 +34,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/${locale}/about/`,
       alternates: alternates("/about/"),
+    },
+    {
+      url: `${baseUrl}/${locale}/projects/`,
+      alternates: alternates("/projects/"),
     },
   ]);
 

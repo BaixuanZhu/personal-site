@@ -156,7 +156,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 </Link>
               </Button>
               <Button variant="outline" asChild>
-                <Link href={`/${lang}#projects`}>
+                <Link href={`/${lang}/projects`}>
                   {about.offClock.ctaProjects}
                 </Link>
               </Button>

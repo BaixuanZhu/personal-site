@@ -2,7 +2,8 @@
  * OG 图片检查：`pnpm check:og`（已并入 `pnpm check` 与 build 前置链）。
  *
  * 从 content/projects/{zh,en}/ 推导期望的文件名：
- *   root.png、home-{zh,en}.png、about-{zh,en}.png、project-{slug}-{zh,en}.png。
+ *   root.png、home-{zh,en}.png、about-{zh,en}.png、projects-{zh,en}.png、
+ *   project-{slug}-{zh,en}.png。
  * 逐个校验 PNG 魔数、IHDR 宽高严格为 1200×630、单文件小于 300KB；
  * 缺失文件或 public/og/ 中多余的 .png 都会导致失败（非 png 文件如 .gitkeep 忽略）。
  */
@@ -48,6 +49,8 @@ const expectedNames = new Set([
   "home-en.png",
   "about-zh.png",
   "about-en.png",
+  "projects-zh.png",
+  "projects-en.png",
   ...slugs.flatMap((slug) => locales.map((locale) => `project-${slug}-${locale}.png`)),
 ]);
 

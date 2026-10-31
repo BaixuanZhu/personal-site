@@ -254,6 +254,18 @@ for (const slug of new Set([...zhProjects.keys(), ...enProjects.keys()])) {
   }
 }
 
+// 首页精选固定展示 4 个；数量变化需要在首页布局与验收预期中同步调整
+for (const [locale, projects] of Object.entries(collections)) {
+  const featuredCount = [...projects.values()].filter(
+    (project) => project.featured === true
+  ).length;
+  if (featuredCount !== 4) {
+    errors.push(
+      `content/projects/${locale}: featured 项目为 ${featuredCount} 个，首页需要恰好 4 个`
+    );
+  }
+}
+
 if (errors.length > 0) {
   console.error(`内容检查失败：共 ${errors.length} 个问题`);
   for (const message of errors) console.error(`  - ${message}`);

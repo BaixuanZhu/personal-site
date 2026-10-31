@@ -62,6 +62,8 @@ export const zh = {
     title: "用成果证明技术深度",
     description:
       "每个项目都从真实痛点出发、在持续迭代中 —— 点击卡片查看架构与实现的完整拆解。",
+    /** 首页精选区块底部的索引页入口 */
+    viewAll: "查看全部项目",
   },
   skills: {
     eyebrow: "Tech Stack",
@@ -132,6 +134,14 @@ export const zh = {
     back: "返回项目列表",
     github: "源码仓库",
     demo: "在线演示",
+  },
+  /** 项目索引页文案 */
+  projectsIndex: {
+    eyebrow: "All Projects",
+    title: "全部开源项目",
+    description:
+      "从 Java 版本管理器到面向 AI Agent 的文件操作与 MCP 服务 —— 每个项目都源于真实工作流中的痛点，并持续迭代。",
+    backHome: "返回首页",
   },
   about: {
     metadataTitle: "关于我",

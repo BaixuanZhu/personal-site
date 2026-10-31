@@ -1,7 +1,7 @@
 /**
  * 静态导出验收：`pnpm verify:export`（需先完成静态导出构建）。
  *
- * 检查首页、关于页、全部项目页、404、sitemap、robots 与根跳转页是否存在；
+ * 检查首页、关于页、项目索引页、全部项目页、404、sitemap、robots 与根跳转页是否存在；
  * 页面还需通过 canonical、hreflang、Open Graph 与 JSON-LD 的 SEO 检查。
  * 根跳转页由 scripts/gen-root-redirect.mjs 生成，需在本脚本之前执行。
  */
@@ -265,6 +265,8 @@ const htmlPages = [
   "en/index.html",
   "zh/about/index.html",
   "en/about/index.html",
+  "zh/projects/index.html",
+  "en/projects/index.html",
   "404.html",
 ];
 
@@ -297,6 +299,20 @@ const seoPages = [
     path: "/about/",
     ogType: "website",
     jsonLdTypes: ["ProfilePage"],
+  },
+  {
+    relativePath: "zh/projects/index.html",
+    locale: "zh",
+    path: "/projects/",
+    ogType: "website",
+    jsonLdTypes: ["CollectionPage"],
+  },
+  {
+    relativePath: "en/projects/index.html",
+    locale: "en",
+    path: "/projects/",
+    ogType: "website",
+    jsonLdTypes: ["CollectionPage"],
   },
 ];
 
@@ -387,14 +403,14 @@ if (notFoundHtml !== null && notFoundHtml !== undefined) {
   }
 }
 
-// sitemap：至少 16 个 URL（当前基线为 2 个首页 + 2 个关于页 + 12 个项目页），
+// sitemap：至少 18 个 URL（2 个首页 + 2 个关于页 + 2 个项目索引页 + 12 个项目页），
 // 且每条 URL 的 hreflang 备选都包含指向中文版本的 x-default
 const sitemap = readTextFile("sitemap.xml");
 let sitemapUrlCount = 0;
 if (sitemap !== null) {
   sitemapUrlCount = (sitemap.match(/<url>/g) ?? []).length;
-  if (sitemapUrlCount < 16) {
-    errors.push(`out/sitemap.xml 仅含 ${sitemapUrlCount} 个 <url>，至少需要 16 个`);
+  if (sitemapUrlCount < 18) {
+    errors.push(`out/sitemap.xml 仅含 ${sitemapUrlCount} 个 <url>，至少需要 18 个`);
   }
   const urlBlocks = sitemap.match(/<url>[\s\S]*?<\/url>/g) ?? [];
   const missingXDefault = urlBlocks.filter(

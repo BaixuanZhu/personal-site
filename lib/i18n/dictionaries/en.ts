@@ -50,6 +50,8 @@ export const en: Dictionary = {
     title: "Proven depth, shipped results",
     description:
       "Every project starts from a real pain point and keeps shipping. Open a card for the full architecture and implementation breakdown.",
+    /** Entry point to the projects index */
+    viewAll: "View all projects",
   },
   skills: {
     eyebrow: "Tech Stack",
@@ -119,6 +121,14 @@ export const en: Dictionary = {
     back: "Back to projects",
     github: "Source code",
     demo: "Live demo",
+  },
+  /** Projects index copy */
+  projectsIndex: {
+    eyebrow: "All Projects",
+    title: "All Open-Source Projects",
+    description:
+      "From Java version management to file operations and MCP services for AI agents — every project starts from a real workflow pain point and keeps shipping.",
+    backHome: "Back to home",
   },
   about: {
     metadataTitle: "About Me",
