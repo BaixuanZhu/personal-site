@@ -14,6 +14,11 @@ const isStaticExport = process.env.NEXT_OUTPUT === "export";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
+  // global-not-found 目前是实验特性：显式开启以锁定全局 404 行为，
+  // 避免未来 Next 版本默认值变化导致 app/global-not-found.tsx 失效。
+  experimental: {
+    globalNotFound: true,
+  },
   ...(isStaticExport
     ? {
         output: "export" as const,

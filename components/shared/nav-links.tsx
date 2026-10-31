@@ -11,6 +11,10 @@ interface NavLinksProps {
   locale: Locale;
   /** 本地化文案（nav 字段） */
   labels: Pick<Dictionary, "nav">;
+  /** 点击任一导航项后的回调（移动端抽屉用于关闭菜单） */
+  onNavigate?: () => void;
+  /** 覆盖默认链接样式（如抽屉内更大的触控目标）；省略时沿用 Header 样式 */
+  className?: string;
 }
 
 /**
@@ -37,25 +41,37 @@ const linkClassName =
  * 对同一路由仅追加 hash 时不触发滚动（点击无反应），原生锚点由浏览器
  * 直接处理平滑滚动更可靠；非首页仍走 next/link 跨页跳转后定位。
  */
-export function NavLinks({ locale, labels }: NavLinksProps) {
+export function NavLinks({
+  locale,
+  labels,
+  onNavigate,
+  className,
+}: NavLinksProps) {
   const pathname = usePathname().replace(
     new RegExp(`^${basePath}/?`),
     "/",
   );
   const isHome = pathname === `/${locale}` || pathname === `/${locale}/`;
+  const itemClassName = className ?? linkClassName;
 
   return (
     <>
       {navItems.map((item) =>
         isHome && item.href.startsWith("/#") ? (
-          <a key={item.key} href={item.href.slice(1)} className={linkClassName}>
+          <a
+            key={item.key}
+            href={item.href.slice(1)}
+            className={itemClassName}
+            onClick={onNavigate}
+          >
             {labels.nav[item.key]}
           </a>
         ) : (
           <Link
             key={item.key}
             href={localizedHref(locale, item.href)}
-            className={linkClassName}
+            className={itemClassName}
+            onClick={onNavigate}
           >
             {labels.nav[item.key]}
           </Link>

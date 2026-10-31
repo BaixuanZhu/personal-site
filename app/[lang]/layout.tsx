@@ -71,6 +71,7 @@ export default async function RootLayout({
               nav: dict.nav,
               theme: dict.theme,
               langSwitcher: dict.langSwitcher,
+              mobileNav: dict.mobileNav,
             }}
           />
           {children}

@@ -9,7 +9,12 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { siteConfig } from "@/lib/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { localeUrl, pageMetadata, personJsonLd } from "@/lib/seo";
+import {
+  localeUrl,
+  pageMetadata,
+  personJsonLd,
+  siteDisplayTitle,
+} from "@/lib/seo";
 
 type AboutPageProps = PageProps<"/[lang]/about">;
 
@@ -172,6 +177,7 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const dict = await getDictionary(lang);
+  const siteName = siteDisplayTitle(lang, dict.brand.nativeName);
 
   return pageMetadata({
     locale: lang,
@@ -181,5 +187,9 @@ export async function generateMetadata({
     ogLocale: dict.metadata.ogLocale,
     type: "website",
     nativeName: dict.brand.nativeName,
+    image: {
+      path: `/og/about-${lang}.png`,
+      alt: `${dict.about.metadataTitle} — ${siteName}`,
+    },
   });
 }

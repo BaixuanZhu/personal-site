@@ -80,5 +80,9 @@ export async function generateMetadata({
     ogLocale: dict.metadata.ogLocale,
     type: "website",
     nativeName: dict.brand.nativeName,
+    image: {
+      path: `/og/home-${lang}.png`,
+      alt: `${siteName} — ${dict.metadata.role}`,
+    },
   });
 }

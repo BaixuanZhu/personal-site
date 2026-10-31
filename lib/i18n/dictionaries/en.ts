@@ -32,6 +32,12 @@ export const en: Dictionary = {
   langSwitcher: {
     label: "Switch language",
   },
+  /** Mobile navigation drawer copy */
+  mobileNav: {
+    open: "Open menu",
+    close: "Close menu",
+    label: "Navigation menu",
+  },
   hero: {
     available: "Open to opportunities",
     tagline: "Building reliable Java backends and delightful dev tools",

@@ -21,6 +21,7 @@ import {
   absoluteUrl,
   pageMetadata,
   personJsonLd,
+  siteDisplayTitle,
 } from "@/lib/seo";
 
 type ProjectPageProps = PageProps<"/[lang]/projects/[slug]">;
@@ -196,5 +197,9 @@ export async function generateMetadata({
     ogLocale: dict.metadata.ogLocale,
     type: "article",
     nativeName: dict.brand.nativeName,
+    image: {
+      path: `/og/project-${project.slug}-${lang}.png`,
+      alt: `${project.title} — ${siteDisplayTitle(lang, dict.brand.nativeName)}`,
+    },
   });
 }

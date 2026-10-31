@@ -98,6 +98,35 @@ function collectTypes(value, types) {
   for (const item of Object.values(value)) collectTypes(item, types);
 }
 
+/**
+ * 校验分享图地址：必须是站点地址下的绝对 .png URL，
+ * 且能在 public/ 下找到对应文件（避免社交平台抓到 404）。
+ *
+ * @param pageLabel 出错时展示的页面路径
+ * @param tagLabel 出错时展示的标签名（og:image / twitter:image）
+ * @param url meta content 中的图片地址
+ */
+function checkShareImage(pageLabel, tagLabel, url) {
+  if (!/^https?:\/\//i.test(url)) {
+    errors.push(`${pageLabel}: ${tagLabel} 必须是绝对 URL（当前为 ${url}）`);
+    return;
+  }
+  if (!url.toLowerCase().endsWith(".png")) {
+    errors.push(`${pageLabel}: ${tagLabel} 必须是 .png 地址（当前为 ${url}）`);
+    return;
+  }
+  if (url !== siteUrl && !url.startsWith(`${siteUrl}/`)) {
+    errors.push(`${pageLabel}: ${tagLabel} 未指向站点地址 ${siteUrl}（当前为 ${url}）`);
+    return;
+  }
+
+  const relativePath = url.slice(siteUrl.length).replace(/^\/+/, "").split(/[?#]/)[0];
+  const filePath = join(root, "public", relativePath);
+  if (!relativePath || !existsSync(filePath) || !statSync(filePath).isFile()) {
+    errors.push(`${pageLabel}: ${tagLabel} 指向的文件不存在：public/${relativePath}`);
+  }
+}
+
 function checkTitle(relativePath, html) {
   if (html === null) return;
   const match = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
@@ -174,6 +203,19 @@ function checkPageSeo({ relativePath, locale, path, ogType, jsonLdTypes }) {
     } else if (values[0] !== expected) {
       errors.push(`${label}: ${property} 为 ${values[0]}，应为 ${expected}`);
     }
+  }
+
+  // 分享图：og:image 与 twitter:image 各恰好 1 个，且都指向存在的本地 PNG
+  for (const [attribute, key] of [
+    ["property", "og:image"],
+    ["name", "twitter:image"],
+  ]) {
+    const values = getMetaValues(html, attribute, key);
+    if (values.length !== 1) {
+      errors.push(`${label}: ${key} 数量为 ${values.length}，应恰好 1 个`);
+      continue;
+    }
+    checkShareImage(label, key, values[0]);
   }
 
   // 每个页面至少含一段可解析的 JSON-LD，且包含预期的 @type
@@ -317,6 +359,19 @@ if (rootRedirectHtml !== null) {
   const robots = getMetaValues(rootRedirectHtml, "name", "robots");
   if (!robots.some((value) => /\bnoindex\b/i.test(value))) {
     errors.push("out/index.html: robots 缺少 noindex");
+  }
+
+  // 根跳转页也要能被社交平台预览：唯一 og:image / twitter:image，且为存在的 PNG
+  for (const [attribute, key] of [
+    ["property", "og:image"],
+    ["name", "twitter:image"],
+  ]) {
+    const values = getMetaValues(rootRedirectHtml, attribute, key);
+    if (values.length !== 1) {
+      errors.push(`out/index.html: ${key} 数量为 ${values.length}，应恰好 1 个`);
+      continue;
+    }
+    checkShareImage("out/index.html", key, values[0]);
   }
 }
 

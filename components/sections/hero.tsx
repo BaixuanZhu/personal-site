@@ -68,7 +68,7 @@ export function Hero({ copy }: HeroProps) {
         {copy.available}
       </Rise>
 
-      <Rise as="h1" animated={allowMotion} transition={fade} className="font-heading text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+      <Rise as="h1" animated={allowMotion} transition={fade} className="font-heading text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
         {copy.tagline}
       </Rise>
 

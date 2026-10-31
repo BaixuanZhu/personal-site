@@ -55,6 +55,15 @@ const html = `<!doctype html>
     <meta property="og:url" content="${escapeHtml(`${siteUrl}/`)}" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="${escapeHtml(siteName)}" />
+    <meta property="og:image" content="${escapeHtml(`${siteUrl}/og/root.png`)}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="${escapeHtml(siteName)} — 个人作品集" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(title)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />
+    <meta name="twitter:image" content="${escapeHtml(`${siteUrl}/og/root.png`)}" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="robots" content="noindex" />
