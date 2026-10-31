@@ -58,12 +58,13 @@ export const mdxComponents: MDXComponents = {
     return (
       <div className="relative my-6 overflow-hidden rounded-xl bg-black text-white dark:ring-1 dark:ring-white/10">
         {language && (
-          <span className="absolute right-4 top-2 font-mono text-xs uppercase tracking-widest text-white/40 select-none">
+          <span className="absolute right-4 top-2 font-mono text-xs uppercase tracking-widest text-white/60 select-none">
             {language}
           </span>
         )}
         <pre
           {...props}
+          tabIndex={0}
           className={
             language
               ? "m-0 overflow-x-auto px-5 pb-4 pt-9 text-sm leading-relaxed"

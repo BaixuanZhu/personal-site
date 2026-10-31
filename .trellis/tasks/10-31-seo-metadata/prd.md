@@ -39,14 +39,14 @@ Wave 0（内容/导出护栏）与 Wave 1（字体/可访问性基础）已完�
 
 ## Acceptance Criteria
 
-- [ ] 首页、关于页与 12 个项目页均只有一个 canonical，且与页面语言/路径一致。
-- [ ] 每个页面有 zh/en/x-default hreflang，x-default 指向中文版本；About 不再继承首页 hreflang。
-- [ ] 每个页面 `og:url` 等于 canonical，`og:locale` 与语言一致，`og:type` 为 website（首页/关于）或 article（项目）。
-- [ ] 首页、关于页、项目页各含合法 JSON-LD，`JSON.parse` 通过且 `@type` 符合预期。
-- [ ] 根 `out/index.html` 含 description/OG/theme-color/noindex，且跳转脚本仍正常。
-- [ ] `out/sitemap.xml` 每条 `<url>` 的 alternates 含 x-default。
-- [ ] `pnpm exec tsc --noEmit`、`pnpm lint` 通过；静态导出构建成功。
-- [ ] `pnpm verify:export` 的 SEO 检查全部通过（404 标题检查由 Wave 3 修复后整体通过）。
+- [x] 首页、关于页与 12 个项目页均只有一个 canonical，且与页面语言/路径一致。
+- [x] 每个页面有 zh/en/x-default hreflang，x-default 指向中文版本；About 不再继承首页 hreflang。
+- [x] 每个页面 `og:url` 等于 canonical，`og:locale` 与语言一致，`og:type` 为 website（首页/关于）或 article（项目）。
+- [x] 首页、关于页、项目页各含合法 JSON-LD，`JSON.parse` 通过且 `@type` 符合预期。
+- [x] 根 `out/index.html` 含 description/OG/theme-color/noindex，且跳转脚本仍正常。
+- [x] `out/sitemap.xml` 每条 `<url>` 的 alternates 含 x-default。
+- [x] `pnpm exec tsc --noEmit`、`pnpm lint` 通过；静态导出构建成功。
+- [x] `pnpm verify:export` 的 SEO 检查全部通过（404 标题检查由 Wave 3 修复后整体通过）。
 
 ## Out of Scope
 

@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { ArrowLeft, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import { zh } from "@/lib/i18n/dictionaries/zh";
 
 /**
@@ -32,6 +32,9 @@ const themeInitScript = `(function(){try{var t=localStorage.getItem("theme");var
  */
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: withBasePath("/favicon.ico"),
+  },
   title: `404 · 页面不存在 | ${displayName}`,
   description:
     "页面不存在：地址可能有误，或该内容已被移动、尚未发布。 Page not found: the address may be incorrect, or the page has moved or is not published yet.",

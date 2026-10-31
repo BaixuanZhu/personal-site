@@ -66,6 +66,7 @@ const html = `<!doctype html>
     <meta name="twitter:image" content="${escapeHtml(`${siteUrl}/og/root.png`)}" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="${escapeHtml(`${siteUrl}/favicon.ico`)}" />
     <meta name="robots" content="noindex" />
     <script>
       var m = document.cookie.match(/(?:^|;\\s*)NEXT_LANG=(zh|en)\\b/);

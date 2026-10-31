@@ -17,6 +17,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 import { withBasePath } from "@/lib/config";
 import { mdxComponents } from "@/lib/mdx-components";
+import { codeTheme } from "@/lib/shiki-theme";
 import {
   absoluteUrl,
   pageMetadata,
@@ -152,7 +153,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               mdxOptions: {
                 remarkPlugins: [remarkGfm],
                 rehypePlugins: [
-                  [rehypeShiki, { theme: "vitesse-black", addLanguageClass: true }],
+                  [rehypeShiki, { theme: codeTheme, addLanguageClass: true }],
                 ],
               },
             }}

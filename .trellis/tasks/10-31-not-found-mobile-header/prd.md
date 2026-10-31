@@ -32,13 +32,13 @@ Wave 1（可访问性基础）与 Wave 2（SEO/站点名助手）已完成。与
 
 ## Acceptance Criteria
 
-- [ ] `out/404.html` 含非空 `<title>`（含 404）、description、`robots=noindex`、亮/暗 theme-color，体积 >1000 字节。
-- [ ] 404 页引入 globals.css，亮/暗主题与站点字体/令牌一致；中英回首页链接均指向 `/{locale}/`。
-- [ ] `app/[lang]/not-found.tsx` 已删除，`notFound()` 调用不受影响。
-- [ ] 320/375/414px 下 Header 无横向溢出，菜单按钮可打开/关闭抽屉，导航项可点击并关闭。
-- [ ] 移动菜单可用键盘操作（Tab/Shift+Tab、ESC 关闭，焦点返回触发按钮）。
-- [ ] Hero 在 320/375/414px 无异常断行与横向滚动。
-- [ ] `pnpm exec tsc --noEmit`、`pnpm lint`、静态导出、`pnpm verify:export` 全部通过。
+- [x] `out/404.html` 含非空 `<title>`（含 404）、description、`robots=noindex`、亮/暗 theme-color，体积 >1000 字节。
+- [x] 404 页引入 globals.css，亮/暗主题与站点字体/令牌一致；中英回首页链接均指向 `/{locale}/`。
+- [x] `app/[lang]/not-found.tsx` 已删除，`notFound()` 调用不受影响。
+- [x] 320/375/414px 下 Header 无横向溢出，菜单按钮可打开/关闭抽屉，导航项可点击并关闭。
+- [x] 移动菜单可用键盘操作（Tab/Shift+Tab、ESC 关闭，焦点返回触发按钮）。
+- [x] Hero 在 320/375/414px 无异常断行与横向滚动。
+- [x] `pnpm exec tsc --noEmit`、`pnpm lint`、静态导出、`pnpm verify:export` 全部通过。
 
 ## Out of Scope
 

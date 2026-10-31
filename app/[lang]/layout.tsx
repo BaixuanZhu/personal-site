@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/shared/footer";
 import { Header } from "@/components/shared/header";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, withBasePath } from "@/lib/config";
 import { defaultLocale, isLocale, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { siteDisplayTitle } from "@/lib/seo";
@@ -104,6 +104,9 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(siteConfig.url),
+    icons: {
+      icon: withBasePath("/favicon.ico"),
+    },
     title: {
       default: title,
       template: `%s | ${siteName}`,

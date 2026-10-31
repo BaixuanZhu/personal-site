@@ -18,12 +18,12 @@
 
 ## Acceptance Criteria
 
-- [ ] 故意破坏任一必填 frontmatter，`pnpm build`/`pnpm check:content` 失败并指出文件与字段。
-- [ ] 中英 slug/日期/featured 不一致时检查失败。
-- [ ] 封面图缺失或 github 项目缺 repo-stats 快照时检查失败。
-- [ ] `pnpm lint`、`pnpm check:content` 通过。
-- [ ] 静态导出后 `node scripts/verify-export.mjs` 通过。
-- [ ] CI 构建步骤包含 lint 与导出验收。
+- [x] 故意破坏任一必填 frontmatter，`pnpm build`/`pnpm check:content` 失败并指出文件与字段。
+- [x] 中英 slug/日期/featured 不一致时检查失败。
+- [x] 封面图缺失或 github 项目缺 repo-stats 快照时检查失败。
+- [x] `pnpm lint`、`pnpm check:content` 通过。
+- [x] 静态导出后 `node scripts/verify-export.mjs` 通过。
+- [x] CI 构建步骤包含 lint 与导出验收。
 
 ## Out of Scope
 

@@ -30,11 +30,11 @@ Wave 0 已完成（`check:content` 已校验每个 github 项目都有快照）�
 
 ## Acceptance Criteria
 
-- [ ] `components/shared/repo-meta.tsx` 不再包含 `"use client"`、`api.github.com`、`sessionStorage`、`useEffect`。
-- [ ] 构建产物的 JS 与静态 HTML 中 `api.github.com` 出现次数为 0。
-- [ ] 首页与项目页静态 HTML 直接包含「更新时间/提交数」数据（来自 `lib/repo-stats.json`）。
-- [ ] `deploy.yml` 含每周 `schedule` 与带 token 的 `Refresh repo stats` 步骤，且位于构建前。
-- [ ] `pnpm exec tsc --noEmit`、`pnpm lint`、`pnpm check:content` 通过；静态导出构建成功。
+- [x] `components/shared/repo-meta.tsx` 不再包含 `"use client"`、`api.github.com`、`sessionStorage`、`useEffect`。
+- [x] 构建产物的 JS 与静态 HTML 中 `api.github.com` 出现次数为 0。
+- [x] 首页与项目页静态 HTML 直接包含「更新时间/提交数」数据（来自 `lib/repo-stats.json`）。
+- [x] `deploy.yml` 含每周 `schedule` 与带 token 的 `Refresh repo stats` 步骤，且位于构建前。
+- [x] `pnpm exec tsc --noEmit`、`pnpm lint`、`pnpm check:content` 通过；静态导出构建成功。
 
 ## Out of Scope
 

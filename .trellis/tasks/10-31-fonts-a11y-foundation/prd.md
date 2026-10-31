@@ -19,13 +19,13 @@
 
 ## Acceptance Criteria
 
-- [ ] `out/_next/static/media` 从约 4.9MB 降到 300KB 以内。
-- [ ] 构建产物 CSS 中不再存在 Noto Sans SC 的 `@font-face`。
-- [ ] 中英文 375/1440 截图中文渲染正常，无布局错乱。
-- [ ] 键盘 Tab 第一个焦点为 skip link，激活后跳到 `#main`。
-- [ ] 开启 reduced-motion 后页面不执行平滑滚动。
-- [ ] 英文页雷达图 aria-label 不含中文；焦点顶点有可见指示。
-- [ ] `pnpm lint` 通过。
+- [x] `out/_next/static/media` 从约 4.9MB 降到 300KB 以内。
+- [x] 构建产物 CSS 中不再存在 Noto Sans SC 的 `@font-face`。
+- [x] 中英文 375/1440 截图中文渲染正常，无布局错乱。
+- [x] 键盘 Tab 第一个焦点为 skip link，激活后跳到 `#main`。
+- [x] 开启 reduced-motion 后页面不执行平滑滚动。
+- [x] 英文页雷达图 aria-label 不含中文；焦点顶点有可见指示。
+- [x] `pnpm lint` 通过。
 
 ## Out of Scope
 

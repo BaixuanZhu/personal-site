@@ -16,11 +16,11 @@
 
 ## Acceptance Criteria
 
-- [ ] `/zh/projects/`、`/en/projects/` 静态导出成功，列出全部 6 个项目且均可达详情页。
-- [ ] 首页只渲染 4 个精选项目，顺序为 FileX、Danbooru Tag MCP、jvm、DevTools。
-- [ ] `pnpm check`、`pnpm build`、`pnpm verify:export` 全部通过，17→19 个 HTML 页面、sitemap 18 个 URL。
-- [ ] 索引页 canonical/hreflang/x-default、OG/Twitter 图与 JSON-LD 通过导出验收。
-- [ ] 320/375/414px 下索引页无横向溢出，卡片触控目标正常。
+- [x] `/zh/projects/`、`/en/projects/` 静态导出成功，列出全部 6 个项目且均可达详情页。
+- [x] 首页只渲染 4 个精选项目，顺序为 FileX、Danbooru Tag MCP、jvm、DevTools。
+- [x] `pnpm check`、`pnpm build`、`pnpm verify:export` 全部通过，17→19 个 HTML 页面、sitemap 18 个 URL。
+- [x] 索引页 canonical/hreflang/x-default、OG/Twitter 图与 JSON-LD 通过导出验收。
+- [x] 320/375/414px 下索引页无横向溢出，卡片触控目标正常。
 
 ## Notes
 
