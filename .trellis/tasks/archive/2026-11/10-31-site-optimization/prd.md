@@ -58,17 +58,24 @@
 
 ## Acceptance Criteria
 
-- [ ] 8 个子任务的验收标准全部满足。
-- [ ] `pnpm lint`、`pnpm check:content`、静态导出构建、`pnpm verify:export` 全部通过。
-- [ ] 字体媒体目录从约 4.9MB 降至 300KB 以内；首访字体传输降至 150KB 以内。
-- [ ] 每个可索引页面 canonical/hreflang/x-default/og:url/og:image 覆盖率 100%。
-- [ ] 项目页不再输出 SVG `og:image`；所有 OG 图为 1200×630 PNG 且 <300KB。
-- [ ] 浏览器端对 `api.github.com` 的请求为 0。
-- [ ] 375px 下无横向溢出；320/375/414/1440 截图验证通过。
-- [ ] 亮/暗主题、zh/en 两种语言、404 与根入口均无回归。
-- [ ] axe 无 critical/serious 问题；Lighthouse SEO/最佳实践达到项目设定目标。
-- [ ] README 与 Trellis 规范更新完成。
+- [x] 8 个子任务的验收标准全部满足。
+- [x] `pnpm lint`、`pnpm check:content`、静态导出构建、`pnpm verify:export` 全部通过。
+- [x] 字体媒体目录从约 4.9MB 降至 300KB 以内；首访字体传输降至 150KB 以内。
+- [x] 每个可索引页面 canonical/hreflang/x-default/og:url/og:image 覆盖率 100%。
+- [x] 项目页不再输出 SVG `og:image`；所有 OG 图为 1200×630 PNG 且 <300KB。
+- [x] 浏览器端对 `api.github.com` 的请求为 0。
+- [x] 375px 下无横向溢出；320/375/414/1440 截图验证通过。
+- [x] 亮/暗主题、zh/en 两种语言、404 与根入口均无回归。
+- [x] axe 无 critical/serious 问题；Lighthouse SEO/最佳实践达到项目设定目标。
+- [x] README 与 Trellis 规范更新完成。
 - [ ] 推送/部署前已获得用户明确同意，并核对线上结果。
+
+## Completion Notes（2026-11-01）
+
+- 8 个子任务已全部归档到 `.trellis/tasks/archive/2026-11/`；逐项证据见各子任务 PRD、`docs-final-qa` 的验收记录与 README「质量与验收」。
+- 字体媒体 289,404 B（282.6KB，13 个 woff2）；首页首访字体 70.2KB；19 个 HTML、18 条 sitemap URL、19 张 OG PNG。
+- axe 33 次扫描 0 critical/serious；Lighthouse 移动端首页 98/100/96/100、项目索引 77/100/96/100（Performance/A11y/BP/SEO）。
+- 本轮未推送、未部署，故最后一项保持未勾选；`git push` 与 Pages 部署需用户明确同意后再执行并核对线上结果。
 
 ## Out of Scope
 

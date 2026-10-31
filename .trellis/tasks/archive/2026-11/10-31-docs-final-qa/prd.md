@@ -29,7 +29,7 @@
 - [x] axe critical=0、serious=0；Lighthouse SEO ≥95、Best Practices ≥95、Accessibility ≥95。
 - [x] 320/375/414/1440 无横向溢出，关键页面截图通过。
 - [x] 字体媒体 <300KB、`api.github.com` 0 次、19 个 HTML 页面与 18 条 sitemap URL。
-- [ ] 父任务 8 个子任务全部完成并归档。
+- [x] 父任务 8 个子任务全部完成并归档。
 - [x] 不推送、不部署，等待用户明确同意。
 
 ## Notes
