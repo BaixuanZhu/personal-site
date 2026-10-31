@@ -1,0 +1,80 @@
+---
+title: Danbooru Tag MCP — Tag Lookup for AI Prompts
+description: "A Danbooru tag lookup MCP server for AI image workflows: eight tools resolve tags, aliases, wiki pages, and co-occurrence statistics before a prompt is written."
+tags:
+  - Go
+  - MCP
+  - AI Agent
+  - CLI
+  - Windows
+image: /images/projects/danbooru-tag-mcp.svg
+date: "2026-09-24"
+github: https://github.com/BaixuanZhu/danbooru-tag-mcp
+featured: true
+metrics:
+  - label: MCP tools
+    value: "8"
+  - label: Releases
+    value: "6"
+  - label: Commits
+    value: "22"
+---
+
+## Overview
+
+The first step in AI image generation is not writing a prompt — it is checking whether the tags actually exist. Models assemble tags from memory: aliases, retired names, spelling variants, or combinations that were never real. The prompt looks plausible, but the output drifts.
+
+Danbooru Tag MCP connects the Danbooru tag vocabulary to MCP: an AI client can look up tags, aliases, wiki pages, and co-occurrence statistics before composing a prompt, replacing guesses with facts.
+
+## Eight Tools
+
+| Tool | Purpose |
+| --- | --- |
+| `search_tags` | Search tags by keyword, ordered by post count; falls back to WD14 vocabulary hits when nothing has posts |
+| `get_tag_info` | Look up one tag's category, post count, and WD14 verdict (live / tagger-era / unknown) |
+| `get_tags_info` | Resolve up to 20 exact tag names in one request, returning a found / missing split with a WD14 verdict each |
+| `get_related_tags` | Find tags that co-occur with the target, filtering out noisy meta tags |
+| `get_tag_alias` | Resolve an alias or misspelling to its canonical tag |
+| `get_tag_wiki` | Read a tag wiki, including multilingual names and linked tags |
+| `search_posts` | Search posts by tag combination and return tags split by copyright / artist / character / general / meta |
+| `get_tag_profile` | Sample a tag's posts and return co-occurrence and characteristic-combination profiles |
+
+## Tag Profiles
+
+`get_tag_profile` is the most interesting part of the project: it does not stop at "how many posts does this tag have?" — it answers "**what does this tag actually look like?**"
+
+- Randomly sample posts for a large tag (200 by default) and measure co-tag frequency
+- Split corpus constants such as `1girl` and `solo` into `ubiquitous`, so they do not drown out informative pairs
+- Rank characteristic combinations by lift: pairings that co-occur above chance are the ones worth putting in a prompt
+- A 300k-post tag can contain several distinct sub-populations; check the profile before using it
+
+## Why Fact Lookup Matters
+
+- **Aliases and retired names**: Danbooru renames tags, and names from a model's training data may not be canonical today
+- **Tagger-era tags**: names present in WD14 vocabularies but since renamed on Danbooru would otherwise dead-end at "tag not found"
+- **Combinations**: valid tags do not guarantee a meaningful combination; co-occurrence stats expose the mismatch early
+- **Wiki context**: multilingual names and linked tags often explain usage better than the tag name alone
+
+## Distribution and Engineering
+
+- Four ways to use it: Windows setup wizard, PowerShell one-liner, portable zip, or a ZCode / Claude Code plugin
+- Windows 10/11 on x64 / ARM64, per-user install with no admin rights
+- `danbooru-tag-mcp upgrade` checks GitHub Releases, verifies SHA-256, and replaces the binary atomically
+- Requests are throttled to one every 1.5 seconds; anonymous access works, and credentials raise the limits
+- Since v0.4.0, release builds are reproducible: pinned toolchain, deterministic zips, checksums covering installers, and GitHub build provenance attestations
+- A single Go binary for Windows 10/11 x64 and ARM64
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| MCP tools | 8 |
+| Releases | 6 (latest v0.4.0) |
+| Commits | 22 |
+| Install methods | Setup wizard / PowerShell / portable / plugin |
+
+## Reflection
+
+Tags are a shared vocabulary, but a model cannot reliably memorize it. Instead of iterating inside the prompt, make retrieval part of the toolchain: verify first, generate second.
+
+`get_tag_profile` also reinforced a lesson: **frequency is not distribution**. A tag with a million posts does not mean those posts share one meaning; sampling, splitting constants, and ranking by lift turn raw counts into guidance for the next step.

@@ -17,6 +17,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const contentDir = join(root, "content", "projects");
 const outputPath = join(root, "lib", "repo-stats.json");
 
+/** 可选 token：多仓库刷新时提高 GitHub API 限流额度，未设置则按匿名请求 */
+const githubToken = process.env.GITHUB_TOKEN?.trim();
+
 /** 从 frontmatter 提取 github 仓库地址（形如 https://github.com/{owner}/{repo}） */
 function extractGithubUrls(file) {
   const source = readFileSync(file, "utf8");
@@ -30,6 +33,7 @@ async function fetchRepoInfo(repo) {
     headers: {
       Accept: "application/vnd.github+json",
       "User-Agent": "personal-site-repo-stats",
+      ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
     },
   };
 

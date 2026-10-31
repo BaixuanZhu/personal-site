@@ -6,8 +6,10 @@
 export const siteConfig = {
   /** 展示姓名（英文，全语言共用） */
   name: "Galaxy",
-  /** 站点部署地址（用于生成 OG 绝对链接；CI 静态导出时注入 NEXT_PUBLIC_SITE_URL） */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
+  /** 站点部署地址（用于生成 OG/sitemap 绝对链接；CI 静态导出时注入 NEXT_PUBLIC_SITE_URL） */
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "https://baixuanzhu.github.io/personal-site",
   /** 联系邮箱 */
   email: "wy2359117018@163.com",
   /** GitHub 主页 */

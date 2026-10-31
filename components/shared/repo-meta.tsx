@@ -140,7 +140,8 @@ export function RepoMeta({ githubUrl, locale, copy }: RepoMetaProps) {
     const load = async () => {
       try {
         const repo = new URL(githubUrl).pathname.replace(/^\/|\/$/g, "");
-        return readCache(repo) ?? getOrFetchRepoInfo(repo);
+        // await 让请求失败进入 catch，避免未处理的 Promise rejection
+        return await (readCache(repo) ?? getOrFetchRepoInfo(repo));
       } catch {
         return null; // 地址非法或请求失败，走降级
       }

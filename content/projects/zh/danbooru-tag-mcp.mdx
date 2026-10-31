@@ -1,0 +1,80 @@
+---
+title: Danbooru Tag MCP — 标签查询 MCP 服务
+description: "面向 AI 绘图工作流的 Danbooru 标签查询 MCP：8 个工具解析标签、别名、Wiki 与共现统计，让模型先查真实标签再写 prompt。"
+tags:
+  - Go
+  - MCP
+  - AI Agent
+  - CLI
+  - Windows
+image: /images/projects/danbooru-tag-mcp-zh.svg
+date: "2026-09-24"
+github: https://github.com/BaixuanZhu/danbooru-tag-mcp
+featured: true
+metrics:
+  - label: MCP 工具
+    value: "8 个"
+  - label: 发布版本
+    value: "6 个"
+  - label: 代码提交
+    value: "22"
+---
+
+## 项目概述
+
+AI 绘图的第一步不是写 prompt，而是确认标签是否真实存在。模型凭记忆拼出来的标签经常是别名、旧名、拼写变体，或者根本不存在的组合 —— 提示词看起来像样，生成结果却完全跑偏。
+
+Danbooru Tag MCP 把 Danbooru 的标签体系接进 MCP：AI 客户端在写 prompt 前先查标签、别名、Wiki 和共现统计，用真实数据替代猜测。
+
+## 八个工具
+
+| 工具 | 作用 |
+| --- | --- |
+| `search_tags` | 按关键词搜索标签，按帖子数排序；无结果时回退到 WD14 词表命中 |
+| `get_tag_info` | 查询单个标签的分类、帖子数与 WD14 判定（当前 / tagger-era / 未知） |
+| `get_tags_info` | 一次请求批量查询最多 20 个标签，返回 found / missing 分组与逐个 WD14 判定 |
+| `get_related_tags` | 查询与目标标签共现的相关标签，过滤掉高频元标签噪声 |
+| `get_tag_alias` | 把别名或拼写变体解析到规范标签 |
+| `get_tag_wiki` | 读取标签 Wiki，提取多语言名称与正文中的关联标签 |
+| `search_posts` | 按标签组合搜索帖子，返回按版权 / 画师 / 角色 / 通用 / meta 分类的标签列表 |
+| `get_tag_profile` | 对一个标签做随机采样，输出共现分布与特征组合 |
+
+## 标签画像
+
+`get_tag_profile` 是这个项目最有意思的部分：它不满足于「这个标签有多少帖子」，而是回答「**这个标签实际长什么样**」。
+
+- 从大标签的帖子中随机采样（默认 200 条），统计同现标签的频率
+- 把 `1girl`、`solo` 这类语料常量拆到 `ubiquitous`，避免它们淹没真正有信息量的组合
+- 用 lift 排序特征组合：共现频率高于随机预期的搭配，才值得写进 prompt
+- 一个 30 万帖子的标签，可能包含大量语义不同的子群；先看画像，再决定要不要用
+
+## 为什么需要「事实查询」
+
+- **别名与旧名**：Danbooru 会重命名标签，模型训练语料里的名字未必是当前规范名
+- **Tagger-era 标签**：WD14 tagger 词表中存在、但 Danbooru 已改名的标签，直接搜索会「查无此标签」
+- **标签组合**：单个标签都合法，不代表组合有语义；共现统计能提前暴露问题
+- **Wiki 上下文**：多语言名称与关联标签往往比标签本身更能说明用法
+
+## 分发与工程细节
+
+- 四种使用方式：Windows 安装向导、PowerShell 一键脚本、便携 zip、ZCode / Claude Code 插件
+- Windows 10/11 x64 / ARM64，按用户安装，无需管理员权限
+- `danbooru-tag-mcp upgrade` 检查 GitHub Release、校验 SHA-256 后原子替换
+- 请求节流到每 1.5 秒一次；匿名访问可用，配置凭据后额度更高
+- v0.4.0 起构建可复现：固定工具链、确定性 zip、校验和覆盖安装包，并附 GitHub 构建来源证明
+- Go 单二进制，支持 Windows 10/11 x64 与 ARM64
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| MCP 工具 | 8 个 |
+| 发布版本 | 6 个 Release（最新 v0.4.0） |
+| 代码提交 | 22 commits |
+| 安装方式 | 安装向导 / PowerShell / 便携包 / 插件 |
+
+## 反思
+
+标签是一套共享词汇表，但模型没法可靠地「记住」它。与其在 prompt 里反复试错，不如把检索做成工具的一部分：先查事实，再写生成。
+
+`get_tag_profile` 也提醒我一件事：**频次不等于分布**。一个标签有一百万帖子，不代表这一百万帖子共享同一种语义；采样、拆分常量、按 lift 排序，才能让统计结果真正指导下一步。

@@ -1,6 +1,6 @@
 ---
 title: Claude Code GUI Hooks
-description: Replace Claude Code's terminal permission prompts with native GUI dialogs — Python + tkinter, zero dependencies, cross-platform, one-line plugin install.
+description: "Native GUI dialogs for Claude Code instead of terminal prompts — Python + tkinter, zero dependencies, bilingual, covering permissions, questions, completion, API failures, and subagent events."
 tags:
   - Python
   - tkinter
@@ -13,7 +13,7 @@ github: https://github.com/BaixuanZhu/claude-code-hooks
 featured: true
 metrics:
   - label: Hooks
-    value: "4"
+    value: "6"
   - label: Dependencies
     value: "0"
   - label: Platforms
@@ -22,32 +22,47 @@ metrics:
 
 ## Overview
 
-The biggest flow-breaker when driving Claude Code: switch back to the terminal, find the y/n prompt, hit enter, switch back. This project replaces permission confirmations, question prompts, and completion notices with **native GUI dialogs** — popping up on the screen you're actually looking at. Glance, decide, keep working.
+The biggest flow-breaker when driving Claude Code: switch back to the terminal, find the y/n prompt, hit enter, switch back. This project replaces permission confirmations, questions, turn completion, plan readiness, API failures, and subagent events with **native GUI dialogs** — popping up on the screen you're actually looking at. Glance, decide, keep working.
 
-Built on Python 3.10+ with the standard-library tkinter — **zero third-party dependencies**, working across Windows, macOS, and Linux.
+Built on Python 3.10+ with the standard-library tkinter — **zero third-party dependencies**, working across Windows, macOS, and Linux. Requires Claude Code 2.1.300+.
 
 ## Event Mapping
 
 | Hook event | Interaction |
 | --- | --- |
-| `PermissionRequest` | Allow / Deny dialog with suggestion buttons and number-key shortcuts |
-| `AskUserQuestion` | Native option dialog: single or multi select, plus free-text "Other" |
-| `Stop` | Task-complete notification, auto-closes in 8s |
+| `PermissionRequest` | Allow / Deny dialog with session / project / global suggestion buttons and number-key shortcuts |
+| `AskUserQuestion` | Native option dialog: single or multi select, plus multi-line free-text "Other" |
+| `Stop` | Task-complete notification, auto-closes in 8s; says when background work keeps running |
 | `ExitPlanMode` | Topmost "plan ready" notice, auto-closes in 25s |
+| `StopFailure` | Messagebox when a turn ends due to rate limit, auth, or other API errors |
+| `Notification` | Messagebox when a subagent needs input or finishes |
 
 ## Engineering Details
 
-- **Protocol parsing**: consumes the hook JSON Claude Code pipes in via stdin and renders session/tool context into the dialog
+- **Protocol parsing**: consumes the hook JSON Claude Code pipes in via stdin and renders session, tool, and project context into the dialog
+- **Bilingual UI**: follows the system language; `CLAUDE_GUI_HOOKS_LANG=zh|en` overrides it
 - **No console flash**: launches via `pythonw` on Windows (`python3` fallback elsewhere), so dialogs never drag a black terminal window along
-- **Native look**: ttk themes follow the platform (vista / winnative / clam)
+- **One dialog at a time**: all dialogs share a cross-process lock; permission / question dialogs queue, and background notifications are skipped while a dialog is open
+- **Async notifications**: Stop, StopFailure, plan, and subagent dialogs run in the background and never delay Claude
+- **Headless-safe**: dialogs are skipped in CI or with `CLAUDE_GUI_HOOKS_DISABLE=1`, leaving Claude Code's normal flow untouched
+- **Never blocks on failure**: broken hooks fall through (`onFailure: "continue"`) instead of blocking a tool call
 - **Keyboard-first**: Enter to allow, Escape to deny, number keys for suggestions, Ctrl+Enter to confirm text areas — the mouse stays untouched
 
 ## Distribution
 
-- **Plugin marketplace (recommended)**: `claude plugin marketplace add BaixuanZhu/claude-code-hooks`, then a one-line install; auto-updates with the plugin and uninstalls cleanly
-- **PowerShell one-liner**: downloads all 4 hooks and merges them into `settings.json` idempotently — safe to re-run
+- **Plugin marketplace (recommended)**: `claude plugin marketplace add BaixuanZhu/claude-code-hooks`, then install `desktop-dialogs@claude-code-hooks`; supports `claude plugin update` and clean uninstall
+- **PowerShell one-liner**: downloads all six scripts and merges exec-form entries into `settings.json` idempotently — safe to re-run
 - **AI-assisted install**: the repo ships a `SKILL.md`; hand the URL to Claude Code and it installs itself
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Hook events | 6 |
+| Dependencies | 0 |
+| Platforms | Windows / macOS / Linux |
+| Commits | 18 |
 
 ## Reflection
 
-A small tool done right is "zero dependencies" — the standard library carries the entire GUI, so any machine with Python can run it as-is. This project also confirmed something for me: **hooks are the sanctioned way to customize Claude Code deeply** — more stable than patching source or wrapping the CLI, because the official protocol guarantees upgrade compatibility.
+A small tool done right is "zero dependencies" — the standard library carries the entire GUI, so any machine with Python can run it as-is. After v0.4 grew notifications into a full interaction layer, two things became clear: **hooks are the sanctioned way to customize Claude Code deeply**, and serialized dialogs plus headless fallbacks are what let a tool like this stay in the workflow long-term.

@@ -1,6 +1,6 @@
 ---
 title: Claude Code GUI Hooks
-description: 用原生系统对话框替换 Claude Code 的终端权限提示 —— Python + tkinter 零依赖，跨平台，插件市场一键安装。
+description: "用原生系统对话框替换 Claude Code 的终端交互 —— Python + tkinter 零依赖，中英双语，覆盖权限、提问、完成、API 失败与子代理事件。"
 tags:
   - Python
   - tkinter
@@ -13,7 +13,7 @@ github: https://github.com/BaixuanZhu/claude-code-hooks
 featured: true
 metrics:
   - label: Hook 数量
-    value: "4 个"
+    value: "6 个"
   - label: 外部依赖
     value: "0"
   - label: 支持平台
@@ -22,32 +22,47 @@ metrics:
 
 ## 项目概述
 
-用 Claude Code 干活时最打断心流的事：切回终端，找那行 y/n 提示，按回车，再切回来。这个项目把权限确认、问题选择、完成通知全部换成**系统原生 GUI 对话框** —— 弹在你正在看的屏幕上，一眼决策，继续干活。
+用 Claude Code 干活时最打断心流的事：切回终端，找那行 y/n 提示，按回车，再切回来。这个项目把权限确认、问题选择、任务完成、计划就绪、API 失败和子代理事件全部换成**系统原生 GUI 对话框** —— 弹在你正在看的屏幕上，一眼决策，继续干活。
 
-Python 3.10+ 标准库 tkinter 实现，**零第三方依赖**，Windows / macOS / Linux 全支持。
+Python 3.10+ 标准库 tkinter 实现，**零第三方依赖**，Windows / macOS / Linux 全支持，要求 Claude Code 2.1.300+。
 
 ## 事件映射
 
 | Hook 事件 | 交互形式 |
 | --- | --- |
-| `PermissionRequest` | 允许 / 拒绝对话框，带建议按钮，数字键快捷选择 |
-| `AskUserQuestion` | 原生选项对话框：单选 / 多选 + 「其他」自由输入 |
-| `Stop` | 任务完成通知，8 秒自动关闭 |
+| `PermissionRequest` | 允许 / 拒绝对话框，带 session / project / global 三种作用域的建议按钮，数字键快捷选择 |
+| `AskUserQuestion` | 原生选项对话框：单选 / 多选 + 多行「其他」自由输入 |
+| `Stop` | 任务完成通知，8 秒自动关闭；后台仍有任务时会说明 |
 | `ExitPlanMode` | 计划就绪置顶提醒，25 秒自动关闭 |
+| `StopFailure` | 本轮因限流、鉴权等 API 错误结束时弹出提示 |
+| `Notification` | 子代理需要输入或完成时弹出通知 |
 
 ## 工程细节
 
-- **协议解析**：解析 Claude Code 经 stdin 传入的 hook JSON，提取会话与工具信息渲染到对话框
+- **协议解析**：解析 Claude Code 经 stdin 传入的 hook JSON，提取会话、工具与项目上下文渲染到对话框
+- **中英双语**：跟随系统语言，也可以用 `CLAUDE_GUI_HOOKS_LANG=zh|en` 强制覆盖
 - **无控制台闪现**：Windows 用 `pythonw` 启动（macOS / Linux 回退 `python3`），弹窗不带黑色终端窗口
-- **原生观感**：ttk 主题跟随平台（vista / winnative / clam）
+- **一次只弹一个**：所有对话框共享跨进程锁，权限 / 提问对话框排队等待，后台通知在有对话框时跳过
+- **异步通知**：Stop、StopFailure、计划与子代理通知全部异步执行，不阻塞 Claude
+- **headless 安全**：CI 或 `CLAUDE_GUI_HOOKS_DISABLE=1` 时跳过对话框，回退到 Claude Code 原生流程
+- **失败不阻断**：hook 异常时 `onFailure: "continue"`，不会卡住工具调用
 - **键盘优先**：Enter 允许、Esc 拒绝、数字键选建议、Ctrl+Enter 确认文本区 —— 全程不碰鼠标
 
 ## 分发
 
-- **插件市场（推荐）**：`claude plugin marketplace add BaixuanZhu/claude-code-hooks` 后一键安装，随插件自动更新，卸载无残留
-- **PowerShell 一键脚本**：下载 4 个 hook 并幂等合并进 `settings.json`，重复执行安全
+- **插件市场（推荐）**：`claude plugin marketplace add BaixuanZhu/claude-code-hooks` 后安装 `desktop-dialogs@claude-code-hooks`；支持 `claude plugin update` 与干净卸载
+- **PowerShell 一键脚本**：下载全部 6 个脚本并以 exec form 幂等合并进 `settings.json`，重复执行安全
 - **AI 辅助安装**：仓库自带 `SKILL.md`，把 URL 丢给 Claude Code，它自己就能装好自己
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| Hook 事件 | 6 类 |
+| 外部依赖 | 0 |
+| 支持平台 | Windows / macOS / Linux |
+| 代码提交 | 18 commits |
 
 ## 反思
 
-小工具做到极致就是「零依赖」—— 标准库 tkinter 撑起全部 GUI，任何有 Python 的机器拿来就能跑。另外这个项目让我确认了一件事：**hooks 是 Claude Code 深度定制的正解**，比改源码、套壳转发都稳 —— 官方协议保证了升级兼容性。
+小工具做到极致就是「零依赖」—— 标准库 tkinter 撑起全部 GUI，任何有 Python 的机器拿来就能跑。v0.4 把「通知」扩展成完整的交互层后，我更确认了两件事：**hooks 是 Claude Code 深度定制的正解**；而对话框的串行化与 headless 降级，才是这类工具能不能长期留在工作流里的关键。

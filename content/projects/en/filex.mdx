@@ -1,0 +1,110 @@
+---
+title: FileX — Deterministic File Ops for AI Agents
+description: "A deterministic file and environment-variable CLI for AI agents on Windows: encoding-aware, fully audited, backup and rollback included, with a built-in MCP server."
+tags:
+  - Go
+  - CLI
+  - MCP
+  - Windows
+  - AI Agent
+image: /images/projects/filex.svg
+date: "2026-10-29"
+github: https://github.com/BaixuanZhu/FileX
+featured: true
+metrics:
+  - label: Releases
+    value: "6"
+  - label: Commits
+    value: "79"
+  - label: Platforms
+    value: "3"
+---
+
+## Overview
+
+AI agents are already good at writing code and editing configuration — until it is time to touch the disk. They assume UTF-8, leave no trace when something fails, and on Windows run into the registry, file locks, and long paths. One bad overwrite can cost more than ten bad suggestions.
+
+FileX turns these operations into a deterministic CLI: read, write, edit, search, delete, environment variables, backups, auditing, and MCP all return structured JSON, so an agent can judge the result instead of guessing.
+
+## Design Principles
+
+- **Encoding before content**: detect GBK / GB18030 / UTF-16 / BOM and return the encoding plus a confidence level; never transcode silently
+- **Recoverable by default**: writes can create automatic backups, deletes go to a recovery directory, and permanent deletion needs an explicit `--purge` plus confirmation
+- **Fully auditable**: every operation lands in a JSONL journal with before/after SHA-256; sensitive environment variables record only names and hashes
+- **Deny first**: path policy rejects system directories before allow rules, and irreversible operations are refused when there is no interactive terminal
+
+## Security Model
+
+FileX allows the current working directory by default and explicitly denies `C:\Windows`, `C:\Program Files`, `.git/objects`, and similar locations. Symlinks are resolved with `EvalSymlinks` first, so a path cannot escape an allowed directory.
+
+Irreversible operations fall into four classes: permanent deletion, machine-scope environment writes, writes to FileX's own config directory, and self-update. Two facts decide the outcome: **does the current process have an interactive terminal**, and **is bypass allowed for this class**.
+
+- With a terminal: prompt y/N; only `y` / `yes` passes, and a bare Enter means no
+- Without a terminal (scripts, CI, AI agents): refuse immediately, never read stdin
+- The MCP path is always treated as non-interactive: repeated model requests are not human approval
+- The only bypass is a deliberately verbose flag, and it leaves a `bypass=true` audit record
+
+## Encoding and File Operations
+
+```powershell
+filex read config.ini --encoding=auto
+filex edit config.ini --find="old=value" --replace="new=value" --backup
+filex rm old-file.txt        # move to the recovery directory
+filex rm old-file.txt --purge --dry-run   # preview a permanent delete first
+```
+
+- `read` / `write` / `edit` / `grep` / `tail` are all encoding-aware, and writes are atomic
+- `stat` returns size, modification time, encoding, and lock state; `lock` diagnoses which process holds a file
+- `hash` computes checksums, `ls` lists directories, and `rm` defaults to FileX's own recovery directory
+
+## Audit, Backup, and Restore
+
+- Every operation is appended to `~/.filex/journal/filex.jsonl`, including denied operations with `result=denied`
+- Backups live in `~/.filex/backups/`; paths are hashed so the directory layout does not leak
+- `backup list` / `backup restore` / `backup prune` manage snapshots, keeping three per file by default
+- `journal stats` aggregates by session, operation, and risk category, answering "what changed during this session?"
+
+## Windows Environment Variables
+
+```powershell
+filex env set NODE_ENV production --scope=user
+filex env get PATH --scope=user
+filex env list --scope=user
+```
+
+- Writes to the Windows registry and broadcasts `WM_SETTINGCHANGE` so new processes pick up the change
+- Supports user and machine scopes; machine-scope writes are irreversible and must pass the confirmation channel
+- Masks sensitive names such as PASSWORD / SECRET / KEY / TOKEN when listing variables
+
+## MCP Server
+
+FileX is not only a human-facing CLI — it can also run as an MCP stdio server for AI clients:
+
+```bash
+filex mcp serve     # start the MCP stdio server
+filex mcp install   # write MCP configuration for an AI client
+```
+
+MCP tools reuse the same deterministic interface and security policy, so the model receives structured results instead of prose it has to parse.
+
+## Distribution and Self-Update
+
+- Windows installer (installs to `%LOCALAPPDATA%\FileX`, adds to PATH, creates a Start Menu entry)
+- PowerShell one-liner, Linux/macOS `install.sh`, Go install, and prebuilt archives
+- Versioned install directories plus a `current` junction/symlink; switching versions copies nothing
+- `filex upgrade` verifies SHA-256 and swaps atomically, keeping the three most recent versions
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Releases | 6 (latest v0.4.0) |
+| Commits | 79 |
+| Platforms | Windows / Linux / macOS |
+| Scope | File ops, env vars, backup & audit, MCP, upgrades |
+
+## Reflection
+
+Building tools for agents is a different product problem from building tools for people. Humans read docs, notice prompts, and recover manually. Agents need **deterministic input and output, explicit failure semantics, and a boundary they cannot cross**.
+
+The hardest part of FileX is not the commands — it is deciding when to refuse: no terminal means no permanent delete, an MCP call cannot approve on a human's behalf, and a `y` piped through stdin is not consent. Give agents the ability to act, and the discipline not to.

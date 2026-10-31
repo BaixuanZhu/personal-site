@@ -1,0 +1,110 @@
+---
+title: FileX — 面向 AI Agent 的文件操作 CLI
+description: "为 AI Agent 打造的确定性文件与环境变量 CLI：编码感知、全量审计、备份回滚，并内置 MCP 服务。"
+tags:
+  - Go
+  - CLI
+  - MCP
+  - Windows
+  - AI Agent
+image: /images/projects/filex-zh.svg
+date: "2026-10-29"
+github: https://github.com/BaixuanZhu/FileX
+featured: true
+metrics:
+  - label: 发布版本
+    value: "6 个"
+  - label: 代码提交
+    value: "79"
+  - label: 支持平台
+    value: "3 个"
+---
+
+## 项目概述
+
+AI Agent 写代码、改配置已经足够熟练，但一到「落盘」就变得不可靠：默认按 UTF-8 读写、失败后没有痕迹、在 Windows 上还会撞上注册表、文件锁和长路径。一次错误的覆盖，可能比十次错误的建议更贵。
+
+FileX 把这些操作收进一个确定性的 CLI：读、写、编辑、搜索、删除、环境变量、备份、审计和 MCP 全部返回结构化 JSON，让 Agent 能判断结果，而不是靠猜。
+
+## 设计原则
+
+- **编码先于内容**：自动检测 GBK / GB18030 / UTF-16 / BOM，并在结果中返回编码与置信度；不做静默转码
+- **默认可恢复**：写操作可选自动备份，删除默认移入恢复目录；永久删除必须显式加 `--purge` 并再次确认
+- **全量可审计**：每个操作写入 JSONL journal，记录写前/写后 SHA-256；敏感环境变量只记录名称与哈希
+- **拒绝优先**：路径策略先拒绝系统目录，再做允许判断；不可逆操作在无交互终端时直接拒绝
+
+## 安全模型
+
+FileX 默认只允许当前工作目录，并显式拒绝 `C:\Windows`、`C:\Program Files`、`.git/objects` 等系统位置；符号链接会先做 `EvalSymlinks`，防止从允许目录逃逸。
+
+不可逆操作被分成四类：永久删除、machine 级环境变量写入、写自身配置目录、自更新。判定只看两件事：**当前进程有没有可交互终端**，以及**该类操作是否允许 bypass**。
+
+- 有终端：提示 y/N，只有 `y` / `yes` 通过，直接回车算拒绝
+- 没有终端（脚本、CI、AI Agent）：直接拒绝，不读取 stdin
+- MCP 路径永远视为不可交互：模型反复请求不构成人类批准
+- 唯一的绕过方式是一个刻意冗长的显式旗标，并留下 `bypass=true` 审计记录
+
+## 编码与文件操作
+
+```powershell
+filex read config.ini --encoding=auto
+filex edit config.ini --find="old=value" --replace="new=value" --backup
+filex rm old-file.txt        # 移入恢复目录，可随时找回
+filex rm old-file.txt --purge --dry-run   # 先预览永久删除会做什么
+```
+
+- `read` / `write` / `edit` / `grep` / `tail` 全部编码感知，写操作原子落盘
+- `stat` 返回大小、修改时间、编码与锁状态；`lock` 诊断文件被哪个进程占用
+- `hash` 计算校验和，`ls` 列目录，`rm` 默认进入 FileX 自己的恢复目录
+
+## 审计、备份与恢复
+
+- 所有操作写入 `~/.filex/journal/filex.jsonl`，被拒绝的操作同样记录 `result=denied`
+- 写操作备份保存在 `~/.filex/backups/`，备份路径使用原路径哈希，避免泄露目录结构
+- `backup list` / `backup restore` / `backup prune` 管理快照，默认每个文件保留 3 份
+- `journal stats` 按会话、操作与风险类别聚合审计数据，方便回答「这段时间改了什么」
+
+## Windows 环境变量
+
+```powershell
+filex env set NODE_ENV production --scope=user
+filex env get PATH --scope=user
+filex env list --scope=user
+```
+
+- 直接写入 Windows 注册表，并广播 `WM_SETTINGCHANGE` 让新进程立即生效
+- 支持 user / machine 作用域；machine 级写入属于不可逆操作，必须经过确认通道
+- 列出变量时对 PASSWORD / SECRET / KEY / TOKEN 等敏感名称自动脱敏
+
+## MCP 服务
+
+FileX 不只是给人类用的 CLI，也可以作为 MCP stdio 服务器接入 AI 客户端：
+
+```bash
+filex mcp serve     # 启动 MCP stdio 服务器
+filex mcp install   # 为 AI 客户端写入 MCP 配置
+```
+
+MCP 工具复用同一套确定性接口与安全策略，模型拿到的是结构化结果，而不是需要解析的自然语言。
+
+## 分发与自更新
+
+- Windows 安装器（写入 `%LOCALAPPDATA%\FileX`、加入 PATH、创建开始菜单项）
+- PowerShell 一键脚本、Linux/macOS `install.sh`、Go install 与预构建归档
+- 采用版本化目录 + `current` junction/symlink，切换版本不复制文件
+- `filex upgrade` 校验 SHA-256 后原子替换，默认只保留最近 3 个版本
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| 发布版本 | 6 个 Release（最新 v0.4.0） |
+| 代码提交 | 79 commits |
+| 支持平台 | Windows / Linux / macOS |
+| 能力范围 | 文件操作、环境变量、备份审计、MCP、版本升级 |
+
+## 反思
+
+给 Agent 做工具，和给人做工具是两种产品思路。人愿意读文档、看提示、在出错后手动兜底；Agent 需要的是**确定性的输入输出、明确的失败语义，以及一条它不能越过的边界**。
+
+FileX 里最花心思的部分不是命令本身，而是「什么时候应该拒绝」：没有终端就不允许永久删除，MCP 调用不能替人类批准，管道里的 `y` 不算同意。让 Agent 有能力做事，也要让它有边界不做。

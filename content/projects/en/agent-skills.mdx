@@ -1,52 +1,74 @@
 ---
 title: Agent Skills — A Suite for the Chinese Java Ecosystem
-description: "Fourteen AI coding skills for Chinese Java/Spring teams: coding standards, quality gates, testing, framework development, and agile workflows — compatible with 41+ AI coding agents."
+description: "Ten AI coding skills for Chinese Java/Spring teams: coding contracts, testing, Sa-Token/MyBatis-Plus, RabbitMQ reliability, and agile workflows — compatible with 41+ AI coding agents."
 tags:
   - AI Agent
   - Claude Code
   - Prompt Engineering
   - Java
   - Spring Boot
+  - RabbitMQ
 image: /images/projects/agent-skills.svg
 date: "2026-08-02"
 github: https://github.com/BaixuanZhu/skills
 featured: true
 metrics:
   - label: Skills
-    value: "14"
+    value: "10"
+  - label: Plugins
+    value: "6"
   - label: Agents supported
     value: "41+"
-  - label: Distribution channels
-    value: "2"
 ---
 
 ## Overview
 
-AI coding assistants underperform on Chinese Java teams: training corpora skew English, they don't know the Alibaba Java coding handbook, and they've never seen the idioms of Sa-Token or MyBatis-Plus — the code they produce "runs, but isn't how we write it here."
+AI coding assistants underperform on Chinese Java teams: training corpora skew English, they don't know the boundary rules a team has agreed on, and they've never seen the idioms of Sa-Token or MyBatis-Plus — the code they produce "runs, but isn't how we write it here."
 
-This project turns engineering standards into **knowledge that AI agents can install and execute**: fourteen Agent Skills covering coding standards, quality gates, testing, mainstream framework development, and agile workflows — installable as Claude Code plugins or via `npx skills` (which works with Cursor, Codex, Zed, and 41+ other agents).
+This project turns engineering standards into **knowledge that AI agents can install and execute**: ten Agent Skills organized into six plugins, covering coding contracts, unit and integration testing, mainstream framework development, MQ reliability, and agile workflows. Install them as Claude Code plugins or via `npx skills`, which works with Cursor, Codex, Zed, and 41+ other agents.
+
+## Plugins and Skills
+
+| Plugin | Skills |
+| --- | --- |
+| `java-standard` | `java-contract` |
+| `java-test` | `java-unit-test`, `java-integration-test` |
+| `sa-token-dev` | `sa-token-dev` |
+| `mybatis-plus-dev` | `mybatis-plus-dev` |
+| `rabbitmq-dev` | `mq-reliability` |
+| `agile` | `using-agile`, `agile-strategic`, `agile-backlog`, `agile-sprint` |
 
 ## Layered Design
 
-Skills are organized in three layers, installed on demand — each skill is a standalone plugin:
-
-- **Base layer**: `repo-init` (generates a cross-tool AGENTS.md project brief), `java-coding-guide-pro` (standards & pitfalls), `java-coding-quality` (quality and security gates), `java-unit-test` (unit-test alignment), `java-integration-test` (integration tests / API-level verification)
-- **Framework boost**: `sa-token-dev` (authentication & authorization), `mybatis-plus-dev` (ORM enhancements), `redis-dev` (Redis caching design), `spring-boot-dev` (Spring Boot development), `spring-boot-init` (project scaffolding)
-- **Agile flow**: `using-agile` entry → `agile-strategic` (vision + C4 + ADR) → `agile-backlog` → `agile-sprint`
+- **Base layer**: `java-contract` reads `pom.xml` to pin the target JDK and records eight boundary decisions as a project rule file; `java-unit-test` focuses on development-time unit tests and catches "green but untested"; `java-integration-test` handles three integration-test decisions and three false-green mechanisms
+- **Framework boost**: `sa-token-dev` covers login, authorization, SSO, JWT, and sessions; `mybatis-plus-dev` covers CRUD, pagination, transactions, and logical deletes with a project seeding mechanism; `mq-reliability` builds a RabbitMQ reliability contract from measured baselines
+- **Agile flow**: `using-agile` routes by project stage to `agile-strategic` (vision + C4 + ADR), `agile-backlog` (backlog), and `agile-sprint` (sprint planning); `backlog.json` is the single source of truth
 
 ## Turning Standards into Knowledge
 
-Take `java-coding-guide-pro`: version differences across JDK 8–25, Alibaba handbook clauses, and SonarQube rules are structured as "**when to trigger → what to look up → how to fix**". The standard is no longer a PDF rotting in the wiki — it's context the AI loads automatically while writing code.
+Take `java-contract`: instead of stuffing a handbook into context, it reads `pom.xml` to confirm the target JDK, then records boundary decisions — "does this method return null or an empty collection?", "how do exceptions propagate?" — in `.claude/rules/java-contract.md`. The skill is read explicitly before use, verified by compilation, and ships seven review groups organized by failure mode.
+
+The point of a standard is not completeness; it is **knowing which rule the AI needs, and when**. A vague trigger means great content never loads; verbose content burns a precious context window.
 
 ## Engineering the Maintenance
 
 - `skills/` is the single content source; `plugins/` is a mirror for the Claude Code / ZCode plugin spec, synced automatically by a pre-commit hook (`scripts/sync-plugins.mjs`) with a GitHub Actions safety net — **edit a skill in exactly one place**
 - Two distribution channels: Claude Code plugins (managed, read-only, updates with the plugin) and `npx skills` (editable copies in your project, flexible but you track updates)
+- The agile suite ships three hooks: each turn they inject "what to do next + the rule most easily missed at this stage" based on project phase, then validate and re-render sprint points after `backlog.json` changes
 
 ## Evaluation-Driven
 
 Every skill ships its **Darwin-style evaluation artifacts** — test prompts, output snapshots, scoring records — publicly under `eval/`, organized per skill, inspectable and reproducible by anyone. Skill quality isn't "feels nice"; it's a regression-testable artifact.
 
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Skills | 10 |
+| Plugins | 6 |
+| Commits | 211 |
+| Agents supported | 41+ |
+
 ## Reflection
 
-The hardest part of writing skills isn't stacking rules — it's deciding "**what context does the AI need, and when**". A vague trigger description means great content never loads; verbose content burns a precious context window. Skill design is an information-architecture problem, not a prompt-template problem.
+The hardest part of writing skills isn't stacking rules — it's deciding "**what context does the AI need, and when**". This refactor replaced the early knowledge-category split with a workflow-stage split: establish the contract, write tests, build with the framework, then enter the agile loop. Skill design is an information-architecture problem, not a prompt-template problem.

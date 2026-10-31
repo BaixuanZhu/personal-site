@@ -16,7 +16,7 @@ metrics:
   - label: Distributions
     value: "6"
   - label: Releases
-    value: "21"
+    value: "22"
   - label: Install methods
     value: "3"
 ---
@@ -77,13 +77,22 @@ The classic annoyance is reopening the terminal after a switch. On first run, jv
 - **Distribution**: NSIS installers (x64 / ARM64, registered in "Programs and Features"), a portable zip, and a PowerShell one-liner
 - **Self-update**: `jvm upgrade` pulls from GitHub Releases
 
+## Scripting and Maintenance
+
+- `jvm list --json` / `available --json` / `outdated --json` / `doctor --json` provide machine-readable output for scripts and CI
+- `jvm uninstall 21` falls back to the newest remaining version when removing the active one; `--all` removes every patch in a major group
+- `jvm cache clean --older-than 30d` prunes download caches by age, while `jvm cache` reports usage
+- `jvm install temurin@21.0.5+11 D:\jdk.zip` manages a local zip directly, with zero network for intranet or proxy environments
+- Besides `.jvmrc`, it reads `.java-version` / `.tool-versions` / `.sdkmanrc` by priority
+- `jvm doctor` now runs 14 checks, and `jvm available` caches results locally for 10 minutes
+
 ## Results
 
 | Dimension | Data |
 | --- | --- |
 | Distributions | 6 (plus a `temurin-ea` preview variant) |
-| Releases | 21 (latest v0.14.0) |
-| Commits | 97 |
+| Releases | 22 (latest v0.15.0) |
+| Commits | 101 |
 | Architectures | x64 / ARM64 |
 
 ## Reflection

@@ -16,7 +16,7 @@ metrics:
   - label: 支持发行版
     value: "6 个"
   - label: 发布 Release
-    value: "21 个"
+    value: "22 个"
   - label: 安装方式
     value: "3 种"
 ---
@@ -77,13 +77,22 @@ jvm use 21        # 切换 —— 当前终端立即生效
 - **分发**：NSIS 安装包（x64 / ARM64，注册到「程序和功能」）+ 便携 zip + PowerShell 一键脚本
 - **自更新**：`jvm upgrade` 走 GitHub Release
 
+## 脚本化与维护
+
+- `jvm list --json` / `available --json` / `outdated --json` / `doctor --json` 为脚本与 CI 提供机器可读输出
+- `jvm uninstall 21` 删除在用版本时自动回退到剩余最新版；`--all` 批量卸载同一大版本组
+- `jvm cache clean --older-than 30d` 按龄清理下载缓存，`jvm cache` 查看占用
+- `jvm install temurin@21.0.5+11 D:\jdk.zip` 从本地 zip 纳管，内网 / 代理环境零网络
+- 除 `.jvmrc` 外，还按优先级兼容 `.java-version` / `.tool-versions` / `.sdkmanrc`
+- `jvm doctor` 已扩展到 14 项检查；`jvm available` 结果本地缓存 10 分钟
+
 ## 项目成果
 
 | 维度 | 数据 |
 | --- | --- |
 | 支持发行版 | 6 个（另含 temurin-ea 预览变体） |
-| 发布版本 | 21 个 Release（最新 v0.14.0） |
-| 代码提交 | 97 commits |
+| 发布版本 | 22 个 Release（最新 v0.15.0） |
+| 代码提交 | 101 commits |
 | 支持架构 | x64 / ARM64 |
 
 ## 反思
