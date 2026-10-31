@@ -23,7 +23,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   const { about } = dict;
 
   return (
-    <main className="flex-1">
+    <main id="main" tabIndex={-1} className="flex-1">
       {/* 个人介绍 */}
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
         <FadeIn>

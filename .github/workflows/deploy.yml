@@ -46,12 +46,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Check content
+        run: pnpm check:content
+
       - name: Build static export
         env:
           NEXT_OUTPUT: export # next.config.ts 据此启用 output: "export"（proxy 在该模式下被忽略）
           NEXT_PUBLIC_BASE_PATH: ${{ env.BASE_PATH }}
           NEXT_PUBLIC_SITE_URL: ${{ env.SITE_URL }}
         run: pnpm build
+
+      - name: Verify export
+        run: pnpm verify:export
 
       # proxy.ts 的语言协商在纯静态托管上不可用；
       # 用一个根跳转页替代：读 NEXT_LANG Cookie，无偏好默认中文（与 proxy 逻辑一致）

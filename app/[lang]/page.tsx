@@ -20,7 +20,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const projects = getFeaturedProjects(lang);
 
   return (
-    <main className="flex-1">
+    <main id="main" tabIndex={-1} className="flex-1">
       <Hero copy={dict.hero} />
       <FeaturedProjects
         locale={lang}

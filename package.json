@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/check-content.mjs && next build",
     "start": "next start",
     "lint": "eslint",
+    "check:content": "node scripts/check-content.mjs",
+    "verify:export": "node scripts/verify-export.mjs",
+    "check": "pnpm lint && pnpm check:content",
     "repo-stats": "node scripts/fetch-repo-stats.mjs"
   },
   "dependencies": {

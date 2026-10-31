@@ -191,7 +191,7 @@ export function RadarChart({ axes, label }: RadarChartProps) {
       <div className="relative w-full max-w-[340px]">
         <svg
           viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
-          role="img"
+          role="group"
           aria-label={label}
           className="h-auto w-full"
         >
@@ -299,7 +299,8 @@ export function RadarChart({ axes, label }: RadarChartProps) {
               fill="transparent"
               tabIndex={0}
               role="graphics-symbol"
-              aria-label={`${axes[i].label}：${axes[i].value} 分，${axes[i].description}`}
+              aria-label={`${axes[i].label}: ${axes[i].value}/100. ${axes[i].description}`}
+              className="outline-none focus-visible:stroke-ring focus-visible:stroke-2"
               onMouseEnter={() => setActive(i)}
               onMouseLeave={() => setActive(null)}
               onFocus={() => setActive(i)}
@@ -353,7 +354,7 @@ export function RadarChart({ axes, label }: RadarChartProps) {
       <ul className="sr-only">
         {axes.map((axis) => (
           <li key={axis.label}>
-            {axis.label}：{axis.value} / 100
+            {axis.label}: {axis.value} / 100
           </li>
         ))}
       </ul>

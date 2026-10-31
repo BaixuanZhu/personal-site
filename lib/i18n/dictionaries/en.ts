@@ -6,6 +6,9 @@ import type { Dictionary } from "./zh";
  */
 export const en: Dictionary = {
   htmlLang: "en",
+  a11y: {
+    skipToContent: "Skip to content",
+  },
   metadata: {
     role: "Java Backend Engineer · AI Tooling",
     description:

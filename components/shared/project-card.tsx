@@ -39,7 +39,7 @@ export function ProjectCard({ project, locale, repoMeta, priority = false }: Pro
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
             src={withBasePath(project.image)}
-            alt={project.title}
+            alt=""
             fill
             priority={priority}
             // 本地小体积 SVG，懒加载会在滚动进入视口时晚到反而成为 LCP，直接急加载

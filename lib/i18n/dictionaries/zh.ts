@@ -5,6 +5,11 @@
 export const zh = {
   /** <html lang> 使用的语言标识 */
   htmlLang: "zh-CN",
+  /** 无障碍辅助文案 */
+  a11y: {
+    /** 跳转到主要内容的 skip link 文案 */
+    skipToContent: "跳到主要内容",
+  },
   metadata: {
     /** 职位头衔（用于页面标题与关于页） */
     role: "Java 后端工程师 · AI 工程化",

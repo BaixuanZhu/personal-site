@@ -34,7 +34,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) notFound();
 
   return (
-    <main className="flex-1">
+    <main id="main" tabIndex={-1} className="flex-1">
       <article className="mx-auto max-w-3xl px-6 py-16 sm:py-24">
         <Link
           href={`/${lang}#projects`}
@@ -106,7 +106,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="relative mt-10 aspect-[16/10] overflow-hidden rounded-xl border border-border/60">
           <Image
             src={withBasePath(project.image)}
-            alt={project.title}
+            alt=""
             fill
             priority
             sizes="(min-width: 768px) 768px, 100vw"

@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Geist_Mono, Inter, Noto_Sans_SC } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist_Mono, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/shared/footer";
@@ -15,12 +15,6 @@ const fontInter = Inter({
   display: "swap",
 });
 
-const fontNotoSansSC = Noto_Sans_SC({
-  subsets: ["latin"],
-  variable: "--font-noto-sans-sc",
-  display: "swap",
-});
-
 const fontGeistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
@@ -28,6 +22,15 @@ const fontGeistMono = Geist_Mono({
 
 /** 只允许构建期生成的语言路由，未知的语言前缀直接 404 */
 export const dynamicParams = false;
+
+/** 浏览器 UI 主题色跟随亮暗模式，并声明两者均受支持 */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+  colorScheme: "light dark",
+};
 
 /**
  * 多语言根布局：<html lang> 随语言变化，Header/Footer 文案由字典注入。
@@ -45,9 +48,15 @@ export default async function RootLayout({
     <html
       lang={dict.htmlLang}
       suppressHydrationWarning
-      className={`${fontInter.variable} ${fontNotoSansSC.variable} ${fontGeistMono.variable} h-full antialiased`}
+      className={`${fontInter.variable} ${fontGeistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:border focus:border-border focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:ring-2 focus:ring-ring focus:outline-none"
+        >
+          {dict.a11y.skipToContent}
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
