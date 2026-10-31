@@ -20,14 +20,14 @@ interface ProjectCardProps {
   project: Project;
   /** 当前语言（决定详情页链接前缀） */
   locale: Locale;
-  /** 仓库实时元信息文案 */
+  /** 仓库统计文案 */
   repoMeta: Dictionary["repoMeta"];
   /** 优先加载首屏卡片图片 */
   priority?: boolean;
 }
 
 /**
- * 精选项目卡片：预览图、技术标签、量化成果、仓库实时元信息与详情页入口。
+ * 精选项目卡片：预览图、技术标签、量化成果、仓库统计信息与详情页入口。
  */
 export function ProjectCard({ project, locale, repoMeta, priority = false }: ProjectCardProps) {
   return (

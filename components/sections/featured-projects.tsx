@@ -12,7 +12,7 @@ interface FeaturedProjectsProps {
   projects: Project[];
   /** 区块标题文案 */
   heading: Dictionary["featured"];
-  /** 仓库实时元信息文案（透传给项目卡片） */
+  /** 仓库统计文案（透传给项目卡片） */
   repoMeta: Dictionary["repoMeta"];
 }
 

@@ -1,13 +1,13 @@
 /**
- * 发版前手动运行：`pnpm repo-stats`
+ * 刷新仓库统计快照：`pnpm repo-stats`
  *
  * 扫描 content/projects/ 下各项目 frontmatter 的 github 字段，从 GitHub API
- * 拉取最近 push 时间与提交总数，写入 lib/repo-stats.json，作为 RepoMeta 的
- * 服务端默认值——页面静态 HTML 即含完整数据，访客端不再出现请求前的占位；
- * 发版后浏览器端仍会照常静默刷新到最新值。
+ * 拉取最近 push 时间与提交总数，写入 lib/repo-stats.json。该快照是 RepoMeta
+ * 唯一的运行时数据源——页面静态 HTML 即含完整数据，浏览器端不再请求 GitHub API。
+ * 本地手动运行或在部署工作流构建前执行（含每周定时触发）。
  *
  * 某仓库拉取失败时保留 JSON 中的旧值（避免一次网络抖动清空默认数据）；
- * 若旧值也不存在则以非零码退出，提示发版者重跑。
+ * 若旧值也不存在则以非零码退出，阻断本次部署并提示重跑。
  */
 import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -27,7 +27,7 @@ function extractGithubUrls(file) {
   return match ? match[1] : null;
 }
 
-/** 拉取单个仓库的最近 push 时间与提交总数（逻辑对齐 repo-meta.tsx） */
+/** 拉取单个仓库的最近 push 时间与提交总数（字段对齐 lib/repo-stats.json） */
 async function fetchRepoInfo(repo) {
   const init = {
     headers: {

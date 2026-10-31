@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-# 推送到 main 或手动触发时，静态导出站点并发布到 GitHub Pages。
+# 推送到 main、手动触发或每周定时任务，静态导出站点并发布到 GitHub Pages。
 # 首次使用前需在仓库 Settings → Pages 将 Source 设为 GitHub Actions
 # （或由 gh api repos/{repo}/pages -f build_type=workflow 完成）。
 
@@ -8,6 +8,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 每周一 03:17 UTC 定时刷新仓库统计并重新部署（GitHub cron 使用 UTC）
+    - cron: "17 3 * * 1"
 
 # Pages 部署所需的官方权限（contents 读 + pages 写 + OIDC）
 permissions:
@@ -49,6 +52,14 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      # 构建前刷新仓库统计快照：push/手动/每周定时部署共用。
+      # 注入 GITHUB_TOKEN 提高 API 限额；刷新后的 JSON 直接进入本次静态导出，
+      # 无需提交回仓库。拉取失败且无旧值时会阻断部署。
+      - name: Refresh repo stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm repo-stats
+
       - name: Check content
         run: pnpm check:content
 
@@ -59,13 +70,14 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ env.SITE_URL }}
         run: pnpm build
 
-      - name: Verify export
-        run: pnpm verify:export
-
       # proxy.ts 的语言协商在纯静态托管上不可用；
       # 用一个根跳转页替代：读 NEXT_LANG Cookie，无偏好默认中文（与 proxy 逻辑一致）
+      # 根跳转页也参与导出验收的元数据检查，因此必须在 verify 之前生成。
       - name: Add root redirect for language negotiation
         run: node scripts/gen-root-redirect.mjs # BASE_PATH 由工作区级 env 注入
+
+      - name: Verify export
+        run: pnpm verify:export
 
       # Pages 默认经 Jekyll 处理产物，会忽略 _next 等下划线目录
       - name: Disable Jekyll processing

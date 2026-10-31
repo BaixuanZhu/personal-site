@@ -7,6 +7,7 @@ import { Header } from "@/components/shared/header";
 import { siteConfig } from "@/lib/config";
 import { defaultLocale, isLocale, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { siteDisplayTitle } from "@/lib/seo";
 import "../globals.css";
 
 const fontInter = Inter({
@@ -88,7 +89,8 @@ export function generateStaticParams() {
 }
 
 /**
- * 按语言生成 SEO 元数据（标题/描述/OG/hreflang 备选链接）。
+ * 按语言生成站点级 SEO 元数据（标题模板/描述/社交分享默认值）。
+ * canonical、hreflang 与 openGraph.url 由各页面自行提供，避免子页面继承错误值。
  */
 export async function generateMetadata({
   params,
@@ -96,27 +98,16 @@ export async function generateMetadata({
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : defaultLocale;
   const dict = await getDictionary(locale);
-  const title = `${siteConfig.name} | ${dict.metadata.role}`;
+  const siteName = siteDisplayTitle(locale, dict.brand.nativeName);
+  const title = `${siteName} | ${dict.metadata.role}`;
 
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
       default: title,
-      template: `%s | ${siteConfig.name}`,
+      template: `%s | ${siteName}`,
     },
     description: dict.metadata.description,
-    // 相对路径会由 Next 自动拼接 basePath（静态导出时）
-    alternates: {
-      languages: { zh: "/zh", en: "/en" },
-    },
-    openGraph: {
-      title,
-      description: dict.metadata.description,
-      url: siteConfig.url,
-      siteName: siteConfig.name,
-      locale: dict.metadata.ogLocale,
-      type: "website",
-    },
     twitter: {
       card: "summary_large_image",
       title,

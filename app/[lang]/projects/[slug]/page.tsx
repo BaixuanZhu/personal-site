@@ -10,12 +10,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GithubIcon } from "@/components/shared/brand-icons";
+import { JsonLd } from "@/components/shared/json-ld";
 import { RepoMeta } from "@/components/shared/repo-meta";
 import { defaultLocale, isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 import { withBasePath } from "@/lib/config";
 import { mdxComponents } from "@/lib/mdx-components";
+import {
+  absoluteUrl,
+  pageMetadata,
+  personJsonLd,
+} from "@/lib/seo";
 
 type ProjectPageProps = PageProps<"/[lang]/projects/[slug]">;
 
@@ -33,8 +39,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   ];
   if (!project) notFound();
 
+  const author = personJsonLd({
+    locale: lang,
+    nativeName: dict.brand.nativeName,
+    jobTitle: dict.metadata.role,
+  });
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: project.title,
+    description: project.description,
+    ...(project.github ? { codeRepository: project.github } : {}),
+    datePublished: project.date,
+    image: absoluteUrl(project.image),
+    inLanguage: dict.htmlLang,
+    author,
+  };
+
   return (
     <main id="main" tabIndex={-1} className="flex-1">
+      <JsonLd data={projectJsonLd} />
       <article className="mx-auto max-w-3xl px-6 py-16 sm:py-24">
         <Link
           href={`/${lang}#projects`}
@@ -152,30 +176,25 @@ export async function generateStaticParams(props: {
 }
 
 /**
- * 按项目 frontmatter 生成页面元数据（标题/描述/OG 图/hreflang 备选链接）。
+ * 按项目 frontmatter 生成页面元数据（canonical/hreflang/OG/分享信息）。
+ * 项目页的文档标题由布局模板追加中英文站点名。
  */
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!isLocale(lang)) return {};
+  const dict = await getDictionary(lang);
   const project = getProjectBySlug(lang, slug);
   if (!project) return {};
 
-  return {
+  return pageMetadata({
+    locale: lang,
+    path: `/projects/${project.slug}/`,
     title: project.title,
     description: project.description,
-    alternates: {
-      languages: {
-        // 相对路径会由 Next 自动拼接 basePath（静态导出时）
-        zh: `/zh/projects/${slug}`,
-        en: `/en/projects/${slug}`,
-      },
-    },
-    openGraph: {
-      title: project.title,
-      description: project.description,
-      images: [{ url: project.image }],
-    },
-  };
+    ogLocale: dict.metadata.ogLocale,
+    type: "article",
+    nativeName: dict.brand.nativeName,
+  });
 }

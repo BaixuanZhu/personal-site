@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import { ArrowRight, Briefcase, Coffee, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/shared/fade-in";
+import { JsonLd } from "@/components/shared/json-ld";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { siteConfig } from "@/lib/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { localeUrl, pageMetadata, personJsonLd } from "@/lib/seo";
 
 type AboutPageProps = PageProps<"/[lang]/about">;
 
@@ -21,9 +23,25 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   const dict = await getDictionary(lang);
   const { about } = dict;
+  const person = personJsonLd({
+    locale: lang,
+    nativeName: dict.brand.nativeName,
+    jobTitle: dict.metadata.role,
+  });
 
   return (
     <main id="main" tabIndex={-1} className="flex-1">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          url: localeUrl(lang, "/about/"),
+          name: about.metadataTitle,
+          inLanguage: dict.htmlLang,
+          // 与首页共用同一个 Person 节点，保证结构化数据一致
+          mainEntity: person,
+        }}
+      />
       {/* 个人介绍 */}
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
         <FadeIn>
@@ -146,7 +164,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 }
 
 /**
- * 按语言生成 About 页元数据。
+ * 关于页元数据：canonical、hreflang 与按语言区分的分享信息。
  */
 export async function generateMetadata({
   params,
@@ -155,8 +173,13 @@ export async function generateMetadata({
   if (!isLocale(lang)) return {};
   const dict = await getDictionary(lang);
 
-  return {
+  return pageMetadata({
+    locale: lang,
+    path: "/about/",
     title: dict.about.metadataTitle,
     description: dict.metadata.description,
-  };
+    ogLocale: dict.metadata.ogLocale,
+    type: "website",
+    nativeName: dict.brand.nativeName,
+  });
 }

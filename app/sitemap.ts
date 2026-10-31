@@ -9,12 +9,14 @@ export const dynamic = "force-static";
 // siteConfig.url 已包含部署子路径（如 /personal-site），此处不再拼 basePath
 const baseUrl = siteConfig.url.replace(/\/+$/, "");
 
-/** 生成 zh/en 两个语言版本的绝对地址，用于 hreflang 备选链接 */
+/** 生成 zh/en 两个语言版本与 x-default 的绝对地址，用于 hreflang 备选链接 */
 function alternates(path: string) {
+  const zh = `${baseUrl}/zh${path}`;
   return {
     languages: {
-      zh: `${baseUrl}/zh${path}`,
+      zh,
       en: `${baseUrl}/en${path}`,
+      "x-default": zh,
     },
   };
 }

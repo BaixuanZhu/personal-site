@@ -109,7 +109,7 @@ export const zh = {
       "如果你的团队需要一个既懂 Java 后端、又能搭建 AI 工程化工具链的人，欢迎邮件联系 —— 通常 24 小时内回复。",
     email: "发送邮件",
   },
-  /** 项目仓库实时元信息（浏览器端从 GitHub API 拉取） */
+  /** 项目仓库统计文案（来自构建期快照 lib/repo-stats.json） */
   repoMeta: {
     /** 最近更新文案前缀 */
     updatedLabel: "更新于",
