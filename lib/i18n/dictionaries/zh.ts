@@ -148,7 +148,7 @@ export const zh = {
     location: "支持远程协作",
     paragraphs: [
       "你好！我是朱柏轩（Galaxy），Java 后端工程师，日常写的是 Spring Boot + Sa-Token + MyBatis-Plus —— 中文互联网团队最常用的一整套。比起「能跑就行」，我更在意代码半年后的样子：规范、可维护、经得起新同事追问。",
-      "工作之外也会顺手做些工具：Windows 上管 JDK 太烦，写了 jvm；开发工具太分散，做了 DevTools 把 55 个工具搬进浏览器；AI 编码助手不守规范，就把团队经验沉淀成 10 个 Agent 技能；AI 绘图时被假标签困扰过，就有了 Danbooru Tag MCP 和 civitai-cli。这些项目让我越来越相信：看不见的工程知识，做成工具之后才更容易被复用。",",
+      "工作之外也会顺手做些工具：Windows 上管 JDK 太烦，写了 jvm；开发工具太分散，做了 DevTools 把 55 个工具搬进浏览器；AI 编码助手不守规范，就把团队经验沉淀成 10 个 Agent 技能；AI 绘图时被假标签困扰过，就有了 Danbooru Tag MCP 和 civitai-cli。这些项目让我越来越相信：看不见的工程知识，做成工具之后才更容易被复用。",
     ],
     journey: {
       eyebrow: "Journey",
