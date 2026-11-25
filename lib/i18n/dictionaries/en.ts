@@ -66,7 +66,7 @@ export const en: Dictionary = {
         { label: "AI Tooling", value: 82, description: "10 agent skills plus Claude Code plugins" },
         { label: "Databases", value: 80, description: "MySQL tuning and Redis caching design" },
         { label: "CI/CD", value: 75, description: "GitHub Actions pipelines with quality gates" },
-        { label: "Open Source", value: 72, description: "7 active repos, continuous releases" },
+        { label: "Open Source", value: 72, description: "6 active repos, continuous releases" },
         { label: "Frontend", value: 65, description: "Full-stack support for tool sites" },
       ],
     },
@@ -95,8 +95,8 @@ export const en: Dictionary = {
     eyebrow: "About Me",
     title: "Turning pain points into tools",
     paragraphs: [
-      "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — which is why I keep building tools that turn repetitive work into a single command.",
-      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, and building deterministic tools such as civitai-cli for AI art workflows — check the facts first, then let the model act. Everything is open source on GitHub.",
+      "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — if a task repeats three times on the team, I turn it into one command.",
+      "Beyond backend work, I invest heavily in AI engineering: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, and building civitai-cli for AI art workflows — check the facts first, then let the model act. Everything is open source on GitHub.",
     ],
     more: "Learn more",
   },
@@ -127,14 +127,14 @@ export const en: Dictionary = {
     eyebrow: "All Projects",
     title: "All Open-Source Projects",
     description:
-      "From Java version management to file operations and MCP services for AI agents — every project starts from a real workflow pain point and keeps shipping.",
+      "From Java version management to model discovery and MCP services for AI art workflows — every project starts from a real workflow pain point and keeps shipping.",
     backHome: "Back to home",
   },
   about: {
     metadataTitle: "About Me",
     location: "Open to remote",
     paragraphs: [
-      "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — the Spring Boot, Sa-Token and MyBatis-Plus stack that Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
+      "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — Spring Boot, Sa-Token and MyBatis-Plus, the stack Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
       "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 55 everyday tools into the browser, civitai-cli verifies local model files by hash, and Agent Skills make AI coding assistants follow engineering standards.",
     ],
     journey: {

@@ -78,7 +78,7 @@ export const zh = {
         { label: "AI 工程化", value: 82, description: "10 个 Agent 技能 + Claude Code 插件开发" },
         { label: "数据库", value: 80, description: "MySQL 索引/事务调优，Redis 缓存设计" },
         { label: "CI/CD 工程化", value: 75, description: "GitHub Actions 流水线与质量门禁自动化" },
-        { label: "开源协作", value: 72, description: "7 个活跃开源仓库，持续迭代响应 issue" },
+        { label: "开源协作", value: 72, description: "6 个活跃开源仓库，持续迭代响应 issue" },
         { label: "前端开发", value: 65, description: "全栈补位：Vue 3 / Astro / React 工具站" },
       ],
     },
@@ -108,8 +108,8 @@ export const zh = {
     eyebrow: "About Me",
     title: "把痛点做成工具",
     paragraphs: [
-      "Java 后端工程师，主力技术栈是 Spring Boot + Sa-Token + MyBatis-Plus。比起「能跑就行」，我更在意规范与可维护性 —— 也因此总在给团队造工具：把重复劳动变成一条命令。",
-      "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，也为 AI 绘图工作流打造了 civitai-cli 这样的确定性工具 —— 先查真实数据，再让模型动手。所有项目都在 GitHub 开源。",
+      "Java 后端工程师，主力栈是 Spring Boot + Sa-Token + MyBatis-Plus。比起「能跑就行」，我更在意规范与可维护性 —— 团队里重复三次以上的事，我会做成一条命令。",
+      "除后端之外，我在 AI 工程化上投入很深：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，也为 AI 绘图工作流打造了 civitai-cli —— 先查真实数据，再让模型动手。所有项目都在 GitHub 开源。",
     ],
     more: "了解更多",
   },
@@ -140,14 +140,14 @@ export const zh = {
     eyebrow: "All Projects",
     title: "全部开源项目",
     description:
-      "从 Java 版本管理器到面向 AI Agent 的文件操作与 MCP 服务 —— 每个项目都源于真实工作流中的痛点，并持续迭代。",
+      "从 Java 版本管理器到 AI 绘图工作流的模型检索与 MCP 服务 —— 每个项目都源于真实工作流中的痛点，并持续迭代。",
     backHome: "返回首页",
   },
   about: {
     metadataTitle: "关于我",
     location: "支持远程协作",
     paragraphs: [
-      "你好！我是朱柏轩（Galaxy）。我的主线是 Java 后端开发 —— Spring Boot、Sa-Token、MyBatis-Plus 这一整套中文互联网团队最常用的技术栈。我关注的不只是把功能写出来，而是让代码经得起半年后的自己回来看。",
+      "你好！我是朱柏轩（Galaxy）。我的主线是 Java 后端开发 —— Spring Boot、Sa-Token、MyBatis-Plus，中文互联网团队最常用的一整套。我关注的不只是把功能写出来，而是让代码经得起半年后的自己回来看。",
       "另一条线是开发者工具与 AI 工程化。团队里最值钱的往往是那些「看不见的工程知识」：为什么这样设计、哪些坑不能踩。我把它们做成工具和 Agent 技能 —— jvm 解决 Windows 上的 JDK 版本管理，DevTools 把 55 个常用工具搬进浏览器，civitai-cli 用哈希给本地模型文件验明正身，Agent Skills 让 AI 编码助手遵守工程规范。",
     ],
     journey: {
