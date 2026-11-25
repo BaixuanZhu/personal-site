@@ -95,8 +95,8 @@ export const en: Dictionary = {
     eyebrow: "About Me",
     title: "Turning pain points into tools",
     paragraphs: [
-      "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — if a task repeats three times on the team, I turn it into one command.",
-      "Beyond backend work, I invest heavily in AI engineering: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, and building civitai-cli for AI art workflows — check the facts first, then let the model act. Everything is open source on GitHub.",
+      "I'm Baixuan Zhu (Galaxy) — a Java backend engineer with zero tolerance for repeated toil: if a task happens three times, it becomes a command or a tool. Core stack: Spring Boot, Sa-Token and MyBatis-Plus.",
+      "I invest heavily in AI engineering: 10 installable agent skills distilled from coding standards, quality gates and unit-test practice, plus Danbooru Tag MCP and civitai-cli for AI art workflows. One principle throughout: check the facts first, then let the model act. Everything is open source on GitHub.",
     ],
     more: "Learn more",
   },
@@ -134,8 +134,8 @@ export const en: Dictionary = {
     metadataTitle: "About Me",
     location: "Open to remote",
     paragraphs: [
-      "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — Spring Boot, Sa-Token and MyBatis-Plus, the stack Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
-      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 55 everyday tools into the browser, civitai-cli verifies local model files by hash, and Agent Skills make AI coding assistants follow engineering standards.",
+      "Hi! I'm Baixuan Zhu (Galaxy), a Java backend engineer. Day to day I write Spring Boot, Sa-Token and MyBatis-Plus — the standard stack of Chinese product teams. Beyond \"it works\", I care about how the code looks six months later: conventions, maintainability, and surviving a new colleague's questions.",
+      "Outside work I have an incurable habit: whatever burns me gets a tool. Managing JDKs on Windows was painful — I wrote jvm. Everyday dev utilities were scattered across the web — I moved 55 of them into one browser toolbox, DevTools. AI coding assistants kept ignoring engineering standards — I distilled our team knowledge into 10 agent skills. Fake tags and wrong models in AI art — that's Danbooru Tag MCP and civitai-cli. These projects proved one thing to me: invisible engineering knowledge only gets reused when it ships as a tool.",
     ],
     journey: {
       eyebrow: "Journey",
