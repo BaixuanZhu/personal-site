@@ -108,7 +108,7 @@ export const zh = {
     eyebrow: "About Me",
     title: "把痛点做成工具",
     paragraphs: [
-      "我是朱柏轩（Galaxy），Java 后端工程师，也是那个「见不得重复劳动」的人 —— 一个操作重复三次，我就会把它做成命令或工具。主力栈是 Spring Boot + Sa-Token + MyBatis-Plus。",
+      "我是朱柏轩（Galaxy），Java 后端工程师，主力栈是 Spring Boot + Sa-Token + MyBatis-Plus。工作里重复出现的事，我习惯写成命令或工具 —— 慢慢攒出了 6 个开源项目。",
       "我把大量精力投在 AI 工程化上：把编码规范、质量门禁、单元测试沉淀为 10 个可安装的 Agent 技能，为 AI 绘图工作流打造了 Danbooru Tag MCP 与 civitai-cli。原则只有一条：先查真实数据，再让模型动手。所有项目都在 GitHub 开源。",
     ],
     more: "了解更多",
@@ -148,7 +148,7 @@ export const zh = {
     location: "支持远程协作",
     paragraphs: [
       "你好！我是朱柏轩（Galaxy），Java 后端工程师，日常写的是 Spring Boot + Sa-Token + MyBatis-Plus —— 中文互联网团队最常用的一整套。比起「能跑就行」，我更在意代码半年后的样子：规范、可维护、经得起新同事追问。",
-      "工作之外我有个改不掉的习惯：被什么坑了，就造个工具填上。Windows 上管 JDK 太烦，写了 jvm；开发工具太分散，做了 DevTools 把 55 个工具搬进浏览器；AI 编码助手不守规范，就把团队经验沉淀成 10 个 Agent 技能；玩 AI 绘图被假标签坑过，就有了 Danbooru Tag MCP 和 civitai-cli。这些项目让我确信：看不见的工程知识，只有做成工具，才会真正被复用。",
+      "工作之外也会顺手做些工具：Windows 上管 JDK 太烦，写了 jvm；开发工具太分散，做了 DevTools 把 55 个工具搬进浏览器；AI 编码助手不守规范，就把团队经验沉淀成 10 个 Agent 技能；AI 绘图时被假标签困扰过，就有了 Danbooru Tag MCP 和 civitai-cli。这些项目让我确信：看不见的工程知识，只有做成工具，才会真正被复用。",
     ],
     journey: {
       eyebrow: "Journey",

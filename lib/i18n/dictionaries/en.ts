@@ -95,7 +95,7 @@ export const en: Dictionary = {
     eyebrow: "About Me",
     title: "Turning pain points into tools",
     paragraphs: [
-      "I'm Baixuan Zhu (Galaxy) — a Java backend engineer with zero tolerance for repeated toil: if a task happens three times, it becomes a command or a tool. Core stack: Spring Boot, Sa-Token and MyBatis-Plus.",
+      "I'm Baixuan Zhu (Galaxy), a Java backend engineer on Spring Boot, Sa-Token and MyBatis-Plus. Recurring chores at work tend to become commands or tools in my hands — that's how 6 open-source projects piled up over time.",
       "I invest heavily in AI engineering: 10 installable agent skills distilled from coding standards, quality gates and unit-test practice, plus Danbooru Tag MCP and civitai-cli for AI art workflows. One principle throughout: check the facts first, then let the model act. Everything is open source on GitHub.",
     ],
     more: "Learn more",
@@ -135,7 +135,7 @@ export const en: Dictionary = {
     location: "Open to remote",
     paragraphs: [
       "Hi! I'm Baixuan Zhu (Galaxy), a Java backend engineer. Day to day I write Spring Boot, Sa-Token and MyBatis-Plus — the standard stack of Chinese product teams. Beyond \"it works\", I care about how the code looks six months later: conventions, maintainability, and surviving a new colleague's questions.",
-      "Outside work I have an incurable habit: whatever burns me gets a tool. Managing JDKs on Windows was painful — I wrote jvm. Everyday dev utilities were scattered across the web — I moved 55 of them into one browser toolbox, DevTools. AI coding assistants kept ignoring engineering standards — I distilled our team knowledge into 10 agent skills. Fake tags and wrong models in AI art — that's Danbooru Tag MCP and civitai-cli. These projects proved one thing to me: invisible engineering knowledge only gets reused when it ships as a tool.",
+      "Outside work I also build small tools as needed: managing JDKs on Windows was painful, so I wrote jvm. Everyday dev utilities were scattered across the web, so I moved 55 of them into one browser toolbox, DevTools. AI coding assistants kept ignoring engineering standards, so I distilled our team knowledge into 10 agent skills. And after running into fake tags and wrong models in AI art, I built Danbooru Tag MCP and civitai-cli. These projects proved one thing to me: invisible engineering knowledge only gets reused when it ships as a tool.",
     ],
     journey: {
       eyebrow: "Journey",
