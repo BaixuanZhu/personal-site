@@ -12,7 +12,7 @@ export const en: Dictionary = {
   metadata: {
     role: "Java Backend Engineer · AI Tooling",
     description:
-      "Portfolio of Baixuan Zhu (Galaxy) — a Java backend engineer building open-source developer tools, MCP servers and AI agent skills: DevTools, jvm, FileX, Danbooru Tag MCP, Agent Skills and more.",
+      "Portfolio of Baixuan Zhu (Galaxy) — a Java backend engineer building open-source developer tools, MCP servers and AI agent skills: DevTools, jvm, civitai-cli, Danbooru Tag MCP, Agent Skills and more.",
     ogLocale: "en_US",
   },
   brand: {
@@ -42,7 +42,7 @@ export const en: Dictionary = {
     available: "Open to opportunities",
     tagline: "Building reliable Java backends and delightful dev tools",
     intro:
-      "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 55-tool browser toolbox), jvm (a Windows JDK version manager written in Go), FileX (deterministic file ops for AI agents), Danbooru Tag MCP (tag retrieval for AI art prompts), and an Agent Skills suite for Chinese Java teams.",
+      "I'm Baixuan Zhu (Galaxy), a Java backend engineer deep in the Spring ecosystem and developer experience. I maintain several open-source projects: DevTools (a 55-tool browser toolbox), jvm (a Windows JDK version manager written in Go), civitai-cli (Civitai model discovery and vetting for AI art workflows), Danbooru Tag MCP (tag retrieval for AI art prompts), and an Agent Skills suite for Chinese Java teams.",
     ctaEmail: "Email me",
   },
   featured: {
@@ -96,7 +96,7 @@ export const en: Dictionary = {
     title: "Turning pain points into tools",
     paragraphs: [
       "A Java backend engineer whose core stack is Spring Boot, Sa-Token and MyBatis-Plus. Beyond \"it works\", I care about standards and maintainability — which is why I keep building tools that turn repetitive work into a single command.",
-      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, and building deterministic tools such as FileX for AI agents, so AI assistants behave professionally on real Java projects. Everything is open source on GitHub.",
+      "Over the past year I've gone deep on AI-assisted coding: distilling coding standards, quality gates and unit-test practices into 10 installable agent skills, and building deterministic tools such as civitai-cli for AI art workflows — check the facts first, then let the model act. Everything is open source on GitHub.",
     ],
     more: "Learn more",
   },
@@ -135,7 +135,7 @@ export const en: Dictionary = {
     location: "Open to remote",
     paragraphs: [
       "Hi! I'm Baixuan Zhu (Galaxy). My main track is Java backend development — the Spring Boot, Sa-Token and MyBatis-Plus stack that Chinese product teams live on. I care about more than shipping features: the code should survive a visit from me six months later.",
-      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 55 everyday tools into the browser, FileX gives AI agents auditable file operations, and Agent Skills make AI coding assistants follow engineering standards.",
+      "The other track is developer tooling and AI engineering. The most valuable things on a team are often the invisible engineering knowledge — why it was designed this way, which pits not to fall into. I turn them into tools and agent skills: jvm tames JDK version management on Windows, DevTools moves 55 everyday tools into the browser, civitai-cli verifies local model files by hash, and Agent Skills make AI coding assistants follow engineering standards.",
     ],
     journey: {
       eyebrow: "Journey",

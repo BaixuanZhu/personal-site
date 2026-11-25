@@ -1,0 +1,89 @@
+---
+title: civitai-cli — Civitai Model Discovery & Vetting CLI
+description: "A zero-dependency, single-file Go CLI that searches and compares Civitai models from the terminal, extracts trigger words and example prompt recipes, and vets local model files by hash."
+tags:
+  - Go
+  - CLI
+  - AI Art
+  - AI Agent
+  - Windows
+image: /images/projects/civitai-cli.svg
+date: "2026-11-24"
+github: https://github.com/BaixuanZhu/civitai-cli
+featured: true
+metrics:
+  - label: Releases
+    value: "6"
+  - label: Commits
+    value: "48"
+  - label: Runtime deps
+    value: "0"
+---
+
+## Overview
+
+Spend enough time with AI image generation and model files pile up: LoRAs and checkpoints scattered across folders, filenames long divorced from their contents. Which model and version is this `xxx_v2_final.safetensors`, really? What base model, what trigger words, which checkpoint did that prompt you copied actually use?
+
+civitai-cli (the `civ` binary) brings the Civitai registry into the terminal: search, compare, extract recipes — and **reverse-look-up local files by hash**, verifying content instead of trusting filenames. It complements Danbooru Tag MCP: one answers "which tags really exist for a prompt", the other answers "which model should I use, and is my local file the right one".
+
+## Command groups
+
+| Group | Commands | What they do |
+| --- | --- | --- |
+| Discovery | `search` / `show` / `tags` / `compare` | Search the registry, inspect models and versions, complete tag names, diff 2–5 models or versions field by field |
+| Recipes | `recipe` | Trigger words, provenance, and bounded example summaries in one call; select an example for its exact prompt / negative prompt / sampler settings |
+| Local models | `vet` / `sync` / `resolve` | Reverse-look-up a single file by hash, batch-audit a directory, check whether a declared set of local files is ready to run |
+| Utilities | `login` / `proxy` / `skill` / `upgrade` / `completion` | Credentials, proxy, agent-skill installer, self-update, shell completion |
+
+## Vetting local models
+
+`vet` is the flagship: it streams a file's SHA256 (or accepts a 64-char SHA256 / 10-char AutoV2 directly), queries the registry by hash, and prints a review report — model / version / creator, trigger words, file hashes with pickle and virus scan results, license grants, and example-image counts.
+
+```powershell
+civ vet ./models/loras/your-model.safetensors
+civ vet FBA1195327        # no local file? query an AutoV2 directly
+```
+
+- `sync` batch-audits a whole directory with a size/mtime hash cache, duplicate detection, and table / CSV / JSON output
+- `resolve` checks whether an explicitly declared set of checkpoints / LoRAs is ready (exact-hash matching, a single base-model anchor, compatible dependents) — no downloads
+- Stable exit codes (0 success, 3 hash not registered, 5 not ready) let scripts branch on results
+
+## Recipe extraction
+
+`recipe` turns "how is this model used" into one bounded call: by default it returns a prompt-free summary (trigger words, provenance, selection counts, example summaries); `--example <index>` then yields one example's exact prompt text and sampler settings. Community sources contribute a single bounded `/images` sample — no unbounded scraping.
+
+```bash
+civ search anima --limit 5
+civ recipe 3263843 --json
+civ recipe 3263843 --example 1 --json
+```
+
+## Structured output and agent integration
+
+- Every command supports `--json`, emitting compact versioned envelopes (`civ.search/v1`, `civ.recipe/v1`, …); `search`/`show` take `--view full` to restore the legacy shape
+- `civ skill install` ships the bundled `civ-prompt` skill to Claude / ZCode / Codex, teaching coding agents to assemble prompts from real Civitai trigger words and example recipes via `civ recipe` — plugging straight into Danbooru Tag MCP's tag-fact lookups
+- The entire read surface works anonymously; an optional token (`--token`, `CIVITAI_API_KEY`, or `civ login`) unlocks personal queries
+
+## Distribution and engineering details
+
+- Three install paths: NSIS setup wizard, one-line PowerShell script, portable zip — all per-user, no admin rights
+- Pure Go standard library, zero third-party modules, `CGO_ENABLED=0`: one static `civ.exe` for Windows x64 / ARM64
+- `civ upgrade` pulls the latest release, verifies SHA-256, and swaps the binary atomically with rollback
+- HTTP / HTTPS / SOCKS5 proxy support (`civ proxy set` / `--proxy` / env vars) for blocked networks
+- Reproducible builds: pinned toolchain, deterministic zip, checksums, keyless build-provenance attestation, CI cross-rebuild verification
+- Deliberately out of scope: no model or image downloads, no uploads, no NSFW-gate bypassing
+
+## Results
+
+| Dimension | Data |
+| --- | --- |
+| Releases | 6 releases (latest v0.5.0) |
+| Commits | 48 commits |
+| Runtime dependencies | 0 (single-file, stdlib only) |
+| Command groups | Discovery / Recipes / Local models / Utilities |
+
+## Reflections
+
+The core insight of this project: **a filename is not a fact — a hash is**. Models circulate through the community via file shares and archives; names get rewritten casually and versions claimed loosely. Only a content hash resolves against the registry. Making reverse-lookup a first-class citizen turns the tool from a search box into an auditor.
+
+The other deliberate choice is restraint: `recipe` withholds full prompts by default, and `sync` audits without downloading. For tools built for agents, clear boundaries matter more than feature count — knowing when to stop is worth more than being able to do everything.

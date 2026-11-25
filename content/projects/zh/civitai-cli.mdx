@@ -1,0 +1,89 @@
+---
+title: civitai-cli — Civitai 模型检索与审查 CLI
+description: "零依赖单文件 Go CLI：在终端搜索与对比 Civitai 模型、提取 trigger words 与示例 prompt 配方，并按哈希审查本地模型文件是否真实可用。"
+tags:
+  - Go
+  - CLI
+  - AI 绘图
+  - AI Agent
+  - Windows
+image: /images/projects/civitai-cli-zh.svg
+date: "2026-11-24"
+github: https://github.com/BaixuanZhu/civitai-cli
+featured: true
+metrics:
+  - label: 发布版本
+    value: "6 个"
+  - label: 代码提交
+    value: "48"
+  - label: 运行时依赖
+    value: "0"
+---
+
+## 项目概述
+
+玩 AI 绘图久了会积累一堆模型文件：LoRA、checkpoint 散落在各个目录，文件名早就和内容对不上。这个 `xxx_v2_final.safetensors` 到底是哪个模型的哪个版本？base model 是什么？trigger words 是什么？网上抄来的 prompt 用的是哪个底模？
+
+civitai-cli（命令名 `civ`）把 Civitai 注册表搬进终端：搜索、对比、提取配方，并且能**按哈希反查本地文件** —— 不猜文件名，直接对内容验明正身。它与 Danbooru Tag MCP 互补：一个回答「prompt 里能写哪些真实标签」，一个回答「该用哪个模型、本地文件对不对」。
+
+## 命令分组
+
+| 分组 | 命令 | 作用 |
+| --- | --- | --- |
+| 检索 | `search` / `show` / `tags` / `compare` | 搜索注册表、查看模型与版本、补全标签名、2–5 个模型或版本逐字段对比 |
+| 配方 | `recipe` | 一次调用返回 trigger words、来源与示例摘要；选定示例后给出精确 prompt / negative prompt / 采样参数 |
+| 本地模型 | `vet` / `sync` / `resolve` | 哈希反查单个文件、批量审计整个目录、检查一组声明的本地文件是否就绪 |
+| 工具 | `login` / `proxy` / `skill` / `upgrade` / `completion` | 凭据、代理、Agent 技能安装、自更新、shell 补全 |
+
+## 审查本地模型
+
+`vet` 是旗舰命令：对本地文件流式计算 SHA256（也接受 64 位 SHA256 或 10 位 AutoV2），向注册表反查，输出一份审查报告 —— 模型 / 版本 / 作者、trigger words、文件完整哈希与 pickle/病毒扫描结果、许可证授权、示例图数量。
+
+```powershell
+civ vet ./models/loras/your-model.safetensors
+civ vet FBA1195327        # 没有本地文件时，直接查 AutoV2
+```
+
+- `sync` 批量审计整个目录：按大小 + mtime 缓存哈希、识别重复文件，输出表格 / CSV / JSON
+- `resolve` 检查显式声明的一组 checkpoint / LoRA 是否就绪（精确哈希匹配、单一底模锚点、依赖兼容），全程不下载
+- 稳定的退出码（0 成功、3 哈希未登记、5 未就绪）让脚本可以直接分支
+
+## 配方提取
+
+`recipe` 把「这个模型怎么用」变成一次有边界的调用：默认返回不含 prompt 的摘要（trigger words、来源、入选数量、示例摘要），需要细节时用 `--example <序号>` 取出某张示例图的精确 prompt 文本与采样参数。社区来源只取一份有界的 `/images` 样本，不会无限制抓取。
+
+```bash
+civ search anima --limit 5
+civ recipe 3263843 --json
+civ recipe 3263843 --example 1 --json
+```
+
+## 结构化输出与 Agent 集成
+
+- 所有命令支持 `--json`，默认输出紧凑的版本化信封（`civ.search/v1`、`civ.recipe/v1` 等），`search`/`show` 可用 `--view full` 还原旧格式
+- `civ skill install` 把内置的 `civ-prompt` 技能安装到 Claude / ZCode / Codex，教编码 Agent 用 `civ recipe` 拿到真实 trigger words 与示例配方来组装 prompt —— 与 Danbooru Tag MCP 的标签事实查询正好接上
+- 匿名即可使用全部读取接口；可选 token（`--token`、`CIVITAI_API_KEY` 或 `civ login`）解锁个人查询
+
+## 分发与工程细节
+
+- 三种安装方式：NSIS 安装向导、PowerShell 一键脚本、便携 zip；全部按用户安装，无需管理员权限
+- 纯 Go 标准库、零第三方依赖、`CGO_ENABLED=0`，单个静态 `civ.exe`（Windows x64 / ARM64）
+- `civ upgrade` 拉取最新 Release、校验 SHA-256 后原子替换，失败可回滚
+- 支持 HTTP / HTTPS / SOCKS5 代理（`civ proxy set` / `--proxy` / 环境变量），对网络受限环境友好
+- 可复现构建：固定工具链、确定性 zip、校验和清单、GitHub 构建来源证明，CI 交叉重编译验证
+- 明确不做的事：不下载模型与图片、不上传、不绕过 NSFW 门禁
+
+## 项目成果
+
+| 维度 | 数据 |
+| --- | --- |
+| 发布版本 | 6 个 Release（最新 v0.5.0） |
+| 代码提交 | 48 commits |
+| 运行时依赖 | 0（纯标准库单文件） |
+| 命令分组 | 检索 / 配方 / 本地模型 / 工具 |
+
+## 反思
+
+这个项目的核心洞察是：**文件名不是事实，哈希才是**。AI 绘图社区的模型流转靠网盘和压缩包，名字随手改，版本随口说；只有内容哈希能在注册表里对得上号。把「反查」做成一等公民，工具就从「搜索框」变成了「审计器」。
+
+另一个刻意的设计是克制：`recipe` 默认不返回完整 prompt，`sync` 只审计不下载。给 Agent 用的工具，边界清晰比功能多更重要 —— 它知道什么时候该停下来，比什么都能做更有价值。

@@ -67,7 +67,7 @@ lib/
     dictionaries/en.ts     # 英文字典（结构必须与 zh 完全一致）
 content/
   projects/
-    zh/                    # 6 个中文项目 MDX（filex/danbooru-tag-mcp/jvm/agent-skills/devtools/claude-code-hooks）
+    zh/                    # 6 个中文项目 MDX（civitai-cli/danbooru-tag-mcp/jvm/agent-skills/devtools/claude-code-hooks）
     en/                    # 6 个英文项目 MDX（与 zh 同 slug、同 date、同 featured）
 public/
   favicon.ico              # 站点图标（由 [lang] 布局与 404 元数据显式引用，带 basePath）
@@ -96,11 +96,11 @@ scripts/
 
 1. **个人信息**：`lib/config.ts`（姓名/邮箱/GitHub）+ `lib/i18n/dictionaries/{zh,en}.ts`（自我介绍、技能矩阵、关于页文案）。
 2. **项目内容**：编辑 `content/projects/{zh,en}/<slug>.mdx`。frontmatter 由 `lib/projects.ts` 的 zod `strictObject` 校验：`title`、`description`、`date`（带引号的 `YYYY-MM-DD`）必填，`tags`/`metrics`/`image`/`github`/`demo`/`featured` 按固定类型解析；**未知字段、类型错误或非法日期都会让构建失败**。两语言保持相同 slug、date 与 featured。
-3. **精选策略**：`featured: true` 恰好 4 个/语言——FileX、Danbooru Tag MCP、jvm、DevTools。首页只展示这 4 个；`agent-skills` 与 `claude-code-hooks` 为 `featured: false`，仍可通过 `/zh/projects/`、`/en/projects/` 访问，但不进首页网格。数量变化需同步 `scripts/check-content.mjs` 与首页布局。
+3. **精选策略**：`featured: true` 恰好 4 个/语言——civitai-cli、Danbooru Tag MCP、jvm、DevTools。首页只展示这 4 个；`agent-skills` 与 `claude-code-hooks` 为 `featured: false`，仍可通过 `/zh/projects/`、`/en/projects/` 访问，但不进首页网格。数量变化需同步 `scripts/check-content.mjs` 与首页布局。
 4. **提交前检查**：`pnpm check:content` 校验中英 slug 集合、date/featured 一致性、必填字段、封面图是否存在于 `public/`、每个 `github` 仓库是否有 `lib/repo-stats.json` 快照；任一问题非零退出。
 5. **项目配图**：`public/images/projects/*.svg`（1200×750 终端卡片风格，中英各一版；`placeholder.svg` 是缺少 image 时的兜底）。frontmatter 中写 `/images/...`，渲染时由 `withBasePath` 拼接部署前缀，不要在 MDX 里手写 `/personal-site`。
 6. **YAML 细节**：description 含英文冒号时必须用引号包裹；`metrics` 的 `label`/`value` 必须是字符串。
-7. **仓库统计**：内容定稿后运行 `pnpm repo-stats`（可选 `GITHUB_TOKEN=$(gh auth token) pnpm repo-stats` 降低匿名 API 限流风险），刷新 `lib/repo-stats.json`。单个仓库拉取失败时保留旧值。
+7. **仓库统计**：内容定稿后运行 `pnpm repo-stats`（可选 `GITHUB_TOKEN=$(gh auth token) pnpm repo-stats` 降低匿名 API 限流风险），刷新 `lib/repo-stats.json`。单个仓库拉取失败时保留旧值。若 MDX 的 `metrics` 或正文表格里硬编码了 commits 数，刷新快照后需逐一核对同步，避免卡片与 RepoMeta 数据打架。
 
 ## 社交分享图（OG）
 

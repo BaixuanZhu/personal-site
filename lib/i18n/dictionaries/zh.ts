@@ -15,7 +15,7 @@ export const zh = {
     role: "Java 后端工程师 · AI 工程化",
     /** 站点描述（SEO / Open Graph） */
     description:
-      "朱柏轩（Galaxy）的个人作品集 —— Java 后端工程师，打造开源开发者工具、MCP 服务与 AI Agent 技能：DevTools、jvm、FileX、Danbooru Tag MCP、Agent Skills 等。",
+      "朱柏轩（Galaxy）的个人作品集 —— Java 后端工程师，打造开源开发者工具、MCP 服务与 AI Agent 技能：DevTools、jvm、civitai-cli、Danbooru Tag MCP、Agent Skills 等。",
     /** Open Graph 语言标识 */
     ogLocale: "zh_CN",
   },
@@ -54,7 +54,7 @@ export const zh = {
     tagline: "构建可靠的 Java 后端，打造顺手的开发工具",
     /** 自我介绍段落 */
     intro:
-      "我是朱柏轩（Galaxy），Java 后端工程师，深耕 Spring 生态与开发者体验。我维护着多个开源项目：浏览器端工具箱 DevTools、Windows JDK 版本管理器 jvm、面向 AI Agent 的 FileX 文件操作 CLI、Danbooru Tag MCP 标签服务，以及面向中文 Java 生态的 Agent Skills 套件。",
+      "我是朱柏轩（Galaxy），Java 后端工程师，深耕 Spring 生态与开发者体验。我维护着多个开源项目：浏览器端工具箱 DevTools、Windows JDK 版本管理器 jvm、Civitai 模型检索与审查 CLI civitai-cli、Danbooru Tag MCP 标签服务，以及面向中文 Java 生态的 Agent Skills 套件。",
     ctaEmail: "邮件联系我",
   },
   featured: {
@@ -109,7 +109,7 @@ export const zh = {
     title: "把痛点做成工具",
     paragraphs: [
       "Java 后端工程师，主力技术栈是 Spring Boot + Sa-Token + MyBatis-Plus。比起「能跑就行」，我更在意规范与可维护性 —— 也因此总在给团队造工具：把重复劳动变成一条命令。",
-      "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，并为 AI Agent 打造 FileX 这样的确定性工具，让 AI 在真实 Java 项目里表现得更专业。所有项目都在 GitHub 开源。",
+      "近一年我深入 AI 辅助编程方向：把编码规范、质量门禁、单元测试方法沉淀为 10 个可安装的 Agent 技能，也为 AI 绘图工作流打造了 civitai-cli 这样的确定性工具 —— 先查真实数据，再让模型动手。所有项目都在 GitHub 开源。",
     ],
     more: "了解更多",
   },
@@ -148,7 +148,7 @@ export const zh = {
     location: "支持远程协作",
     paragraphs: [
       "你好！我是朱柏轩（Galaxy）。我的主线是 Java 后端开发 —— Spring Boot、Sa-Token、MyBatis-Plus 这一整套中文互联网团队最常用的技术栈。我关注的不只是把功能写出来，而是让代码经得起半年后的自己回来看。",
-      "另一条线是开发者工具与 AI 工程化。团队里最值钱的往往是那些「看不见的工程知识」：为什么这样设计、哪些坑不能踩。我把它们做成工具和 Agent 技能 —— jvm 解决 Windows 上的 JDK 版本管理，DevTools 把 55 个常用工具搬进浏览器，FileX 给 AI Agent 一套可审计的文件操作，Agent Skills 让 AI 编码助手遵守工程规范。",
+      "另一条线是开发者工具与 AI 工程化。团队里最值钱的往往是那些「看不见的工程知识」：为什么这样设计、哪些坑不能踩。我把它们做成工具和 Agent 技能 —— jvm 解决 Windows 上的 JDK 版本管理，DevTools 把 55 个常用工具搬进浏览器，civitai-cli 用哈希给本地模型文件验明正身，Agent Skills 让 AI 编码助手遵守工程规范。",
     ],
     journey: {
       eyebrow: "Journey",

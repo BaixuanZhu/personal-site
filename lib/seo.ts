@@ -23,7 +23,7 @@ export function absoluteUrl(path: string): string {
  * 某语言页面的绝对 URL，统一保留尾斜杠（与 trailingSlash 导出一致）。
  *
  * @param locale 目标语言
- * @param path 语言段之后的路径，如 "/"、"/about/"、"/projects/filex/"
+ * @param path 语言段之后的路径，如 "/"、"/about/"、"/projects/civitai-cli/"
  * @returns 页面 canonical 绝对 URL
  */
 export function localeUrl(locale: Locale, path = "/"): string {
@@ -44,7 +44,7 @@ export function ogImageUrl(path: string): string {
 
 /** 页面分享图：public/ 下的路径 + 抓取工具可读的替代文本 */
 export interface PageImage {
-  /** 站内路径，如 "/og/project-filex-zh.png" */
+  /** 站内路径，如 "/og/project-civitai-cli-zh.png" */
   path: string;
   /** 图片替代文本（无障碍与社交平台展示） */
   alt: string;

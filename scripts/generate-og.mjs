@@ -434,8 +434,8 @@ const STATIC_PAGES = {
     eyebrow: "项目 · PROJECTS",
     title: "全部开源项目",
     description:
-      "从 Java 版本管理器到面向 AI Agent 的文件操作与 MCP 服务，每个项目都源于真实工作流中的痛点。",
-    tags: ["DevTools", "jvm", "FileX", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
+      "从 Java 版本管理器到 AI 绘图工作流的模型检索与 MCP 服务，每个项目都源于真实工作流中的痛点。",
+    tags: ["DevTools", "jvm", "civitai-cli", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
     localeLabel: "中文",
     path: "/zh/projects/",
     role: "OPEN SOURCE · 开源项目",
@@ -446,8 +446,8 @@ const STATIC_PAGES = {
     eyebrow: "PROJECTS · 项目",
     title: "All Open-Source Projects",
     description:
-      "From Java version management to file operations and MCP services for AI agents — every project starts from a real pain point.",
-    tags: ["DevTools", "jvm", "FileX", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
+      "From Java version management to model discovery and MCP services for AI art workflows — every project starts from a real pain point.",
+    tags: ["DevTools", "jvm", "civitai-cli", "Danbooru Tag MCP", "Agent Skills", "Hooks"],
     localeLabel: "EN",
     path: "/en/projects/",
     role: "OPEN SOURCE · 开源项目",
