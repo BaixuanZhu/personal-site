@@ -16,6 +16,24 @@ export const siteConfig = {
   github: "https://github.com/BaixuanZhu",
 } as const;
 
+/** 社交入口项（图标由 components/shared/social-links.tsx 按 id 映射渲染） */
+export interface SocialLink {
+  /** 入口标识，同时用于选择图标组件 */
+  id: "github" | "pixiv" | "csdn" | "email";
+  /** 平台名称（专有名词，各语言通用，用于 aria-label 与悬浮提示） */
+  label: string;
+  /** 目标地址（email 入口为 mailto 链接） */
+  href: string;
+}
+
+/** 全站社交入口列表：Hero、联系区、页脚共用；新增平台在此追加即可 */
+export const socialLinks: SocialLink[] = [
+  { id: "github", label: "GitHub", href: siteConfig.github },
+  { id: "pixiv", label: "Pixiv", href: "https://www.pixiv.net/users/19634396" },
+  { id: "csdn", label: "CSDN", href: "https://blog.csdn.net/qq_45365516" },
+  { id: "email", label: "Email", href: `mailto:${siteConfig.email}` },
+];
+
 /**
  * 静态导出时的部署子路径（如 GitHub Pages 的 /personal-site）。
  * 开发与 Node 服务器部署时为空字符串。

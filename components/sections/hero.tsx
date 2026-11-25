@@ -5,7 +5,7 @@ import type { Transition } from "motion/react";
 import { Mail } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { GithubIcon } from "@/components/shared/brand-icons";
+import { SocialLinks } from "@/components/shared/social-links";
 import { useAllowMotion } from "@/components/shared/use-allow-motion";
 import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -85,23 +85,8 @@ export function Hero({ copy }: HeroProps) {
         </Button>
       </Rise>
 
-      <Rise as="div" animated={allowMotion} transition={fade} className="mt-2 flex items-center gap-4 text-muted-foreground">
-        <a
-          href={siteConfig.github}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="GitHub"
-          className="transition-colors hover:text-foreground"
-        >
-          <GithubIcon className="size-5" />
-        </a>
-        <a
-          href={`mailto:${siteConfig.email}`}
-          aria-label="Email"
-          className="transition-colors hover:text-foreground"
-        >
-          <Mail className="size-5" />
-        </a>
+      <Rise as="div" animated={allowMotion} transition={fade} className="mt-2">
+        <SocialLinks />
       </Rise>
     </>
   );

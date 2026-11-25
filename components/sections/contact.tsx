@@ -1,8 +1,8 @@
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { GithubIcon } from "@/components/shared/brand-icons";
 import { FadeIn } from "@/components/shared/fade-in";
+import { SocialLinks } from "@/components/shared/social-links";
 import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -40,17 +40,8 @@ export function Contact({ copy }: ContactProps) {
 
           <Separator className="mx-auto mt-10 max-w-xs" />
 
-          <div className="mt-6 flex items-center justify-center gap-5 text-muted-foreground">
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="transition-colors hover:text-foreground"
-            >
-              <GithubIcon className="size-5" />
-            </a>
-            <span className="text-sm">{siteConfig.email}</span>
+          <div className="mt-6 flex items-center justify-center">
+            <SocialLinks />
           </div>
         </FadeIn>
       </div>

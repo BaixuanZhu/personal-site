@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { GithubIcon } from "@/components/shared/brand-icons";
+import { SocialLinks } from "@/components/shared/social-links";
 import { siteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -19,15 +18,7 @@ export function Footer({ labels }: FooterProps) {
           © {new Date().getFullYear()} {siteConfig.name} · {labels.rights}
         </p>
         <div className="flex items-center gap-4">
-          <Link
-            href={siteConfig.github}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            className="transition-colors hover:text-foreground"
-          >
-            <GithubIcon className="size-4.5" />
-          </Link>
+          <SocialLinks size="sm" />
           <a
             href={`mailto:${siteConfig.email}`}
             aria-label="Email"
